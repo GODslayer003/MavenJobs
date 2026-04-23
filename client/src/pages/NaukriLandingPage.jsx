@@ -32,9 +32,10 @@ import {
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
+import qrImage from "../../assets/QR.png";
 import "./NaukriLandingPage.css";
 
-const topCategories = ["MNCs", "Fintech", "FMCG & Retail", "Startups", "Edtech", "IT Services"];
+const topCategories = ["All", "MNCs", "Fintech", "FMCG & Retail", "Startups", "Edtech", "IT Services"];
 
 const companies = [
   {
@@ -126,6 +127,8 @@ const interviewCompanies = [
   { name: "Cognizant", logo: "CG", color: "#0891b2", count: "1.6K+ Interviews" },
   { name: "Accenture", logo: "AC", color: "#dc2626", count: "2K+ Interviews" },
   { name: "Amazon", logo: "AMZ", color: "#d97706", count: "1.7K+ Interviews" },
+  { name: "Wipro", logo: "WP", color: "#16a34a", count: "1.2K+ Interviews" },
+  { name: "Infosys", logo: "INF", color: "#0284c7", count: "1.4K+ Interviews" },
 ];
 
 const interviewRoles = [
@@ -200,6 +203,7 @@ const events = [
     date: "18 Apr, 12:00 PM",
     enrolled: 145,
     color: "#17306f",
+    image: "https://i.pinimg.com/1200x/59/8e/c4/598ec42e15c85716c6954c26840d4f4b.jpg",
   },
   {
     title: "Get hired with 25L+ CTC Interview-ready GenAI project at Amazon",
@@ -210,6 +214,7 @@ const events = [
     date: "17 Apr, 8:30 PM",
     enrolled: 133,
     color: "#12445a",
+    image: "https://i.pinimg.com/1200x/c1/0a/86/c10a86560fe721210e6d5397438d3c2b.jpg",
   },
   {
     title: "Full Stack Engineer Bootcamp with live interview practice",
@@ -220,6 +225,18 @@ const events = [
     date: "19 Apr, 11:00 AM",
     enrolled: 287,
     color: "#21426f",
+    image: "https://i.pinimg.com/736x/ea/c6/cb/eac6cb24e593ae2d2c3329516e0126eb.jpg",
+  },
+  {
+    title: "Mastering System Design: Architecting Scalable Applications",
+    provider: "Maven Academy",
+    badge: "Masterclass",
+    timeLeft: "Starts in 5d",
+    tags: ["Architecture", "System Design", "Advanced"],
+    date: "22 Apr, 06:00 PM",
+    enrolled: 412,
+    color: "#0a244d",
+    image: "https://i.pinimg.com/1200x/82/4b/4b/824b4b2c74e3b4f66f2cd0575c76dcb0.jpg",
   },
 ];
 
@@ -280,11 +297,15 @@ const qrPattern = [
 ];
 
 export default function NaukriLandingPage() {
-  const [activeTopCat, setActiveTopCat] = useState("MNCs");
+  const [activeTopCat, setActiveTopCat] = useState("All");
+  const [scrollProgress, setScrollProgress] = useState(0);
   const pageRef = useRef(null);
 
-  const filteredCompanies = companies.filter((company) => company.category === activeTopCat);
-  const visibleCompanies = filteredCompanies.length > 0 ? filteredCompanies : companies;
+  const filteredCompanies =
+    activeTopCat === "All"
+      ? companies
+      : companies.filter((company) => company.category === activeTopCat);
+  const visibleCompanies = filteredCompanies;
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -340,6 +361,16 @@ export default function NaukriLandingPage() {
         yoyo: true,
         ease: "sine.inOut",
       });
+
+      // Scroll Progress Logic
+      const handleScroll = () => {
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (window.scrollY / totalHeight) * 100;
+        setScrollProgress(progress);
+      };
+
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
     }, pageRef);
 
     return () => ctx.revert();
@@ -347,6 +378,9 @@ export default function NaukriLandingPage() {
 
   return (
     <div className="naukri-app" ref={pageRef}>
+      <div className="scroll-progress-container">
+        <div className="scroll-progress-bar" style={{ width: `${scrollProgress}%` }} />
+      </div>
       <nav className="nav">
         <div className="nav-logo">
           <img src={mavenLogo} alt="Maven Jobs" className="nav-logo-image" />
@@ -623,8 +657,9 @@ export default function NaukriLandingPage() {
               <div className="event-card" key={eventItem.title} data-card>
                 <div
                   className="event-card-img"
-                  style={{ background: `linear-gradient(135deg, ${eventItem.color} 0%, #0a0f1e 100%)` }}
+                  style={{ backgroundImage: `url(${eventItem.image})` }}
                 >
+                  <div className="event-card-overlay" />
                   <div className="event-badge">{eventItem.badge}</div>
                   <div className="event-time-badge">
                     <FiClock aria-hidden="true" />
@@ -751,20 +786,7 @@ export default function NaukriLandingPage() {
 
           <div className="app-section-right" data-card>
             <div className="qr-box">
-              <svg width="70" height="70" viewBox="0 0 70 70" aria-hidden="true">
-                {qrPattern.map((row, rowIndex) =>
-                  row.split("").map((cell, columnIndex) => (
-                    <rect
-                      key={`${rowIndex}-${columnIndex}`}
-                      x={columnIndex * 10}
-                      y={rowIndex * 10}
-                      width="9"
-                      height="9"
-                      fill={cell === "1" ? "#000" : "#fff"}
-                    />
-                  ))
-                )}
-              </svg>
+              <img src={qrImage} alt="Scan to download" className="qr-image" />
             </div>
             <div className="qr-label">Scan to download the app</div>
           </div>
