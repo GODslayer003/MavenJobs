@@ -324,7 +324,10 @@ export default function NaukriLandingPage() {
   const [isEmployerDropdownOpen, setIsEmployerDropdownOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [activeNavDropdown, setActiveNavDropdown] = useState(null);
   const [discoverRolePage, setDiscoverRolePage] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [companyPage, setCompanyPage] = useState(0);
   const [experienceValue, setExperienceValue] = useState("");
   const [isExperienceDropdownOpen, setIsExperienceDropdownOpen] = useState(false);
 
@@ -344,6 +347,11 @@ export default function NaukriLandingPage() {
       ? companies
       : companies.filter((company) => company.category === activeTopCat);
   const visibleCompanies = filteredCompanies;
+  const maxCompanyPage = Math.ceil(visibleCompanies.length / 4) - 1;
+
+  useEffect(() => {
+    setCompanyPage(0);
+  }, [activeTopCat]);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -414,21 +422,173 @@ export default function NaukriLandingPage() {
     return () => ctx.revert();
   }, []);
 
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <div className="naukri-app" ref={pageRef}>
       <div className="scroll-progress-container">
         <div className="scroll-progress-bar" style={{ width: `${scrollProgress}%` }} />
       </div>
-      <nav className="nav">
+      <nav className={`nav${isScrolled ? ' scrolled' : ''}`}>
         <div className="nav-logo">
           <img src={mavenLogo} alt="Maven Jobs" className="nav-logo-image" />
         </div>
 
         <div className="nav-links">
-          <a href="#jobs">Jobs</a>
-          <a href="#companies">Companies</a>
-          <a href="#services">Services</a>
-          <a href="#courses">Courses</a>
+          {/* JOBS MENU */}
+          <div 
+            className="nav-link-item"
+            onMouseEnter={() => setActiveNavDropdown('Jobs')}
+            onMouseLeave={() => setActiveNavDropdown(null)}
+          >
+            <a href="#jobs">Jobs</a>
+            {activeNavDropdown === 'Jobs' && (
+              <div className="mega-menu">
+                <div className="mega-column">
+                  <h4>Popular categories</h4>
+                  <a href="#">IT jobs</a>
+                  <a href="#">Sales jobs</a>
+                  <a href="#">Marketing jobs</a>
+                  <a href="#">Data Science jobs</a>
+                  <a href="#">HR jobs</a>
+                  <a href="#">Engineering jobs</a>
+                </div>
+                <div className="mega-column">
+                  <h4>Jobs in demand</h4>
+                  <a href="#">Fresher jobs</a>
+                  <a href="#">MNC jobs</a>
+                  <a href="#">Remote jobs</a>
+                  <a href="#">Work from home jobs</a>
+                  <a href="#">Walk-in jobs</a>
+                  <a href="#">Part-time jobs</a>
+                </div>
+                <div className="mega-column">
+                  <h4>Jobs by location</h4>
+                  <a href="#">Jobs in Delhi</a>
+                  <a href="#">Jobs in Mumbai</a>
+                  <a href="#">Jobs in Bangalore</a>
+                  <a href="#">Jobs in Hyderabad</a>
+                  <a href="#">Jobs in Chennai</a>
+                  <a href="#">Jobs in Pune</a>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* COMPANIES MENU */}
+          <div 
+            className="nav-link-item"
+            onMouseEnter={() => setActiveNavDropdown('Companies')}
+            onMouseLeave={() => setActiveNavDropdown(null)}
+          >
+            <a href="#companies">Companies</a>
+            {activeNavDropdown === 'Companies' && (
+              <div className="mega-menu">
+                <div className="mega-column">
+                  <h4>Explore categories</h4>
+                  <a href="#">Unicorn</a>
+                  <a href="#">MNC</a>
+                  <a href="#">Startup</a>
+                  <a href="#">Product based</a>
+                  <a href="#">Internet</a>
+                </div>
+                <div className="mega-column">
+                  <h4>Explore collections</h4>
+                  <a href="#">Top companies</a>
+                  <a href="#">IT companies</a>
+                  <a href="#">Fintech companies</a>
+                  <a href="#">Sponsored companies</a>
+                  <a href="#">Featured companies</a>
+                </div>
+                <div className="mega-column">
+                  <h4>Research companies</h4>
+                  <a href="#">Interview questions</a>
+                  <a href="#">Company salaries</a>
+                  <a href="#">Company reviews</a>
+                  <a href="#">Salary Calculator</a>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* SERVICES MENU */}
+          <div 
+            className="nav-link-item"
+            onMouseEnter={() => setActiveNavDropdown('Services')}
+            onMouseLeave={() => setActiveNavDropdown(null)}
+          >
+            <a href="#services">Services</a>
+            {activeNavDropdown === 'Services' && (
+              <div className="mega-menu">
+                <div className="mega-column">
+                  <h4>Resume writing</h4>
+                  <a href="#">Text resume</a>
+                  <a href="#">Visual resume</a>
+                  <a href="#">Resume critique</a>
+                  
+                  <h4 style={{ marginTop: '20px' }}>Find Jobs</h4>
+                  <a href="#">Jobs4u</a>
+                  <a href="#">Priority applicant</a>
+                  <a href="#">Contact us</a>
+                </div>
+                <div className="mega-column">
+                  <h4>Get recruiter's attention</h4>
+                  <a href="#">Resume display</a>
+                  
+                  <h4 style={{ marginTop: '20px' }}>Monthly subscriptions</h4>
+                  <a href="#">Basic & premium plans</a>
+                </div>
+                <div className="mega-column">
+                  <h4>Free resume resources</h4>
+                  <a href="#">Resume maker</a>
+                  <a href="#">Resume quality score</a>
+                  <a href="#">Resume samples</a>
+                  <a href="#">Job letter samples</a>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* COURSES MENU */}
+          <div 
+            className="nav-link-item"
+            onMouseEnter={() => setActiveNavDropdown('Courses')}
+            onMouseLeave={() => setActiveNavDropdown(null)}
+          >
+            <a href="#courses">Courses</a>
+            {activeNavDropdown === 'Courses' && (
+              <div className="mega-menu">
+                <div className="mega-column">
+                  <h4>Tech courses</h4>
+                  <a href="#">Full Stack Development</a>
+                  <a href="#">Data Science & ML</a>
+                  <a href="#">Cloud Computing</a>
+                  <a href="#">Cybersecurity</a>
+                  <a href="#">DevOps & Automation</a>
+                </div>
+                <div className="mega-column">
+                  <h4>Business & management</h4>
+                  <a href="#">Project Management</a>
+                  <a href="#">Product Management</a>
+                  <a href="#">Business Analytics</a>
+                  <a href="#">Digital Marketing</a>
+                  <a href="#">HR Management</a>
+                </div>
+                <div className="mega-column">
+                  <h4>Career prep</h4>
+                  <a href="#">Resume building</a>
+                  <a href="#">Interview preparation</a>
+                  <a href="#">Communication skills</a>
+                  <a href="#">Leadership training</a>
+                  <a href="#">Aptitude & reasoning</a>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="nav-actions">
@@ -632,26 +792,51 @@ export default function NaukriLandingPage() {
             ))}
           </div>
 
-          <div className="cards-scroll">
-            {visibleCompanies.map((company) => (
-              <div className="company-card" key={company.name} data-card>
-                <div className="company-logo" style={{ background: `${company.color}22`, color: company.color }}>
-                  {company.logo}
-                </div>
-                <div>
-                  <div className="company-name">{company.name}</div>
-                  <div className="company-rating">
-                    <FaStar className="company-rating-star" aria-hidden="true" />
-                    {company.rating} | {company.reviews} reviews
+          <div className="companies-carousel-wrapper">
+            <button 
+              className={`carousel-nav-btn carousel-nav-prev${companyPage === 0 ? ' disabled' : ''}`}
+              onClick={() => setCompanyPage(p => Math.max(0, p - 1))}
+              aria-label="Previous companies"
+              disabled={companyPage === 0}
+            >
+              <FiChevronRight style={{ transform: 'rotate(180deg)' }} />
+            </button>
+
+            <div className="cards-scroll-viewport">
+              <div 
+                className="cards-scroll"
+                style={{ transform: `translateX(-${companyPage * 100}%)`, transition: 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)' }}
+              >
+                {visibleCompanies.map((company) => (
+                  <div className="company-card" key={company.name} data-card>
+                    <div className="company-logo" style={{ background: `${company.color}22`, color: company.color }}>
+                      {company.logo}
+                    </div>
+                    <div>
+                      <div className="company-name">{company.name}</div>
+                      <div className="company-rating">
+                        <FaStar className="company-rating-star" aria-hidden="true" />
+                        {company.rating} | {company.reviews} reviews
+                      </div>
+                    </div>
+                    <div className="company-desc">{company.desc}</div>
+                    <div className="company-jobs">{company.jobs} active jobs</div>
+                    <button type="button" className="company-btn">
+                      View Jobs <FiArrowRight aria-hidden="true" />
+                    </button>
                   </div>
-                </div>
-                <div className="company-desc">{company.desc}</div>
-                <div className="company-jobs">{company.jobs} active jobs</div>
-                <button type="button" className="company-btn">
-                  View Jobs <FiArrowRight aria-hidden="true" />
-                </button>
+                ))}
               </div>
-            ))}
+            </div>
+
+            <button 
+              className={`carousel-nav-btn carousel-nav-next${companyPage >= maxCompanyPage ? ' disabled' : ''}`}
+              onClick={() => setCompanyPage(p => Math.min(maxCompanyPage, p + 1))}
+              aria-label="Next companies"
+              disabled={companyPage >= maxCompanyPage}
+            >
+              <FiChevronRight />
+            </button>
           </div>
 
           <button type="button" className="view-all-btn">
@@ -680,13 +865,24 @@ export default function NaukriLandingPage() {
 
             {/* Right side card */}
             <div className="discover-right-card">
-              <button
-                className="discover-nav-btn"
-                aria-label="Toggle Page"
-                onClick={() => setDiscoverRolePage(prev => (prev === 0 ? 1 : 0))}
-              >
-                <FiChevronRight style={{ transform: discoverRolePage === 1 ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s ease' }} />
-              </button>
+              <div className="discover-nav-controls">
+                <button 
+                  className={`discover-nav-btn prev ${discoverRolePage === 0 ? 'disabled' : ''}`}
+                  onClick={() => setDiscoverRolePage(0)}
+                  aria-label="Previous page"
+                  disabled={discoverRolePage === 0}
+                >
+                  <FiChevronRight style={{ transform: 'rotate(180deg)' }} />
+                </button>
+                <button 
+                  className={`discover-nav-btn next ${discoverRolePage === 1 ? 'disabled' : ''}`}
+                  onClick={() => setDiscoverRolePage(1)}
+                  aria-label="Next page"
+                  disabled={discoverRolePage === 1}
+                >
+                  <FiChevronRight />
+                </button>
+              </div>
 
               <div className="discover-roles-grid">
                 {jobRoles.slice(discoverRolePage * 6, discoverRolePage * 6 + 6).map((role) => (
