@@ -21,6 +21,11 @@ import {
   FiUsers,
   FiVideo,
   FiZap,
+  FiHome,
+  FiActivity,
+  FiBox,
+  FiDollarSign,
+  FiAward,
 } from "react-icons/fi";
 import {
   FaApple,
@@ -29,11 +34,16 @@ import {
   FaInstagram,
   FaLinkedinIn,
   FaStar,
+  FaGraduationCap,
+  FaBuilding,
+  FaRupeeSign,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
 import qrImage from "../../assets/QR.png";
 import "./NaukriLandingPage.css";
+import SignUp from "./auth/SignUp";
+import Login from "./auth/Login";
 
 const topCategories = ["All", "MNCs", "Fintech", "FMCG & Retail", "Startups", "Edtech", "IT Services"];
 
@@ -275,7 +285,19 @@ const statItems = [
   { num: "98K+", label: "Offers This Month" },
 ];
 
-const trendingTags = ["Remote", "Python", "Product", "ML Engineer", "Bangalore", "20L+ CTC"];
+const trendingTags = [
+  { label: "Remote", icon: FiHome, color: "#eef2ff" },
+  { label: "MNC", icon: FaBuilding, color: "#fffbeb" },
+  { label: "Analytics", icon: FiSearch, color: "#f0fdfa" },
+  { label: "Supply Chain", icon: FiBox, color: "#f8fafc" },
+  { label: "Data Science", icon: FiBarChart2, color: "#fffbeb" },
+  { label: "Software & IT", icon: FiMonitor, color: "#f8fafc" },
+  { label: "Fresher", icon: FaGraduationCap, color: "#fffbeb" },
+  { label: "Fortune 500", icon: FiAward, color: "#f0fdfa" },
+  { label: "Banking & Finance", icon: FaRupeeSign, color: "#f8fafc" },
+  { label: "Internship", icon: FiBookOpen, color: "#f8fafc" },
+  { label: "Sales", icon: FiBriefcase, color: "#f0fdfa" },
+];
 
 const socialLinks = [
   { label: "Facebook", icon: FaFacebookF },
@@ -299,6 +321,22 @@ const qrPattern = [
 export default function NaukriLandingPage() {
   const [activeTopCat, setActiveTopCat] = useState("All");
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isEmployerDropdownOpen, setIsEmployerDropdownOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [discoverRolePage, setDiscoverRolePage] = useState(0);
+  const [experienceValue, setExperienceValue] = useState("");
+  const [isExperienceDropdownOpen, setIsExperienceDropdownOpen] = useState(false);
+
+  const experienceOptions = [
+    "Fresher (less than 1 year)",
+    "1 year",
+    "2 years",
+    "3 years",
+    "4 years",
+    "5 years"
+  ];
+
   const pageRef = useRef(null);
 
   const filteredCompanies =
@@ -394,15 +432,43 @@ export default function NaukriLandingPage() {
         </div>
 
         <div className="nav-actions">
-          <button type="button" className="btn-outline">
+          <button
+            type="button"
+            className="btn-outline"
+            onClick={() => setIsLoginModalOpen(true)}
+          >
             Login
           </button>
-          <button type="button" className="btn-filled">
+          <button
+            type="button"
+            className="btn-filled"
+            onClick={() => setIsRegisterModalOpen(true)}
+          >
             Register
           </button>
-          <div className="nav-employer">
-            For employers
-            <FiChevronDown aria-hidden="true" />
+          <div
+            className="nav-employer-container"
+            onMouseEnter={() => setIsEmployerDropdownOpen(true)}
+            onMouseLeave={() => setIsEmployerDropdownOpen(false)}
+          >
+            <div className="nav-employer">
+              For employers
+              <FiChevronDown aria-hidden="true" style={{ transform: isEmployerDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s' }} />
+            </div>
+
+            {/* Employer Dropdown Menu */}
+            {isEmployerDropdownOpen && (
+              <div className="employer-dropdown">
+                <div className="employer-dropdown-inner">
+                  <a href="#" className="employer-dropdown-item">Buy online</a>
+                  <a href="#" className="employer-dropdown-item">Naukri Talent Cloud</a>
+                  <div className="employer-dropdown-divider"></div>
+                  <a href="#" className="employer-dropdown-item employer-login-item">
+                    Employer Login <FiArrowRight aria-hidden="true" />
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </nav>
@@ -442,14 +508,41 @@ export default function NaukriLandingPage() {
                   />
                 </div>
 
-                <div className="search-field">
-                  <FiMapPin className="search-field-icon" aria-hidden="true" />
-                  <input type="text" placeholder="City or remote" aria-label="City or remote" />
+                <div className="search-field search-field-compact dropdown-field" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                  <FiBriefcase className="search-field-icon" aria-hidden="true" />
+                  <input 
+                    type="text" 
+                    placeholder="Select experience" 
+                    aria-label="Experience" 
+                    value={experienceValue}
+                    onChange={(e) => setExperienceValue(e.target.value)}
+                    onFocus={() => setIsExperienceDropdownOpen(true)}
+                    onBlur={() => setTimeout(() => setIsExperienceDropdownOpen(false), 200)}
+                    style={{ paddingRight: '24px' }}
+                  />
+                  <FiChevronDown className="search-field-chevron" aria-hidden="true" style={{ position: 'absolute', right: '16px', color: 'var(--text-muted)', transition: 'transform 0.2s ease', transform: isExperienceDropdownOpen ? 'rotate(180deg)' : 'none', pointerEvents: 'none' }} />
+                  
+                  {isExperienceDropdownOpen && (
+                    <div className="experience-dropdown-menu">
+                      {experienceOptions.map(opt => (
+                        <div 
+                          key={opt} 
+                          className="experience-dropdown-item"
+                          onClick={() => {
+                            setExperienceValue(opt);
+                            setIsExperienceDropdownOpen(false);
+                          }}
+                        >
+                          {opt}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
-                <div className="search-field search-field-compact">
-                  <FiBriefcase className="search-field-icon" aria-hidden="true" />
-                  <input type="text" placeholder="Experience" aria-label="Experience" />
+                <div className="search-field">
+                  <FiMapPin className="search-field-icon" aria-hidden="true" />
+                  <input type="text" placeholder="Enter location" aria-label="Location" />
                 </div>
 
                 <button type="button" className="search-btn">
@@ -459,11 +552,14 @@ export default function NaukriLandingPage() {
               </div>
 
               <div className="hero-tags" data-hero-intro>
-                <span className="hero-tags-label">Trending:</span>
                 {trendingTags.map((tag) => (
-                  <span className="hero-tag" key={tag}>
-                    {tag}
-                  </span>
+                  <button className="hero-tag-badge" key={tag.label} type="button">
+                    <span className="hero-tag-icon" style={{ backgroundColor: tag.color }}>
+                      <tag.icon aria-hidden="true" />
+                    </span>
+                    <span className="hero-tag-text">{tag.label}</span>
+                    <FiChevronRight className="hero-tag-arrow" aria-hidden="true" />
+                  </button>
                 ))}
               </div>
 
@@ -563,25 +659,51 @@ export default function NaukriLandingPage() {
           </button>
         </section>
 
-        <section data-section>
-          <div className="section-header" data-section-head>
-            <span className="section-kicker">Roles</span>
-            <h2>Browse by Job Role</h2>
-            <p>Discover jobs matched to your expertise</p>
-          </div>
-
-          <div className="roles-grid">
-            {jobRoles.map((role) => (
-              <div className="role-card" key={role.name} data-card>
-                <div className="role-card-left">
-                  <h4>{role.name}</h4>
-                  <span>{role.count}</span>
-                </div>
-                <div className="role-card-arrow">
-                  <FiArrowRight aria-hidden="true" />
+        <section className="discover-roles-section" data-section>
+          <div className="discover-roles-container" data-card>
+            {/* Left side */}
+            <div className="discover-left">
+              <div className="discover-illustration">
+                <div className="illustration-backdrop"></div>
+                <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="magnifier-svg">
+                  <circle cx="10" cy="10" r="7" fill="#fff" stroke="#1e293b" strokeWidth="1.5" />
+                  <line x1="21" y1="21" x2="15" y2="15" stroke="#1e293b" strokeWidth="2" />
+                  <path d="M10 7a3 3 0 0 0-3 3" stroke="#ea580c" strokeWidth="2" />
+                </svg>
+                <div className="floating-badge">
+                  <FiBriefcase />
                 </div>
               </div>
-            ))}
+              <h2>Discover jobs across<br />popular roles</h2>
+              <p>Select a role and we'll show you relevant jobs for it!</p>
+            </div>
+
+            {/* Right side card */}
+            <div className="discover-right-card">
+              <button
+                className="discover-nav-btn"
+                aria-label="Toggle Page"
+                onClick={() => setDiscoverRolePage(prev => (prev === 0 ? 1 : 0))}
+              >
+                <FiChevronRight style={{ transform: discoverRolePage === 1 ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s ease' }} />
+              </button>
+
+              <div className="discover-roles-grid">
+                {jobRoles.slice(discoverRolePage * 6, discoverRolePage * 6 + 6).map((role) => (
+                  <div className="discover-role-item" key={role.name}>
+                    <div className="discover-role-info">
+                      <h4>{role.name}</h4>
+                      <span>{role.count} <FiChevronRight className="role-chevron" /></span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="discover-pagination">
+                <span className={`dot ${discoverRolePage === 0 ? 'long active' : ''}`} onClick={() => setDiscoverRolePage(0)}></span>
+                <span className={`dot ${discoverRolePage === 1 ? 'long active' : ''}`} onClick={() => setDiscoverRolePage(1)}></span>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -857,6 +979,18 @@ export default function NaukriLandingPage() {
           </div>
         </div>
       </footer>
+
+      <SignUp
+        isOpen={isRegisterModalOpen}
+        onClose={() => setIsRegisterModalOpen(false)}
+        openLogin={() => setIsLoginModalOpen(true)}
+      />
+
+      <Login
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        openSignUp={() => setIsRegisterModalOpen(true)}
+      />
     </div>
   );
 }
