@@ -26,8 +26,8 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={{ openLogin, openRegister, closeModals }}>
       {children}
-      {isLoginModalOpen && <Login isOpen={isLoginModalOpen} onClose={closeModals} />}
-      {isRegisterModalOpen && <SignUp isOpen={isRegisterModalOpen} onClose={closeModals} />}
+      {isLoginModalOpen && <Login isOpen={isLoginModalOpen} onClose={closeModals} openSignUp={openRegister} />}
+      {isRegisterModalOpen && <SignUp isOpen={isRegisterModalOpen} onClose={closeModals} openLogin={openLogin} />}
     </AuthContext.Provider>
   );
 };

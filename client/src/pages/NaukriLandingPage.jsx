@@ -446,35 +446,35 @@ export default function NaukriLandingPage() {
             onMouseEnter={() => setActiveNavDropdown('Jobs')}
             onMouseLeave={() => setActiveNavDropdown(null)}
           >
-            <a href="#jobs">Jobs</a>
+            <Link to="/jobs">Jobs</Link>
             {activeNavDropdown === 'Jobs' && (
               <div className="mega-menu">
                 <div className="mega-column">
                   <h4>Popular categories</h4>
-                  <a href="#">IT jobs</a>
-                  <a href="#">Sales jobs</a>
-                  <a href="#">Marketing jobs</a>
-                  <a href="#">Data Science jobs</a>
-                  <a href="#">HR jobs</a>
-                  <a href="#">Engineering jobs</a>
+                  <Link to="/jobs">IT jobs</Link>
+                  <Link to="/jobs">Sales jobs</Link>
+                  <Link to="/jobs">Marketing jobs</Link>
+                  <Link to="/jobs">Data Science jobs</Link>
+                  <Link to="/jobs">HR jobs</Link>
+                  <Link to="/jobs">Engineering jobs</Link>
                 </div>
                 <div className="mega-column">
                   <h4>Jobs in demand</h4>
-                  <a href="#">Fresher jobs</a>
-                  <a href="#">MNC jobs</a>
-                  <a href="#">Remote jobs</a>
-                  <a href="#">Work from home jobs</a>
-                  <a href="#">Walk-in jobs</a>
-                  <a href="#">Part-time jobs</a>
+                  <Link to="/jobs">Fresher jobs</Link>
+                  <Link to="/jobs">MNC jobs</Link>
+                  <Link to="/jobs">Remote jobs</Link>
+                  <Link to="/jobs">Work from home jobs</Link>
+                  <Link to="/jobs">Walk-in jobs</Link>
+                  <Link to="/jobs">Part-time jobs</Link>
                 </div>
                 <div className="mega-column">
                   <h4>Jobs by location</h4>
-                  <a href="#">Jobs in Delhi</a>
-                  <a href="#">Jobs in Mumbai</a>
-                  <a href="#">Jobs in Bangalore</a>
-                  <a href="#">Jobs in Hyderabad</a>
-                  <a href="#">Jobs in Chennai</a>
-                  <a href="#">Jobs in Pune</a>
+                  <Link to="/jobs">Jobs in Delhi</Link>
+                  <Link to="/jobs">Jobs in Mumbai</Link>
+                  <Link to="/jobs">Jobs in Bangalore</Link>
+                  <Link to="/jobs">Jobs in Hyderabad</Link>
+                  <Link to="/jobs">Jobs in Chennai</Link>
+                  <Link to="/jobs">Jobs in Pune</Link>
                 </div>
               </div>
             )}

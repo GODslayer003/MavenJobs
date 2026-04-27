@@ -1,5 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap");
 
+@import "tailwindcss";
+
+@theme {
+  --color-brand-blue: #143f86;
+  --color-brand-teal: #2ea9c4;
+  --color-brand-lime: #d6f33d;
+  --color-brand-deep: #0a244d;
+  
+  --font-sans: "DM Sans", sans-serif;
+  --font-syne: "Syne", sans-serif;
+}
+
 :root {
   color-scheme: light;
   font-family: "DM Sans", sans-serif;
