@@ -68,6 +68,7 @@
 .register-layout::-webkit-scrollbar {
   width: 6px;
 }
+
 .register-layout::-webkit-scrollbar-thumb {
   background: rgba(20, 63, 134, 0.2);
   border-radius: 10px;
@@ -199,7 +200,7 @@
 }
 
 .benefit-icon {
-  color: var(--brand-teal);
+  color: #143f86; /* Royal Blue */
   font-size: 1.4rem;
   flex-shrink: 0;
   margin-top: 2px;
@@ -222,10 +223,11 @@
 
 .register-header-top h2 {
   font-size: 1.85rem;
-  color: var(--brand-blue-deep);
+  color: #143f86; /* Royal Blue */
   margin: 0;
   font-weight: 700;
   letter-spacing: -0.02em;
+  font-family: 'Syne', sans-serif;
 }
 
 .register-login-link {
@@ -256,21 +258,30 @@
   gap: 22px;
 }
 
-.form-group {
+.auth-form-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.form-group label {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-primary);
+.auth-form-group label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #143f86; /* Royal Blue */
+  font-family: 'Syne', sans-serif;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase; /* Match user preference */
 }
 
-.required {
-  color: #dc2626;
-  margin-left: 4px;
+.required-dot {
+  width: 5px;
+  height: 5px;
+  background: #ef4444;
+  border-radius: 50%;
+  margin-left: 6px;
+  display: inline-block;
 }
 
 .input-wrapper {
@@ -289,26 +300,31 @@
 
 .register-input {
   width: 100%;
-  height: 54px;
+  height: 56px;
   padding: 0 16px 0 46px;
-  border: 1px solid var(--border-strong);
+  border: 1.5px solid #cbd5e1;
   border-radius: 12px;
-  background: #ffffff;
-  font-size: 0.95rem;
-  color: var(--text-primary);
-  transition: all 0.2s ease;
-  font-family: inherit;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+  background: #ffffff !important; /* Force white background */
+  font-size: 1rem;
+  color: #0f172a !important; /* Force dark text */
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'DM Sans', sans-serif;
+  position: relative;
+  z-index: 2;
+}
+
+.register-input:hover {
+  border-color: #cbd5e1;
 }
 
 .register-input:focus {
   outline: none;
-  border-color: var(--brand-teal);
-  box-shadow: 0 0 0 3px rgba(46, 169, 196, 0.12);
-  background: #fdfefe;
+  border-color: #143f86;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(20, 63, 134, 0.1);
 }
 
-.register-input:focus + .input-icon,
+.register-input:focus+.input-icon,
 .input-wrapper:focus-within .input-icon {
   color: var(--brand-teal);
 }
@@ -361,7 +377,7 @@
   transition: all 0.2s ease;
   position: relative;
   background: #ffffff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
 }
 
 .work-status-card:hover {
@@ -386,8 +402,9 @@
 .ws-card-title {
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #143f86; /* Royal Blue */
   margin-bottom: 2px;
+  font-family: 'Syne', sans-serif;
 }
 
 .work-status-card.active .ws-card-title {
@@ -466,11 +483,11 @@
   color: white;
 }
 
-.checkbox-container:hover input ~ .checkmark {
+.checkbox-container:hover input~.checkmark {
   border-color: var(--brand-teal);
 }
 
-.checkbox-container input:checked ~ .checkmark {
+.checkbox-container input:checked~.checkmark {
   background-color: var(--brand-teal);
   border-color: var(--brand-teal);
 }
@@ -507,23 +524,29 @@
 /* Actions Row */
 .register-actions-row {
   display: flex;
-  align-items: center;
-  gap: 24px;
-  margin-top: 10px;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+  width: 100%;
 }
 
 .btn-register-submit {
-  flex: 1;
-  background: linear-gradient(135deg, #1c5ba6 0%, #30abc2 100%);
+  width: 100%;
+  background: linear-gradient(135deg, #143f86 0%, #2ea9c4 100%);
   color: #ffffff;
   border: none;
-  height: 52px;
-  border-radius: 999px;
-  font-size: 1.1rem;
+  height: 56px;
+  border-radius: 14px;
+  font-size: 1.15rem;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 16px 32px rgba(28, 91, 166, 0.18);
-  transition: all 0.3s ease;
+  box-shadow: 0 12px 24px rgba(20, 63, 134, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Syne', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.02em;
 }
 
 .btn-register-submit:hover {
@@ -532,77 +555,74 @@
 }
 
 .auth-separator {
-  position: relative;
   display: flex;
-  justify-content: center;
-  width: 40px;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  margin: 24px 0;
 }
 
 .auth-separator::before,
 .auth-separator::after {
   content: '';
-  position: absolute;
-  top: 50%;
-  width: 20px;
-  height: 1px;
-  background: var(--border-strong);
+  flex: 1;
+  border-bottom: 1px solid #e2e8f0;
 }
-
-.auth-separator::before { left: -20px; }
-.auth-separator::after { right: -20px; }
 
 .auth-separator span {
+  padding: 0 16px;
+  color: #94a3b8;
   font-size: 0.85rem;
-  color: var(--text-muted);
-  background: #ffffff;
-  padding: 0 10px;
-  font-weight: 500;
-}
-
-.google-auth-container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.google-auth-label {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  text-align: center;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .btn-google {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  height: 54px;
-  padding: 0 32px;
-  background: #ffffff;
-  border: 1px solid var(--border-strong);
-  border-radius: 14px;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  cursor: pointer;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.03);
-  transition: all 0.2s ease;
+  width: 100%;
+  height: 56px;
+  background: #ffffff !important;
+  border: 1px solid #dadce0 !important;
+  border-radius: 12px !important;
+  color: #3c4043 !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-family: 'DM Sans', sans-serif !important;
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15) !important;
 }
 
 .btn-google:hover {
-  background: #f8fafc;
-  border-color: #cbd5e1;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  background: #f8f9fa !important;
+  border-color: #d2d4d7 !important;
+  box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15) !important;
+  transform: translateY(-1px);
+}
+
+.btn-google:active {
+  background: #eeeeee !important;
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3) !important;
+  transform: translateY(0);
 }
 
 .google-icon {
-  font-size: 1.4rem;
+  font-size: 24px !important;
+  flex-shrink: 0;
 }
 
 @keyframes overlayFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes modalSlideUp {
@@ -610,6 +630,7 @@
     opacity: 0;
     transform: translateY(20px) scale(0.98);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -617,9 +638,17 @@
 }
 
 @keyframes popIn {
-  0% { transform: scale(0); }
-  70% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0);
+  }
+
+  70% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* Responsive adjustments */
@@ -627,54 +656,46 @@
   .register-layout {
     grid-template-columns: 1fr;
   }
-  
+
   .register-left {
     padding: 40px 30px;
     text-align: center;
   }
-  
+
   .register-left::before,
   .register-left::after {
     display: none;
   }
-  
+
   .register-benefits-list {
     align-items: center;
   }
-  
+
   .register-benefits-list li {
     text-align: left;
     max-width: 400px;
   }
-  
+
   .register-right {
     padding: 40px 30px;
   }
-  
+
   .register-actions-row {
     flex-direction: column;
     gap: 16px;
     align-items: stretch;
   }
-  
+
   .auth-separator {
-    width: 100%;
+    margin: 16px 0;
   }
-  
-  .auth-separator::before,
-  .auth-separator::after {
-    width: calc(50% - 20px);
-  }
-  
-  .auth-separator::before { left: 0; }
-  .auth-separator::after { right: 0; }
 }
 
 @media (max-width: 768px) {
   .work-status-cards {
     flex-direction: column;
   }
-  
+
   .register-header-top {
     flex-direction: column;
     align-items: flex-start;
