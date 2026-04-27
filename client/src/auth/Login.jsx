@@ -8,7 +8,7 @@ import {
   FiEyeOff,
 } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
-import mavenLogo from "../../../assets/maven-logo-BdiSsfJk.svg";
+import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
 import "./AuthModals.css";
 
 export default function Login({ isOpen, onClose, openSignUp }) {

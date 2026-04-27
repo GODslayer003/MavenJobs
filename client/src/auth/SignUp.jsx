@@ -12,7 +12,7 @@ import {
 } from "react-icons/fi";
 import { FaGraduationCap, FaInstagram } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import mavenLogo from "../../../assets/maven-logo-BdiSsfJk.svg";
+import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
 import "./AuthModals.css";
 
 export default function SignUp({ isOpen, onClose, openLogin }) {

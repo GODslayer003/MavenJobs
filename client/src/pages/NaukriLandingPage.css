@@ -163,7 +163,7 @@ body {
 /* Mega menu panel */
 .mega-menu {
   position: absolute;
-  top: calc(100% + 14px);
+  top: calc(100% + 5px);
   left: 50%;
   transform: translateX(-50%);
   background: #ffffff;

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import {
   FiArrowRight,
@@ -42,8 +43,9 @@ import { FaXTwitter } from "react-icons/fa6";
 import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
 import qrImage from "../../assets/QR.png";
 import "./NaukriLandingPage.css";
-import SignUp from "./auth/SignUp";
-import Login from "./auth/Login";
+import SignUp from "../auth/SignUp";
+import Login from "../auth/Login";
+import { useAuth } from "../AuthContext";
 
 const topCategories = ["All", "MNCs", "Fintech", "FMCG & Retail", "Startups", "Edtech", "IT Services"];
 
@@ -322,8 +324,7 @@ export default function NaukriLandingPage() {
   const [activeTopCat, setActiveTopCat] = useState("All");
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isEmployerDropdownOpen, setIsEmployerDropdownOpen] = useState(false);
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const { openLogin, openRegister } = useAuth();
   const [activeNavDropdown, setActiveNavDropdown] = useState(null);
   const [discoverRolePage, setDiscoverRolePage] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -434,9 +435,9 @@ export default function NaukriLandingPage() {
         <div className="scroll-progress-bar" style={{ width: `${scrollProgress}%` }} />
       </div>
       <nav className={`nav${isScrolled ? ' scrolled' : ''}`}>
-        <div className="nav-logo">
+        <Link to="/" className="nav-logo">
           <img src={mavenLogo} alt="Maven Jobs" className="nav-logo-image" />
-        </div>
+        </Link>
 
         <div className="nav-links">
           {/* JOBS MENU */}
@@ -595,14 +596,14 @@ export default function NaukriLandingPage() {
           <button
             type="button"
             className="btn-outline"
-            onClick={() => setIsLoginModalOpen(true)}
+            onClick={openLogin}
           >
             Login
           </button>
           <button
             type="button"
             className="btn-filled"
-            onClick={() => setIsRegisterModalOpen(true)}
+            onClick={openRegister}
           >
             Register
           </button>
@@ -623,9 +624,9 @@ export default function NaukriLandingPage() {
                   <a href="#" className="employer-dropdown-item">Buy online</a>
                   <a href="#" className="employer-dropdown-item">Naukri Talent Cloud</a>
                   <div className="employer-dropdown-divider"></div>
-                  <a href="#" className="employer-dropdown-item employer-login-item">
+                  <Link to="/employer-login" className="employer-dropdown-item employer-login-item">
                     Employer Login <FiArrowRight aria-hidden="true" />
-                  </a>
+                  </Link>
                 </div>
               </div>
             )}
@@ -1176,17 +1177,6 @@ export default function NaukriLandingPage() {
         </div>
       </footer>
 
-      <SignUp
-        isOpen={isRegisterModalOpen}
-        onClose={() => setIsRegisterModalOpen(false)}
-        openLogin={() => setIsLoginModalOpen(true)}
-      />
-
-      <Login
-        isOpen={isLoginModalOpen}
-        onClose={() => setIsLoginModalOpen(false)}
-        openSignUp={() => setIsRegisterModalOpen(true)}
-      />
     </div>
   );
 }
