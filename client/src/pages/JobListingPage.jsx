@@ -21,7 +21,7 @@ const FILTER_CATEGORIES = [
       "Nashik", "Chandigarh", "Mohali", "Gurugram", "Noida", "Dehradun", "Kochi"
     ]
   },
-  { id: "salary", label: "Salary", options: ["0–3 Lakhs", "3–6 Lakhs", "6–10 Lakhs", "10–15 Lakhs", "15+ Lakhs"] },
+  { id: "salaryRange", label: "Salary", options: ["0–3 Lakhs", "3–6 Lakhs", "6–10 Lakhs", "10–15 Lakhs", "15+ Lakhs"] },
   { id: "type", label: "Company Type", options: ["Corporate", "Foreign MNC", "Indian MNC", "Startup"] },
 ];
 
@@ -105,6 +105,7 @@ export default function JobListingPage() {
   const [showSort, setShowSort] = useState(false);
   const [activeModal, setActiveModal] = useState(null); // stores catId if modal is open
   const [draftFilters, setDraftFilters] = useState({}); // local state for modal
+  const [expRange, setExpRange] = useState(0);
 
   const JOBS_PER_PAGE = 15;
   const { openLogin, openRegister } = useAuth();
@@ -151,6 +152,15 @@ export default function JobListingPage() {
     setActiveModal(null);
   };
 
+  useEffect(() => {
+    if (activeModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => { document.body.style.overflow = "unset"; };
+  }, [activeModal]);
+
   const hasFilters = Object.values(filters).some(arr => arr.length > 0);
 
   // Filter and Sort Logic
@@ -161,17 +171,19 @@ export default function JobListingPage() {
     }
     // Category match
     for (const [catId, selectedOpts] of Object.entries(filters)) {
-      if (selectedOpts.length === 0) continue;
-
-      const jobVal =
-        catId === "dept" ? job.dept :
-          catId === "mode" ? job.mode :
-            catId === "loc" ? job.loc :
-              catId === "salary" ? job.salaryRange :
-                catId === "type" ? job.type : null;
-
-      if (!selectedOpts.includes(jobVal)) return false;
+      if (selectedOpts.length > 0) {
+        const jobVal = job[catId];
+        if (!selectedOpts.includes(jobVal)) return false;
+      }
     }
+
+    // Experience match
+    if (expRange > 0) {
+      // Parse job exp (e.g., "3–6 Yrs")
+      const minJobExp = parseInt(job.exp.split("–")[0]) || 0;
+      if (minJobExp > expRange) return false;
+    }
+
     return true;
   }).sort((a, b) => {
     if (sortBy === "newest") return b.date - a.date;
@@ -255,9 +267,40 @@ export default function JobListingPage() {
               <div className="jlp-filter-title">
                 <FiFilter size={16} /> All Filters
               </div>
-              {hasFilters && (
-                <button className="jlp-clear-btn" onClick={() => setFilters({})}>Clear All</button>
-              )}
+              {hasFilters || expRange > 0 ? (
+                <button className="jlp-clear-btn" onClick={() => { setFilters({}); setExpRange(0); }}>Clear All</button>
+              ) : null}
+            </div>
+
+            {/* Experience Slider */}
+            <div className="jlp-filter-group">
+              <div className="jlp-filter-group-header">
+                <div className="jlp-filter-group-label">Experience</div>
+                <FiChevronDown size={14} className="jlp-group-arrow" />
+              </div>
+              <div className="jlp-exp-slider-container">
+                <div className="jlp-exp-tooltip" style={{ left: `${(expRange / 30) * 100}%` }}>
+                  {expRange}
+                </div>
+                <input 
+                  type="range" 
+                  min="0" 
+                  max="30" 
+                  value={expRange} 
+                  onChange={(e) => {
+                    setExpRange(parseInt(e.target.value));
+                    setCurrentPage(1);
+                  }}
+                  style={{
+                    background: `linear-gradient(to right, #143f86 0%, #143f86 ${(expRange / 30) * 100}%, #e2e8f0 ${(expRange / 30) * 100}%, #e2e8f0 100%)`
+                  }}
+                  className="jlp-exp-slider"
+                />
+                <div className="jlp-exp-labels">
+                  <span>0 Yrs</span>
+                  <span>30 Yrs</span>
+                </div>
+              </div>
             </div>
 
             {FILTER_CATEGORIES.map(cat => {
