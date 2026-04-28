@@ -10,10 +10,20 @@ import {
 } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
+import { useAuth } from "../AuthContext";
 import "./AuthModals.css";
 
 export default function Login({ isOpen, onClose, openSignUp }) {
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Simulate successful login
+    login({ name: email.split("@")[0] || "User", email });
+    onClose();
+  };
 
   if (!isOpen) return null;
 
@@ -106,12 +116,18 @@ export default function Login({ isOpen, onClose, openSignUp }) {
             </div>
             <p className="register-sub">Welcome back! Please enter your details.</p>
             
-            <form className="register-form" onSubmit={(e) => e.preventDefault()}>
+            <form className="register-form" onSubmit={handleSubmit}>
               <div className="auth-form-group">
                 <label>EMAIL ID / USERNAME <span className="required-dot"></span></label>
                 <div className="input-wrapper">
                   <FiMail className="input-icon" aria-hidden="true" />
-                  <input type="text" placeholder="Enter Email ID / Username" className="register-input" />
+                  <input 
+                    type="text" 
+                    placeholder="Enter Email ID / Username" 
+                    className="register-input" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </div>
               </div>
               

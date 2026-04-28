@@ -94,7 +94,7 @@ const EmployerLandingPage = () => {
         </div>
 
         <div className="employer-nav-actions">
-          <button className="btn-employer-outline">Buy online</button>
+          <Link to="/buy-online" className="btn-employer-outline" style={{ display: 'inline-block', textDecoration: 'none', textAlign: 'center' }}>Buy online</Link>
           <button className="btn-employer-filled">Post a job</button>
         </div>
       </nav>

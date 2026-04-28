@@ -5,6 +5,7 @@ import SignUp from './auth/SignUp';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
@@ -23,8 +24,17 @@ export const AuthProvider = ({ children }) => {
     setIsRegisterModalOpen(false);
   };
 
+  const login = (userData) => {
+    setUser(userData);
+    closeModals();
+  };
+
+  const logout = () => {
+    setUser(null);
+  };
+
   return (
-    <AuthContext.Provider value={{ openLogin, openRegister, closeModals }}>
+    <AuthContext.Provider value={{ user, login, logout, openLogin, openRegister, closeModals }}>
       {children}
       {isLoginModalOpen && <Login isOpen={isLoginModalOpen} onClose={closeModals} openSignUp={openRegister} />}
       {isRegisterModalOpen && <SignUp isOpen={isRegisterModalOpen} onClose={closeModals} openLogin={openLogin} />}

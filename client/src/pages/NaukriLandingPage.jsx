@@ -321,10 +321,10 @@ const qrPattern = [
 ];
 
 export default function NaukriLandingPage() {
+  const { user, logout, openLogin, openRegister } = useAuth();
   const [activeTopCat, setActiveTopCat] = useState("All");
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isEmployerDropdownOpen, setIsEmployerDropdownOpen] = useState(false);
-  const { openLogin, openRegister } = useAuth();
   const [activeNavDropdown, setActiveNavDropdown] = useState(null);
   const [discoverRolePage, setDiscoverRolePage] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -593,20 +593,35 @@ export default function NaukriLandingPage() {
         </div>
 
         <div className="nav-actions">
-          <button
-            type="button"
-            className="btn-outline"
-            onClick={openLogin}
-          >
-            Login
-          </button>
-          <button
-            type="button"
-            className="btn-filled"
-            onClick={openRegister}
-          >
-            Register
-          </button>
+          {user ? (
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-semibold text-gray-700">Hi, {user.name}</span>
+              <button
+                type="button"
+                className="btn-outline"
+                onClick={logout}
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <>
+              <button
+                type="button"
+                className="btn-outline"
+                onClick={openLogin}
+              >
+                Login
+              </button>
+              <button
+                type="button"
+                className="btn-filled"
+                onClick={openRegister}
+              >
+                Register
+              </button>
+            </>
+          )}
           <div
             className="nav-employer-container"
             onMouseEnter={() => setIsEmployerDropdownOpen(true)}
@@ -621,7 +636,7 @@ export default function NaukriLandingPage() {
             {isEmployerDropdownOpen && (
               <div className="employer-dropdown">
                 <div className="employer-dropdown-inner">
-                  <a href="#" className="employer-dropdown-item">Buy online</a>
+                  <Link to="/buy-online" className="employer-dropdown-item">Buy online</Link>
                   <a href="#" className="employer-dropdown-item">Naukri Talent Cloud</a>
                   <div className="employer-dropdown-divider"></div>
                   <Link to="/employer-login" className="employer-dropdown-item employer-login-item">

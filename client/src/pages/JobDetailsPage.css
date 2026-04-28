@@ -1,0 +1,387 @@
+.jdp-root {
+  background-color: #f4f5f7;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  color: #444;
+}
+
+.jdp-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  padding: 12px 0;
+}
+
+.jdp-header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.jdp-logo {
+  height: 32px;
+}
+
+.jdp-nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.jdp-nav-link {
+  text-decoration: none;
+  color: #444;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.jdp-nav-link.active {
+  color: #143f86;
+  font-weight: 600;
+}
+
+.jdp-container {
+  max-width: 1200px;
+  margin: 24px auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  padding: 0 20px;
+}
+
+.jdp-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.jdp-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  border: 1px solid #e2e8f0;
+}
+
+/* Job Header Card */
+.jdp-job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.jdp-job-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.jdp-company-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.jdp-company-name {
+  font-weight: 600;
+  color: #444;
+}
+
+.jdp-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #facc15;
+}
+
+.jdp-reviews {
+  color: #718096;
+  font-size: 13px;
+}
+
+.jdp-job-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.jdp-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #718096;
+  font-size: 14px;
+}
+
+.jdp-meta-icon {
+  color: #a0aec0;
+}
+
+.jdp-job-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.jdp-posted-info {
+  font-size: 13px;
+  color: #718096;
+}
+
+.jdp-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.jdp-save-btn {
+  padding: 10px 24px;
+  border-radius: 20px;
+  border: 1px solid #143f86;
+  color: #143f86;
+  font-weight: 600;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.jdp-save-btn:hover {
+  background: #f8fafc;
+}
+
+.jdp-apply-btn {
+  padding: 10px 32px;
+  border-radius: 20px;
+  border: none;
+  background: #143f86;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.jdp-apply-btn:hover {
+  background: #0f2e63;
+}
+
+/* Highlights */
+.jdp-section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+}
+
+.jdp-highlights-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.jdp-highlights-list li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.jdp-highlights-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #143f86;
+}
+
+.jdp-match-score {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.jdp-match-items {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.jdp-match-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.jdp-match-item.success {
+  color: #059669;
+}
+
+.jdp-match-item.error {
+  color: #dc2626;
+}
+
+/* Description */
+.jdp-description h4 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 16px 0 8px;
+}
+
+.jdp-description p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.jdp-description ul {
+  list-style: disc;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.jdp-description ul li {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Sidebar */
+.jdp-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.jdp-sidebar-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  border: 1px solid #e2e8f0;
+}
+
+.jdp-sidebar-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.jdp-mini-job {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.jdp-mini-job:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.jdp-mini-logo {
+  width: 40px;
+  height: 40px;
+  background: #f8fafc;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #143f86;
+  flex-shrink: 0;
+}
+
+.jdp-mini-content h5 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.jdp-mini-content p {
+  font-size: 12px;
+  color: #718096;
+}
+
+.jdp-mini-meta {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #a0aec0;
+}
+
+/* Footer links */
+.jdp-footer-links {
+  margin-top: 24px;
+  padding: 24px;
+  text-align: center;
+  color: #718096;
+  font-size: 13px;
+}
+
+.jdp-footer-links a {
+  color: #143f86;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.jdp-footer-links a:hover {
+  text-decoration: underline;
+}
+
+/* Auth prompt */
+.jdp-auth-prompt {
+  background: #fff9e6;
+  border: 1px solid #ffeeba;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.jdp-auth-text {
+  font-size: 14px;
+  color: #856404;
+}
+
+.jdp-auth-btn {
+  background: #143f86;
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Similar jobs at bottom */
+.jdp-similar-jobs {
+  margin-top: 24px;
+  padding-top: 24px;
+}
+
+.jdp-similar-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
