@@ -28,7 +28,7 @@ export default function JobListingPage() {
   const [expRange, setExpRange] = useState(0);
 
   const JOBS_PER_PAGE = 15;
-  const { openLogin, openRegister } = useAuth();
+  const { user, logout, openLogin, openRegister } = useAuth();
 
   const scrollLeft = () => {
     if (scrollRef.current) scrollRef.current.scrollBy({ left: -250, behavior: "smooth" });
@@ -151,8 +151,10 @@ export default function JobListingPage() {
 
           <div className="jlp-header-actions">
             {user ? (
-              <div className="flex items-center gap-4">
-                <span className="text-sm font-semibold text-gray-700">Hi, {user.name}</span>
+              <div className="flex items-center gap-4" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: '#333', fontWeight: '600', cursor: 'pointer' }}>
+                  <img src={user.profilePic || "https://i.pravatar.cc/150?img=11"} alt="Profile" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #2563eb' }} />
+                </Link>
                 <button className="jlp-btn-login" onClick={logout}>Logout</button>
               </div>
             ) : (

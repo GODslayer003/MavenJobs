@@ -541,7 +541,7 @@ export default function NaukriLandingPage() {
                   <a href="#">Resume display</a>
                   
                   <h4 style={{ marginTop: '20px' }}>Monthly subscriptions</h4>
-                  <a href="#">Basic & premium plans</a>
+                  <a href="#">Basic &amp; premium plans</a>
                 </div>
                 <div className="mega-column">
                   <h4>Free resume resources</h4>
@@ -566,13 +566,13 @@ export default function NaukriLandingPage() {
                 <div className="mega-column">
                   <h4>Tech courses</h4>
                   <a href="#">Full Stack Development</a>
-                  <a href="#">Data Science & ML</a>
+                  <a href="#">Data Science &amp; ML</a>
                   <a href="#">Cloud Computing</a>
                   <a href="#">Cybersecurity</a>
-                  <a href="#">DevOps & Automation</a>
+                  <a href="#">DevOps &amp; Automation</a>
                 </div>
                 <div className="mega-column">
-                  <h4>Business & management</h4>
+                  <h4>Business &amp; management</h4>
                   <a href="#">Project Management</a>
                   <a href="#">Product Management</a>
                   <a href="#">Business Analytics</a>
@@ -585,7 +585,7 @@ export default function NaukriLandingPage() {
                   <a href="#">Interview preparation</a>
                   <a href="#">Communication skills</a>
                   <a href="#">Leadership training</a>
-                  <a href="#">Aptitude & reasoning</a>
+                  <a href="#">Aptitude &amp; reasoning</a>
                 </div>
               </div>
             )}
@@ -594,8 +594,10 @@ export default function NaukriLandingPage() {
 
         <div className="nav-actions">
           {user ? (
-            <div className="flex items-center gap-4">
-              <span className="text-sm font-semibold text-gray-700">Hi, {user.name}</span>
+            <div className="flex items-center gap-4" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: '#333', fontWeight: '600', cursor: 'pointer' }}>
+                <img src={user.profilePic || "https://i.pravatar.cc/150?img=11"} alt="Profile" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #2563eb' }} />
+              </Link>
               <button
                 type="button"
                 className="btn-outline"
@@ -632,7 +634,6 @@ export default function NaukriLandingPage() {
               <FiChevronDown aria-hidden="true" style={{ transform: isEmployerDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s' }} />
             </div>
 
-            {/* Employer Dropdown Menu */}
             {isEmployerDropdownOpen && (
               <div className="employer-dropdown">
                 <div className="employer-dropdown-inner">

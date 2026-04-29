@@ -25,7 +25,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = (userData) => {
-    setUser(userData);
+    setUser({
+      ...userData,
+      profilePic: "https://i.pravatar.cc/150?img=11", 
+      headline: "Software Engineer",
+    });
     closeModals();
   };
 
@@ -33,8 +37,14 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const updateUser = (updates) => {
+    if(user) {
+      setUser(prev => ({ ...prev, ...updates }));
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, openLogin, openRegister, closeModals }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUser, openLogin, openRegister, closeModals }}>
       {children}
       {isLoginModalOpen && <Login isOpen={isLoginModalOpen} onClose={closeModals} openSignUp={openRegister} />}
       {isRegisterModalOpen && <SignUp isOpen={isRegisterModalOpen} onClose={closeModals} openLogin={openLogin} />}

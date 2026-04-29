@@ -16,13 +16,18 @@ import "./AuthModals.css";
 export default function Login({ isOpen, onClose, openSignUp }) {
   const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("rohan@gmail.com");
+  const [password, setPassword] = useState("Roohan003!");
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulate successful login
-    login({ name: email.split("@")[0] || "User", email });
-    onClose();
+    if (email === "rohan@gmail.com" && password === "Roohan003!") {
+      login({ name: "Rohan", email });
+      onClose();
+    } else {
+      setError("Invalid credentials. Please use rohan@gmail.com / Roohan003!");
+    }
   };
 
   if (!isOpen) return null;
@@ -139,6 +144,8 @@ export default function Login({ isOpen, onClose, openSignUp }) {
                     type={showPassword ? "text" : "password"} 
                     placeholder="Enter Password" 
                     className="register-input" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   <button 
                     type="button"
@@ -163,6 +170,7 @@ export default function Login({ isOpen, onClose, openSignUp }) {
                 </div>
               </div>
               
+              {error && <div style={{ color: 'red', marginBottom: '16px', fontSize: '14px', fontWeight: '500' }}>{error}</div>}
               <div className="register-actions-row">
                 <button type="submit" className="btn-register-submit">
                   Login to Account
