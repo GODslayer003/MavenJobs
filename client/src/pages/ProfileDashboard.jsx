@@ -31,7 +31,7 @@ export default function ProfileDashboard() {
   const [isEditingName, setIsEditingName] = useState(false);
   const [editNameValue, setEditNameValue] = useState(user?.name || '');
   const [activeTab, setActiveTab] = useState('Profile');
-  const [coverImage, setCoverImage] = useState(null);
+  const [coverImage, setCoverImage] = useState("https://i.pinimg.com/736x/15/8e/a9/158ea9c22bfbb6e5003b693b91d30e48.jpg");
   const pfpInputRef = useRef(null);
   const coverInputRef = useRef(null);
 
@@ -113,7 +113,7 @@ export default function ProfileDashboard() {
             </button>
 
             <div className="pd-navbar-profile" onClick={() => navigate('/profile')} title="View Profile">
-              <img src={user.profilePic || "https://i.pravatar.cc/150?img=11"} alt="You" />
+              <img src={user.profilePic || "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg"} alt="You" />
             </div>
 
             <button className="pd-navbar-logout" onClick={logout}>
@@ -127,9 +127,9 @@ export default function ProfileDashboard() {
       {/* ─── Cover Photo Hero ─── */}
       <div
         className="pd-cover"
-        style={coverImage ? { backgroundImage: `url(${coverImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
+        style={{ backgroundImage: `url(${coverImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
-        {!coverImage && <div className="pd-cover-gradient" />}
+        {false && <div className="pd-cover-gradient" />}
         <button className="pd-cover-edit-btn" onClick={() => coverInputRef.current.click()}>
           <FiEdit2 size={14} /> Edit Cover
         </button>
@@ -139,7 +139,7 @@ export default function ProfileDashboard() {
       <div className="pd-identity-bar">
         <div className="pd-identity-inner">
           <div className="pd-avatar-ring">
-            <img src={user.profilePic || "https://i.pravatar.cc/150?img=11"} alt="Profile" className="pd-big-avatar" />
+            <img src={user.profilePic || "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg"} alt="Profile" className="pd-big-avatar" />
             <button className="pd-avatar-cam" onClick={() => pfpInputRef.current.click()} title="Change profile picture">
               <FiEdit2 size={12} />
             </button>

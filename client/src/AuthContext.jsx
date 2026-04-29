@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   const login = (userData) => {
     setUser({
       ...userData,
-      profilePic: "https://i.pravatar.cc/150?img=11", 
+      profilePic: "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg",
       headline: "Software Engineer",
     });
     closeModals();

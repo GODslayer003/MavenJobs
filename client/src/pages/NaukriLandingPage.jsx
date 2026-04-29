@@ -596,7 +596,7 @@ export default function NaukriLandingPage() {
           {user ? (
             <div className="flex items-center gap-4" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
               <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: '#333', fontWeight: '600', cursor: 'pointer' }}>
-                <img src={user.profilePic || "https://i.pravatar.cc/150?img=11"} alt="Profile" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #2563eb' }} />
+                <img src={user.profilePic || "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg"} alt="Profile" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #2563eb' }} />
               </Link>
               <button
                 type="button"
