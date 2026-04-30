@@ -13,6 +13,33 @@ import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
 import "./JobListingPage.css";
 
 // Data moved to data/jobs.js
+const FILTER_CATEGORIES = [
+  { 
+    id: "dept", 
+    label: "Department", 
+    options: ["Engineering", "Product", "Design", "Marketing", "Sales", "HR", "Finance", "Legal", "Operations", "Customer Success"] 
+  },
+  { 
+    id: "mode", 
+    label: "Work Mode", 
+    options: ["Work from office", "Remote", "Hybrid"] 
+  },
+  { 
+    id: "loc", 
+    label: "Location", 
+    options: ["Bengaluru", "Mumbai", "Pune", "Delhi / NCR", "Hyderabad", "Chennai", "Kolkata", "Ahmedabad", "Gurugram", "Noida"] 
+  },
+  { 
+    id: "salaryRange", 
+    label: "Salary", 
+    options: ["0–3 Lakhs", "3–6 Lakhs", "6–10 Lakhs", "10–15 Lakhs", "15+ Lakhs", "25+ Lakhs", "50+ Lakhs"] 
+  },
+  { 
+    id: "type", 
+    label: "Company Type", 
+    options: ["Corporate", "Foreign MNC", "Indian MNC", "Startup", "Govt / PSU"] 
+  },
+];
 
 export default function JobListingPage() {
   const navigate = useNavigate();
@@ -236,13 +263,7 @@ export default function JobListingPage() {
 
             {/* Filter categories moved to data but let's keep them here for local logic if needed, 
                 but for simplicity we'll just use a local constant or import them */}
-            {[
-              { id: "dept", label: "Department", options: ["Engineering", "Product", "Design", "Marketing", "Sales", "HR"] },
-              { id: "mode", label: "Work Mode", options: ["Work from office", "Remote", "Hybrid"] },
-              { id: "loc", label: "Location", options: ["Bengaluru", "Mumbai", "Pune", "Delhi / NCR", "Hyderabad"] },
-              { id: "salaryRange", label: "Salary", options: ["0–3 Lakhs", "3–6 Lakhs", "6–10 Lakhs", "10–15 Lakhs", "15+ Lakhs"] },
-              { id: "type", label: "Company Type", options: ["Corporate", "Foreign MNC", "Indian MNC", "Startup"] },
-            ].map(cat => {
+            {FILTER_CATEGORIES.map(cat => {
               const displayOptions = cat.options.slice(0, 5);
               const hasMore = cat.options.length > 5;
               return (
