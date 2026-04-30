@@ -486,31 +486,31 @@ export default function NaukriLandingPage() {
             onMouseEnter={() => setActiveNavDropdown('Companies')}
             onMouseLeave={() => setActiveNavDropdown(null)}
           >
-            <a href="#companies">Companies</a>
+            <Link to="/companies">Companies</Link>
             {activeNavDropdown === 'Companies' && (
               <div className="mega-menu">
                 <div className="mega-column">
                   <h4>Explore categories</h4>
-                  <a href="#">Unicorn</a>
-                  <a href="#">MNC</a>
-                  <a href="#">Startup</a>
-                  <a href="#">Product based</a>
-                  <a href="#">Internet</a>
+                  <Link to="/companies">Unicorn</Link>
+                  <Link to="/companies">MNC</Link>
+                  <Link to="/companies">Startup</Link>
+                  <Link to="/companies">Product based</Link>
+                  <Link to="/companies">Internet</Link>
                 </div>
                 <div className="mega-column">
                   <h4>Explore collections</h4>
-                  <a href="#">Top companies</a>
-                  <a href="#">IT companies</a>
-                  <a href="#">Fintech companies</a>
-                  <a href="#">Sponsored companies</a>
-                  <a href="#">Featured companies</a>
+                  <Link to="/companies">Top companies</Link>
+                  <Link to="/companies">IT companies</Link>
+                  <Link to="/companies">Fintech companies</Link>
+                  <Link to="/companies">Sponsored companies</Link>
+                  <Link to="/companies">Featured companies</Link>
                 </div>
                 <div className="mega-column">
                   <h4>Research companies</h4>
-                  <a href="#">Interview questions</a>
-                  <a href="#">Company salaries</a>
-                  <a href="#">Company reviews</a>
-                  <a href="#">Salary Calculator</a>
+                  <Link to="/companies">Interview questions</Link>
+                  <Link to="/companies">Company salaries</Link>
+                  <Link to="/companies">Company reviews</Link>
+                  <Link to="/companies">Salary Calculator</Link>
                 </div>
               </div>
             )}

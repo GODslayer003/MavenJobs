@@ -26,9 +26,11 @@ import {
   FiClock,
   FiChevronLeft,
   FiInfo,
-  FiSend
+  FiSend,
+  FiChevronDown
 } from 'react-icons/fi';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { GiCrown } from 'react-icons/gi';
 import { useAuth } from '../AuthContext';
 import './ProfileDashboard.css';
 import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
@@ -41,6 +43,8 @@ export default function ProfileDashboard() {
   const [activeTab, setActiveTab] = useState('Profile (18)');
   const [coverImage, setCoverImage] = useState("https://i.pinimg.com/736x/15/8e/a9/158ea9c22bfbb6e5003b693b91d30e48.jpg");
   const [showPreview, setShowPreview] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [activeNavDropdown, setActiveNavDropdown] = useState(null);
   const jobScrollRef = useRef(null);
   const earlyScrollRef = useRef(null);
   const matchScrollRef = useRef(null);
@@ -153,17 +157,50 @@ export default function ProfileDashboard() {
         onChange={handleCoverChange}
       />
 
-      {/* ─── Premium Navbar ─── */}
       <header className="pd-navbar">
         <div className="pd-navbar-inner">
-          <Link to="/" className="pd-navbar-logo">
-            <img src={mavenLogo} alt="MavenJobs" />
+          <Link to="/" className="pd-navbar-brand">
+            <img src={mavenLogo} alt="MavenJobs" className="pd-navbar-logo-img" />
           </Link>
 
           <nav className="pd-navbar-links">
             <Link to="/jobs" className="pd-nav-link">Jobs</Link>
-            <a href="#" className="pd-nav-link">Companies</a>
+            <div 
+              className="pd-nav-dropdown-wrapper"
+              onMouseEnter={() => setActiveNavDropdown('Companies')}
+              onMouseLeave={() => setActiveNavDropdown(null)}
+            >
+              <Link to="/companies" className="pd-nav-link">Companies</Link>
+              {activeNavDropdown === 'Companies' && (
+                <div className="pd-megamenu">
+                  <div className="pd-megamenu-column">
+                    <h4>EXPLORE CATEGORIES</h4>
+                    <Link to="/companies">Unicorn</Link>
+                    <Link to="/companies">MNC</Link>
+                    <Link to="/companies">Startup</Link>
+                    <Link to="/companies">Product based</Link>
+                    <Link to="/companies">Internet</Link>
+                  </div>
+                  <div className="pd-megamenu-column">
+                    <h4>EXPLORE COLLECTIONS</h4>
+                    <Link to="/companies">Top companies</Link>
+                    <Link to="/companies">IT companies</Link>
+                    <Link to="/companies">Fintech companies</Link>
+                    <Link to="/companies">Sponsored companies</Link>
+                    <Link to="/companies">Featured companies</Link>
+                  </div>
+                  <div className="pd-megamenu-column">
+                    <h4>RESEARCH COMPANIES</h4>
+                    <Link to="/companies">Interview questions</Link>
+                    <Link to="/companies">Company salaries</Link>
+                    <Link to="/companies">Company reviews</Link>
+                    <Link to="/companies">Salary Calculator</Link>
+                  </div>
+                </div>
+              )}
+            </div>
             <a href="#" className="pd-nav-link">Services</a>
+            <a href="#" className="pd-nav-link">Courses</a>
           </nav>
 
           <div className="pd-navbar-actions">
@@ -172,7 +209,11 @@ export default function ProfileDashboard() {
               <input type="text" placeholder="Search jobs, companies…" />
             </div>
 
-            <button className="pd-navbar-bell" aria-label="Notifications">
+            <button
+              className={`pd-navbar-bell ${showNotifications ? 'active' : ''}`}
+              aria-label="Notifications"
+              onClick={() => setShowNotifications(true)}
+            >
               <FiBell size={20} />
               <span className="pd-nav-dot">3</span>
             </button>
@@ -684,7 +725,7 @@ export default function ProfileDashboard() {
                 <div className="ppm-right">
                   {/* Pro Banner */}
                   <div className="ppm-pro-banner">
-                    <div className="ppm-pro-title">MavenJobs<span>Pro</span> 👑</div>
+                    <div className="ppm-pro-title">MavenJobs<span>Pro</span> <GiCrown className="ppm-crown-icon" /></div>
                     <div className="ppm-pro-text">Power up with <strong>up to 4x profile views</strong></div>
                     <button className="ppm-pro-btn">Become a Pro | 25% off</button>
                   </div>
@@ -809,6 +850,87 @@ export default function ProfileDashboard() {
           </div>
         </div>
       )}
+      {/* Notification Sidebar */}
+      <div className={`pd-notif-overlay ${showNotifications ? 'show' : ''}`} onClick={() => setShowNotifications(false)} />
+      <div className={`pd-notif-sidebar ${showNotifications ? 'show' : ''}`}>
+        <div className="pd-notif-header">
+          <h3>Notifications</h3>
+          <button className="pd-notif-close" onClick={() => setShowNotifications(false)}>
+            <FiX size={20} />
+          </button>
+        </div>
+
+        <div className="pd-notif-body">
+          <div className="pd-notif-date-group">Today</div>
+
+          {[
+            {
+              icon: <FiAward />,
+              color: '#7c3aed',
+              bg: '#f5f3ff',
+              title: '🚀 Practice these 4 interview questions for your Fortified Infotech EDI application!',
+              desc: 'Instant feedback to ace your Software & Sr Software...',
+              time: '2h ago',
+              action: 'Practice Now'
+            },
+            {
+              icon: <FiFileText />,
+              color: '#f59e0b',
+              bg: '#fffbeb',
+              title: 'Your resume for job application was viewed',
+              desc: 'Application History',
+              time: '3h ago'
+            },
+            {
+              icon: <FiUsers />,
+              color: '#2563eb',
+              bg: '#eff6ff',
+              title: 'Let AI help you ace your next job interview. Try now and prepare for success!',
+              desc: '🚀 Unlock Your Interview Success!',
+              time: '3h ago',
+              action: 'Practice Now'
+            },
+            {
+              icon: <FiCheckCircle />,
+              color: '#10b981',
+              bg: '#f0fdf4',
+              title: 'Apply by 11:10 AM for a job just posted for you by Infrrd.',
+              desc: 'Neo-AI Job Agent',
+              time: '4h ago'
+            },
+            {
+              icon: <FiX />,
+              color: '#ef4444',
+              bg: '#fef2f2',
+              title: 'Your application was marked not shortlisted',
+              desc: 'Application History',
+              time: '5h ago'
+            },
+            {
+              icon: <FiZap />,
+              color: '#7c3aed',
+              bg: '#f5f3ff',
+              title: 'AI has written answers using your resume for your upcoming Full Stack Developer interview.',
+              desc: '✨ Interview Q&A made for Pranjal',
+              time: '6h ago'
+            }
+          ].map((notif, idx) => (
+            <div className="pd-notif-item" key={idx}>
+              <div className="pd-notif-icon-box" style={{ background: notif.bg, color: notif.color }}>
+                {notif.icon}
+              </div>
+              <div className="pd-notif-content">
+                <div className="pd-notif-title">{notif.title}</div>
+                <div className="pd-notif-desc">{notif.desc}</div>
+                {notif.action && (
+                  <button className="pd-notif-action-btn">{notif.action}</button>
+                )}
+                <div className="pd-notif-time">{notif.time}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

@@ -57,7 +57,7 @@ export default function Navbar() {
             onMouseEnter={() => setActiveNavDropdown('Companies')}
             onMouseLeave={() => setActiveNavDropdown(null)}
           >
-            <Link to="#">Companies</Link>
+            <Link to="/companies">Companies</Link>
           </div>
 
           <div 
