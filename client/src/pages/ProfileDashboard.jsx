@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { 
-  FiEdit2, 
-  FiBriefcase, 
-  FiMapPin, 
-  FiZap, 
-  FiCheckCircle, 
+import {
+  FiEdit2,
+  FiBriefcase,
+  FiMapPin,
+  FiZap,
+  FiCheckCircle,
   FiChevronRight,
   FiHome,
   FiFileText,
@@ -24,7 +24,9 @@ import {
   FiX,
   FiCalendar,
   FiClock,
-  FiChevronLeft
+  FiChevronLeft,
+  FiInfo,
+  FiSend
 } from 'react-icons/fi';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
@@ -40,6 +42,8 @@ export default function ProfileDashboard() {
   const [coverImage, setCoverImage] = useState("https://i.pinimg.com/736x/15/8e/a9/158ea9c22bfbb6e5003b693b91d30e48.jpg");
   const [showPreview, setShowPreview] = useState(false);
   const jobScrollRef = useRef(null);
+  const earlyScrollRef = useRef(null);
+  const matchScrollRef = useRef(null);
 
   const recommendedJobs = {
     'Profile (18)': [
@@ -68,6 +72,26 @@ export default function ProfileDashboard() {
     if (jobScrollRef.current) {
       const scrollAmount = 300;
       jobScrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleEarlyScroll = (direction) => {
+    if (earlyScrollRef.current) {
+      const scrollAmount = 300;
+      earlyScrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleMatchScroll = (direction) => {
+    if (matchScrollRef.current) {
+      const scrollAmount = 300;
+      matchScrollRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth'
       });
@@ -144,7 +168,7 @@ export default function ProfileDashboard() {
 
           <div className="pd-navbar-actions">
             <div className="pd-nav-search">
-              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
               <input type="text" placeholder="Search jobs, companies…" />
             </div>
 
@@ -342,12 +366,12 @@ export default function ProfileDashboard() {
                 >{tab}</button>
               ))}
             </div>
-            
+
             <div className="pd-job-scroll-container">
               <button className="pd-scroll-btn pd-scroll-left" onClick={() => handleScroll('left')}>
                 <FiChevronLeft size={20} />
               </button>
-              
+
               <div className="pd-job-scroll" ref={jobScrollRef}>
                 {(recommendedJobs[activeTab] || []).map(job => (
                   <div className="pd-job-card" key={job.title}>
@@ -372,12 +396,14 @@ export default function ProfileDashboard() {
           {/* NVites */}
           <div className="pd-card pd-nvites-card">
             <div className="pd-nvites-left">
-              <div className="pd-nvites-icon">
-                <FiFileText size={28} color="#6b7280" />
-              </div>
-              <div>
-                <h3>NVites: Invitation to apply</h3>
-                <Link to="#" className="pd-view-all">View all →</Link>
+              <div className="pd-nvites-icon-group">
+                <div className="pd-nvites-main-icon">
+                  <FiMail size={32} />
+                  <span className="pd-nvites-badge-dot" />
+                </div>
+                <h3>NVites</h3>
+                <p>Invitation to apply</p>
+                <Link to="#" className="pd-view-all-inv">View all invites →</Link>
               </div>
             </div>
             <div className="pd-nvites-list">
@@ -389,14 +415,106 @@ export default function ProfileDashboard() {
                 <div className="pd-nvite-item" key={inv.title}>
                   <div className="pd-nvite-logo" style={{ background: inv.bg, color: inv.col }}>{inv.code}</div>
                   <div className="pd-nvite-info">
-                    <div className="pd-nvite-title">{inv.title}</div>
-                    <div className="pd-nvite-meta">{inv.company} · Invited {inv.when}</div>
+                    <div className="pd-nvite-title">
+                      {inv.title}
+                    </div>
+                    <div className="pd-nvite-meta">
+                      <strong>{inv.company}</strong> · Invited {inv.when}
+                    </div>
                   </div>
-                  <button className="pd-nvite-apply">Apply</button>
+                  <button className="pd-nvite-apply">Apply Now</button>
                 </div>
               ))}
             </div>
           </div>
+          {/* Early Access Section */}
+          <div className="pd-card pd-early-access-card">
+            <div className="pd-section-header">
+              <div className="pd-early-header-left">
+                <FiSend className="pd-early-icon" size={24} />
+                <div className="pd-early-titles">
+                  <h3>11 Early access roles from top companies <FiInfo size={14} className="pd-info-trigger" /></h3>
+                  <p>See what recruiters are searching for...</p>
+                </div>
+              </div>
+              <Link to="#" className="pd-view-all">View all</Link>
+            </div>
+
+            <div className="pd-early-container">
+              <button className="pd-early-scroll-btn pd-early-left" onClick={() => handleEarlyScroll('left')}>
+                <FiChevronLeft size={18} />
+              </button>
+
+              <div className="pd-early-scroll" ref={earlyScrollRef}>
+                {[
+                  {
+                    role: 'Front End Developer',
+                    type: 'Foreign IT Consulting MNC',
+                    rating: '3.5+',
+                    tags: ['Foreign MNC', 'Service'],
+                    exp: '0-2 Yrs',
+                    salary: '2-5 Lacs P.A.',
+                    loc: 'Bengaluru',
+                    logos: ['A', 'N', 'B', 'I', 'X']
+                  },
+                  {
+                    role: 'Product Designer',
+                    type: 'Corporate in B2C Health',
+                    rating: '4.2+',
+                    tags: ['Corporate', 'HealthTech'],
+                    exp: '0-4 Yrs',
+                    salary: '5-8 Lacs P.A.',
+                    loc: 'Remote',
+                    logos: ['H', 'R', 'K', 'V', 'D']
+                  },
+                  {
+                    role: 'Back End Lead',
+                    type: 'Fintech Unicorn',
+                    rating: '4.8+',
+                    tags: ['Unicorn', 'Product'],
+                    exp: '5-8 Yrs',
+                    salary: '25-35 Lacs P.A.',
+                    loc: 'Pune',
+                    logos: ['P', 'F', 'M', 'S', 'L']
+                  }
+                ].map((role, idx) => (
+                  <div className="pd-early-role-card" key={idx}>
+                    <div className="pd-early-role-top">
+                      <h4>{role.role}</h4>
+                      <p>{role.type}</p>
+                    </div>
+
+                    <div className="pd-early-tags">
+                      <span className="pd-early-rating">★ {role.rating}</span>
+                      {role.tags.map(tag => <span key={tag} className="pd-early-tag">{tag}</span>)}
+                    </div>
+
+                    <div className="pd-early-details">
+                      <span><FiBriefcase size={14} /> {role.exp}</span>
+                      <span><FiZap size={14} /> {role.salary}</span>
+                      <span><FiMapPin size={14} /> {role.loc}</span>
+                    </div>
+
+                    <div className="pd-early-hiring">
+                      <p>Hiring for one of these companies</p>
+                      <div className="pd-early-logos">
+                        {role.logos.map((l, i) => (
+                          <div key={i} className="pd-early-logo-circle">{l}</div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <button className="pd-early-share-btn">Share interest</button>
+                  </div>
+                ))}
+              </div>
+
+              <button className="pd-early-scroll-btn pd-early-right" onClick={() => handleEarlyScroll('right')}>
+                <FiChevronRight size={18} />
+              </button>
+            </div>
+          </div>
+
 
           {/* Highlight Banner */}
           <div className="pd-card pd-highlight-card">
@@ -408,6 +526,66 @@ export default function ProfileDashboard() {
             <div className="pd-highlight-graphic">
               <div className="pd-highlight-circle" />
               <FiUsers size={40} color="#3b82f6" style={{ position: 'relative', zIndex: 1 }} />
+            </div>
+          </div>
+
+          {/* Applies Match Section */}
+          <div className="pd-card pd-match-card">
+            <div className="pd-section-header">
+              <h3>How your applies matched your profile in last 7 days?</h3>
+              <Link to="#" className="pd-view-all">View all</Link>
+            </div>
+
+            <div className="pd-match-container">
+              <button className="pd-match-scroll-btn pd-match-left" onClick={() => handleMatchScroll('left')}>
+                <FiChevronLeft size={18} />
+              </button>
+
+              <div className="pd-match-scroll" ref={matchScrollRef}>
+                {/* Summary Card */}
+                <div className="pd-match-metric-card pd-match-summary">
+                  <div className="pd-match-circle-main">
+                    <span className="pd-match-status-low">LOW</span>
+                    <div className="pd-match-dot-indicator" />
+                  </div>
+                  <p><strong>1 out of 49</strong> applies showed a match</p>
+                </div>
+
+                {[
+                  { label: 'Work Experience', val: '0.08 yr experience', pct: '84%', icon: <FiBriefcase /> },
+                  { label: 'Location', val: 'Dehradun', pct: '86%', icon: <FiMapPin /> },
+                  { label: 'Keyskills', val: 'Ui/Ux, Redux, NoSQL...', pct: '37%', icon: <FiEdit2 /> },
+                  { label: 'Industry', val: 'IT Services & Consulti...', pct: '57%', icon: <FiMonitor /> },
+                  { label: 'Department', val: 'Engineering - Softwar...', pct: '67%', icon: <FiUsers /> },
+                  { label: 'Early Applicant', val: 'Applied to fresh jobs', pct: '37%', icon: <FiTrendingUp /> },
+                ].map((m, i) => (
+                  <div className="pd-match-metric-card" key={i}>
+                    <div className="pd-match-circle">
+                      <div className="pd-match-icon">{m.icon}</div>
+                      <svg className="pd-match-svg">
+                        <circle cx="25" cy="25" r="21" />
+                        <circle cx="25" cy="25" r="21" style={{ strokeDashoffset: `calc(132 - (132 * ${parseInt(m.pct)}) / 100)` }} />
+                      </svg>
+                    </div>
+                    <div className="pd-match-info">
+                      <h4>{m.label}</h4>
+                      <p>{m.val}</p>
+                      <span className="pd-match-pct">{m.pct} match</span>
+                    </div>
+                  </div>
+                ))}
+
+                {/* Update Card */}
+                <div className="pd-match-metric-card pd-match-update">
+                  <h3>Want to review your profile information?</h3>
+                  <p>This will improve your job recommendations</p>
+                  <Link to="#" className="pd-update-link">Update Profile</Link>
+                </div>
+              </div>
+
+              <button className="pd-match-scroll-btn pd-match-right" onClick={() => handleMatchScroll('right')}>
+                <FiChevronRight size={18} />
+              </button>
             </div>
           </div>
 
@@ -456,7 +634,7 @@ export default function ProfileDashboard() {
         <div className="ppm-overlay" onClick={() => setShowPreview(false)}>
           <div className="ppm-content" onClick={e => e.stopPropagation()}>
             <button className="ppm-close" onClick={() => setShowPreview(false)}><FiX size={24} /></button>
-            
+
             <div className="ppm-body">
               {/* Header Card */}
               <div className="ppm-card ppm-header-card">
@@ -472,7 +650,7 @@ export default function ProfileDashboard() {
                     <span className="ppm-updated">Profile last updated - Yesterday</span>
                   </div>
                 </div>
-                
+
                 <div className="ppm-header-grid">
                   <div className="ppm-grid-item"><FiMapPin size={16} /> Dehradun, INDIA</div>
                   <div className="ppm-grid-item"><FiPhone size={16} /> 8126977256 <FiCheckCircle size={14} color="#10b981" /></div>
