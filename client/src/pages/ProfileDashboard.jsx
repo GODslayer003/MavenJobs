@@ -18,7 +18,13 @@ import {
   FiAward,
   FiBell,
   FiSettings,
-  FiLogOut
+  FiLogOut,
+  FiPhone,
+  FiMail,
+  FiX,
+  FiCalendar,
+  FiClock,
+  FiChevronLeft
 } from 'react-icons/fi';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
@@ -30,8 +36,43 @@ export default function ProfileDashboard() {
   const navigate = useNavigate();
   const [isEditingName, setIsEditingName] = useState(false);
   const [editNameValue, setEditNameValue] = useState(user?.name || '');
-  const [activeTab, setActiveTab] = useState('Profile');
+  const [activeTab, setActiveTab] = useState('Profile (18)');
   const [coverImage, setCoverImage] = useState("https://i.pinimg.com/736x/15/8e/a9/158ea9c22bfbb6e5003b693b91d30e48.jpg");
+  const [showPreview, setShowPreview] = useState(false);
+  const jobScrollRef = useRef(null);
+
+  const recommendedJobs = {
+    'Profile (18)': [
+      { code: 'PE', title: 'Product Engineer', company: 'SmartDocs Tech', rating: 3.1, loc: 'Hyderabad', ago: '4d ago', bg: '#eff6ff', col: '#1e40af' },
+      { code: 'UI', title: 'UI/UX Designer', company: 'Onebanc Tech', rating: 4.8, loc: 'Gurugram', ago: '1d ago', bg: '#fef3c7', col: '#b45309' },
+      { code: 'A', title: 'Software Tester', company: 'Aarons Visions', rating: 4.2, loc: 'Remote', ago: '2d ago', bg: '#f0fdf4', col: '#166534' },
+      { code: 'FE', title: 'Frontend Developer', company: 'DevMatrix', rating: 4.5, loc: 'Bengaluru', ago: '3d ago', bg: '#eef2ff', col: '#4338ca' },
+      { code: 'BE', title: 'Backend Lead', company: 'NodeMasters', rating: 4.9, loc: 'Pune', ago: '12h ago', bg: '#fdf2f8', col: '#9d174d' },
+    ],
+    'Applies (29)': [
+      { code: 'DS', title: 'Data Scientist', company: 'Analytica', rating: 4.6, loc: 'Mumbai', ago: '2d ago', bg: '#ecfdf5', col: '#047857' },
+      { code: 'ML', title: 'ML Engineer', company: 'DeepMind India', rating: 4.7, loc: 'Bengaluru', ago: '5d ago', bg: '#f5f3ff', col: '#6d28d9' },
+      { code: 'QA', title: 'Quality Analyst', company: 'TestRig', rating: 3.9, loc: 'Chennai', ago: '1w ago', bg: '#fff7ed', col: '#c2410c' },
+    ],
+    'Preferences (4)': [
+      { code: 'FS', title: 'Full Stack Dev', company: 'MetaScale', rating: 4.4, loc: 'Remote', ago: '1d ago', bg: '#f0f9ff', col: '#0369a1' },
+      { code: 'DO', title: 'DevOps Architect', company: 'CloudFlow', rating: 4.8, loc: 'Hyderabad', ago: '6h ago', bg: '#f8fafc', col: '#334155' },
+    ],
+    'You might like (10)': [
+      { code: 'GD', title: 'Graphic Designer', company: 'CreativeCo', rating: 4.3, loc: 'New Delhi', ago: '3d ago', bg: '#fdf4ff', col: '#a21caf' },
+      { code: 'PM', title: 'Product Manager', company: 'Innova', rating: 4.5, loc: 'Bengaluru', ago: '4d ago', bg: '#f0fdf4', col: '#166534' },
+    ]
+  };
+
+  const handleScroll = (direction) => {
+    if (jobScrollRef.current) {
+      const scrollAmount = 300;
+      jobScrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
   const pfpInputRef = useRef(null);
   const coverInputRef = useRef(null);
 
@@ -190,7 +231,9 @@ export default function ProfileDashboard() {
           </div>
 
           <div className="pd-identity-cta">
-            <button className="pd-btn-primary"><FiEdit2 size={15} /> Edit Profile</button>
+            <button className="pd-btn-primary" onClick={() => setShowPreview(true)}>
+              <FiEye size={15} /> View Profile
+            </button>
             <button className="pd-btn-secondary"><FiShare2 size={15} /> Share</button>
             <button className="pd-btn-secondary"><FiDownload size={15} /> Resume</button>
           </div>
@@ -291,7 +334,7 @@ export default function ProfileDashboard() {
               <Link to="/jobs" className="pd-view-all">View all →</Link>
             </div>
             <div className="pd-tabs">
-              {['Profile (18)', 'Applies (29)', 'Preferences (4)', 'You might like (10)'].map(tab => (
+              {Object.keys(recommendedJobs).map(tab => (
                 <button
                   key={tab}
                   className={`pd-tab ${activeTab === tab ? 'active' : ''}`}
@@ -299,23 +342,30 @@ export default function ProfileDashboard() {
                 >{tab}</button>
               ))}
             </div>
-            <div className="pd-job-scroll">
-              {[
-                { code: 'PE', title: 'Product Engineer', company: 'SmartDocs Tech', rating: 3.1, loc: 'Hyderabad', ago: '4d ago', bg: '#eff6ff', col: '#1e40af' },
-                { code: 'UI', title: 'UI/UX Designer', company: 'Onebanc Tech', rating: 4.8, loc: 'Gurugram', ago: '1d ago', bg: '#fef3c7', col: '#b45309' },
-                { code: 'A', title: 'Software Tester', company: 'Aarons Visions', rating: 4.2, loc: 'Remote', ago: '2d ago', bg: '#f0fdf4', col: '#166534' },
-              ].map(job => (
-                <div className="pd-job-card" key={job.title}>
-                  <div className="pd-job-card-top">
-                    <div className="pd-job-logo" style={{ background: job.bg, color: job.col }}>{job.code}</div>
-                    <span className="pd-job-ago">{job.ago}</span>
+            
+            <div className="pd-job-scroll-container">
+              <button className="pd-scroll-btn pd-scroll-left" onClick={() => handleScroll('left')}>
+                <FiChevronLeft size={20} />
+              </button>
+              
+              <div className="pd-job-scroll" ref={jobScrollRef}>
+                {(recommendedJobs[activeTab] || []).map(job => (
+                  <div className="pd-job-card" key={job.title}>
+                    <div className="pd-job-card-top">
+                      <div className="pd-job-logo" style={{ background: job.bg, color: job.col }}>{job.code}</div>
+                      <span className="pd-job-ago">{job.ago}</span>
+                    </div>
+                    <h4 className="pd-job-title">{job.title}</h4>
+                    <p className="pd-job-company">{job.company} <span className="pd-job-rating">★ {job.rating}</span></p>
+                    <p className="pd-job-loc"><FiMapPin size={12} /> {job.loc}</p>
+                    <button className="pd-job-apply-btn">Quick Apply</button>
                   </div>
-                  <h4 className="pd-job-title">{job.title}</h4>
-                  <p className="pd-job-company">{job.company} <span className="pd-job-rating">★ {job.rating}</span></p>
-                  <p className="pd-job-loc"><FiMapPin size={12} /> {job.loc}</p>
-                  <button className="pd-job-apply-btn">Quick Apply</button>
-                </div>
-              ))}
+                ))}
+              </div>
+
+              <button className="pd-scroll-btn pd-scroll-right" onClick={() => handleScroll('right')}>
+                <FiChevronRight size={20} />
+              </button>
             </div>
           </div>
 
@@ -401,6 +451,186 @@ export default function ProfileDashboard() {
         </aside>
 
       </div>
+      {/* ─── Profile Preview Modal ─── */}
+      {showPreview && (
+        <div className="ppm-overlay" onClick={() => setShowPreview(false)}>
+          <div className="ppm-content" onClick={e => e.stopPropagation()}>
+            <button className="ppm-close" onClick={() => setShowPreview(false)}><FiX size={24} /></button>
+            
+            <div className="ppm-body">
+              {/* Header Card */}
+              <div className="ppm-card ppm-header-card">
+                <div className="ppm-header-top">
+                  <div className="ppm-avatar-wrapper">
+                    <img src={user.profilePic || "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg"} alt="Profile" />
+                    <div className="ppm-completion-ring">100%</div>
+                  </div>
+                  <div className="ppm-header-info">
+                    <h2>{user.name} <FiEdit2 size={14} className="ppm-edit-inline" /></h2>
+                    <p className="ppm-headline-main">Mern Stack Developer</p>
+                    <p className="ppm-at">at Dr Design Private Limited</p>
+                    <span className="ppm-updated">Profile last updated - Yesterday</span>
+                  </div>
+                </div>
+                
+                <div className="ppm-header-grid">
+                  <div className="ppm-grid-item"><FiMapPin size={16} /> Dehradun, INDIA</div>
+                  <div className="ppm-grid-item"><FiPhone size={16} /> 8126977256 <FiCheckCircle size={14} color="#10b981" /></div>
+                  <div className="ppm-grid-item"><FiBriefcase size={16} /> 0 Year 8 Months</div>
+                  <div className="ppm-grid-item"><FiMail size={16} /> {user.email || 'rohankundliya1@gmail.com'} <FiCheckCircle size={14} color="#10b981" /></div>
+                  <div className="ppm-grid-item">₹ 2,00,000</div>
+                  <div className="ppm-grid-item"><FiClock size={16} /> 15 Days or less notice period</div>
+                </div>
+              </div>
+
+              <div className="ppm-main-layout">
+                {/* Left side: Quick Links */}
+                <div className="ppm-left">
+                  <div className="ppm-card ppm-links-card">
+                    <h3>Quick links</h3>
+                    <div className="ppm-link-item">Resume <span>Update</span></div>
+                    <div className="ppm-link-item">Resume headline</div>
+                    <div className="ppm-link-item">Key skills</div>
+                    <div className="ppm-link-item">Employment <span>Add</span></div>
+                    <div className="ppm-link-item">Education <span>Add</span></div>
+                    <div className="ppm-link-item">IT skills <span>Add</span></div>
+                    <div className="ppm-link-item">Projects</div>
+                    <div className="ppm-link-item">Profile summary</div>
+                    <div className="ppm-link-item">Accomplishments</div>
+                    <div className="ppm-link-item">Career profile</div>
+                    <div className="ppm-link-item">Personal details</div>
+                  </div>
+                </div>
+
+                {/* Right side: Detailed Sections */}
+                <div className="ppm-right">
+                  {/* Pro Banner */}
+                  <div className="ppm-pro-banner">
+                    <div className="ppm-pro-title">MavenJobs<span>Pro</span> 👑</div>
+                    <div className="ppm-pro-text">Power up with <strong>up to 4x profile views</strong></div>
+                    <button className="ppm-pro-btn">Become a Pro | 25% off</button>
+                  </div>
+
+                  {/* Resume Section */}
+                  <div className="ppm-card">
+                    <div className="ppm-section-header">
+                      <h3>Resume</h3>
+                    </div>
+                    <div className="ppm-resume-file">
+                      <FiFileText size={20} color="#64748b" />
+                      <div className="ppm-file-info">
+                        <div className="ppm-file-name">PranjalKundliyaResume.pdf</div>
+                        <div className="ppm-file-date">Uploaded on Apr 28, 2026</div>
+                      </div>
+                      <div className="ppm-file-actions">
+                        <FiDownload size={18} />
+                        <FiSettings size={18} />
+                      </div>
+                    </div>
+                    <div className="ppm-resume-upload">
+                      <button className="ppm-upload-btn">Update resume</button>
+                      <p>Supported Formats: doc, docx, rtf, pdf, upto 2 MB</p>
+                    </div>
+                  </div>
+
+                  {/* Headline Section */}
+                  <div className="ppm-card">
+                    <div className="ppm-section-header">
+                      <h3>Resume headline <FiEdit2 size={14} /></h3>
+                    </div>
+                    <p className="ppm-text-content">
+                      Hi, I'm Pranjal Kundliya, a MERN stack developer currently working at DR Design Pvt. Ltd., where I build scalable, real-world applications including projects for Indian Railways and corporate platforms. I specialize in React, Node.js, and MongoDB.
+                    </p>
+                  </div>
+
+                  {/* Key Skills Section */}
+                  <div className="ppm-card">
+                    <div className="ppm-section-header">
+                      <h3>Key skills <FiEdit2 size={14} /></h3>
+                    </div>
+                    <div className="ppm-skills-grid">
+                      {['Ui/Ux', 'Redux', 'NoSQL', 'Figma', 'MongoDB', 'Alpha Testing', 'API', 'Express', 'Mern Stack', 'Node.js', 'Front End Engineer', 'Javascript', 'React.js'].map(skill => (
+                        <span key={skill} className="ppm-skill-tag">{skill}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Employment Section */}
+                  <div className="ppm-card">
+                    <div className="ppm-section-header">
+                      <h3>Employment</h3>
+                      <button className="ppm-add-btn">Add employment</button>
+                    </div>
+                    <div className="ppm-experience-item">
+                      <div className="ppm-exp-header">
+                        <h4>Mern Stack Developer <FiEdit2 size={14} /></h4>
+                        <div className="ppm-company">Dr Design Private Limited</div>
+                      </div>
+                      <div className="ppm-exp-meta">Full-time | Oct 2025 to Present (7 months)</div>
+                      <div className="ppm-exp-meta">15 Days or less Notice Period</div>
+                      <p className="ppm-exp-desc">
+                        Results-driven MERN Stack Developer with 8 months of experience in building scalable, production-grade web applications. Proficient in React.js, Node.js, Express.js, and MongoDB with hands-on experience in developing end-to-end full-stack solutions. Worked on real-world client projec... <span className="ppm-read-more">Read More</span>
+                      </p>
+                      <div className="ppm-exp-skills"><strong>Top 5 key skills:</strong> React.js, Mern Stack, Mern Full Stack, node.js, Node.js, Javascript, api, API Testing, Express, html</div>
+                    </div>
+                  </div>
+
+                  {/* Education Section */}
+                  <div className="ppm-card">
+                    <div className="ppm-section-header">
+                      <h3>Education</h3>
+                      <button className="ppm-add-btn">Add education</button>
+                    </div>
+                    <div className="ppm-edu-item">
+                      <h4>B.Tech / B.E. Computer Science and Engi... <FiEdit2 size={14} /></h4>
+                      <div className="ppm-school">Graphic Era University, Dehradun</div>
+                      <div className="ppm-edu-meta">2021-2025 | Full Time</div>
+                    </div>
+                    <div className="ppm-edu-sub">
+                      <div className="ppm-edu-item">
+                        <h4>Class XII <FiEdit2 size={14} /></h4>
+                        <div className="ppm-school">CBSE</div>
+                        <div className="ppm-edu-meta">2020</div>
+                      </div>
+                      <div className="ppm-edu-item">
+                        <h4>Class X <FiEdit2 size={14} /></h4>
+                        <div className="ppm-school">CBSE</div>
+                        <div className="ppm-edu-meta">2018</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* IT Skills Section */}
+                  <div className="ppm-card">
+                    <div className="ppm-section-header">
+                      <h3>IT skills</h3>
+                      <button className="ppm-add-btn">Add details</button>
+                    </div>
+                    <p className="ppm-muted-text">Show your technical expertise by mentioning softwares and skills you know</p>
+                  </div>
+
+                  {/* Projects Section */}
+                  <div className="ppm-card">
+                    <div className="ppm-section-header">
+                      <h3>Projects</h3>
+                      <button className="ppm-add-btn">Add project</button>
+                    </div>
+                    <div className="ppm-project-item">
+                      <h4>MyQuoteMate <FiEdit2 size={14} /></h4>
+                      <div className="ppm-project-sub">My Quote Mate (Onsite)</div>
+                      <div className="ppm-project-meta">Jan 2026 to Mar 2026 (Full Time)</div>
+                      <p className="ppm-project-desc">
+                        Built a scalable backend with Node.js, Express, and MongoDB to process and analyze contractor quotes, with strict authentication, rate limiting, and tiered access controls. Designed an AI orchestration layer that integrates OpenAI models with deterministic prompt engineering... <span className="ppm-read-more">Read More</span>
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
