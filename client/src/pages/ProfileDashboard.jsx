@@ -32,6 +32,7 @@ import {
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { GiCrown } from 'react-icons/gi';
 import { useAuth } from '../AuthContext';
+import RecommendedJobs from './RecommendedJobs';
 import './ProfileDashboard.css';
 import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
 
@@ -45,6 +46,7 @@ export default function ProfileDashboard() {
   const [showPreview, setShowPreview] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [activeNavDropdown, setActiveNavDropdown] = useState(null);
+  const [showJobsModal, setShowJobsModal] = useState(false);
   const jobScrollRef = useRef(null);
   const earlyScrollRef = useRef(null);
   const matchScrollRef = useRef(null);
@@ -341,7 +343,13 @@ export default function ProfileDashboard() {
           <div className="pd-card pd-sidenav-card">
             <nav>
               <Link to="#" className="pd-sidenav-link active"><FiHome size={18} /> My Home</Link>
-              <Link to="/jobs" className="pd-sidenav-link"><FiBriefcase size={18} /> Jobs</Link>
+              <button 
+                className="pd-sidenav-link" 
+                style={{ width: '100%', textAlign: 'left', border: 'none', background: 'none', cursor: 'pointer' }} 
+                onClick={() => setShowJobsModal(true)}
+              >
+                <FiBriefcase size={18} /> Jobs
+              </button>
               <Link to="#" className="pd-sidenav-link"><FiMonitor size={18} /> Companies</Link>
               <Link to="#" className="pd-sidenav-link"><FiFileText size={18} /> Blogs</Link>
               <Link to="#" className="pd-sidenav-link"><FiSettings size={18} /> Settings</Link>
@@ -374,300 +382,320 @@ export default function ProfileDashboard() {
         </aside>
 
         {/* Center Feed */}
+        {/* Center Feed */}
         <section className="pd-center">
 
-          {/* PRO Banner */}
-          <div className="pd-card pd-pro-card">
-            <div className="pd-pro-left">
-              <div className="pd-pro-label">With <span className="pd-pro-text">PRO</span></div>
-              <p className="pd-pro-sub">you get hired <strong>3× faster</strong></p>
-              <button className="pd-pro-btn">✦ Become a Pro</button>
-            </div>
-            <div className="pd-pro-features">
-              {['Hidden job invitations', 'AI-enhanced profile', 'Auto-Apply on MavenJobs', 'Priority recruiter access'].map(f => (
-                <div className="pd-pro-feature" key={f}>
-                  <FiCheckCircle size={15} className="pd-pro-check" /> {f}
+              {/* PRO Banner */}
+              <div className="pd-card pd-pro-card">
+                <div className="pd-pro-left">
+                  <div className="pd-pro-label">With <span className="pd-pro-text">PRO</span></div>
+                  <p className="pd-pro-sub">you get hired <strong>3× faster</strong></p>
+                  <button className="pd-pro-btn">✦ Become a Pro</button>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Recommended Jobs */}
-          <div className="pd-card">
-            <div className="pd-section-header">
-              <h3>Recommended jobs for you</h3>
-              <Link to="/jobs" className="pd-view-all">View all →</Link>
-            </div>
-            <div className="pd-tabs">
-              {Object.keys(recommendedJobs).map(tab => (
-                <button
-                  key={tab}
-                  className={`pd-tab ${activeTab === tab ? 'active' : ''}`}
-                  onClick={() => setActiveTab(tab)}
-                >{tab}</button>
-              ))}
-            </div>
-
-            <div className="pd-job-scroll-container">
-              <button className="pd-scroll-btn pd-scroll-left" onClick={() => handleScroll('left')}>
-                <FiChevronLeft size={20} />
-              </button>
-
-              <div className="pd-job-scroll" ref={jobScrollRef}>
-                {(recommendedJobs[activeTab] || []).map(job => (
-                  <div className="pd-job-card" key={job.title}>
-                    <div className="pd-job-card-top">
-                      <div className="pd-job-logo" style={{ background: job.bg, color: job.col }}>{job.code}</div>
-                      <span className="pd-job-ago">{job.ago}</span>
+                <div className="pd-pro-features">
+                  {['Hidden job invitations', 'AI-enhanced profile', 'Auto-Apply on MavenJobs', 'Priority recruiter access'].map(f => (
+                    <div className="pd-pro-feature" key={f}>
+                      <FiCheckCircle size={15} className="pd-pro-check" /> {f}
                     </div>
-                    <h4 className="pd-job-title">{job.title}</h4>
-                    <p className="pd-job-company">{job.company} <span className="pd-job-rating">★ {job.rating}</span></p>
-                    <p className="pd-job-loc"><FiMapPin size={12} /> {job.loc}</p>
-                    <button className="pd-job-apply-btn">Quick Apply</button>
-                  </div>
-                ))}
-              </div>
-
-              <button className="pd-scroll-btn pd-scroll-right" onClick={() => handleScroll('right')}>
-                <FiChevronRight size={20} />
-              </button>
-            </div>
-          </div>
-
-          {/* NVites */}
-          <div className="pd-card pd-nvites-card">
-            <div className="pd-nvites-left">
-              <div className="pd-nvites-icon-group">
-                <div className="pd-nvites-main-icon">
-                  <FiMail size={32} />
-                  <span className="pd-nvites-badge-dot" />
-                </div>
-                <h3>NVites</h3>
-                <p>Invitation to apply</p>
-                <Link to="#" className="pd-view-all-inv">View all invites →</Link>
-              </div>
-            </div>
-            <div className="pd-nvites-list">
-              {[
-                { code: 'N', title: 'NOC/SOC Analyst', company: 'Naukri e-Hire', when: '16d ago', bg: '#e0e7ff', col: '#3730a3' },
-                { code: 'Z', title: 'Survey Developer', company: 'ZoomRx Healthcare', when: '22d ago', bg: '#111827', col: '#fff' },
-                { code: 'F', title: 'Figma Specialist', company: 'IT Services Co.', when: '8d ago', bg: '#fef3c7', col: '#92400e' },
-              ].map(inv => (
-                <div className="pd-nvite-item" key={inv.title}>
-                  <div className="pd-nvite-logo" style={{ background: inv.bg, color: inv.col }}>{inv.code}</div>
-                  <div className="pd-nvite-info">
-                    <div className="pd-nvite-title">
-                      {inv.title}
-                    </div>
-                    <div className="pd-nvite-meta">
-                      <strong>{inv.company}</strong> · Invited {inv.when}
-                    </div>
-                  </div>
-                  <button className="pd-nvite-apply">Apply Now</button>
-                </div>
-              ))}
-            </div>
-          </div>
-          {/* Early Access Section */}
-          <div className="pd-card pd-early-access-card">
-            <div className="pd-section-header">
-              <div className="pd-early-header-left">
-                <FiSend className="pd-early-icon" size={24} />
-                <div className="pd-early-titles">
-                  <h3>11 Early access roles from top companies <FiInfo size={14} className="pd-info-trigger" /></h3>
-                  <p>See what recruiters are searching for...</p>
+                  ))}
                 </div>
               </div>
-              <Link to="#" className="pd-view-all">View all</Link>
-            </div>
 
-            <div className="pd-early-container">
-              <button className="pd-early-scroll-btn pd-early-left" onClick={() => handleEarlyScroll('left')}>
-                <FiChevronLeft size={18} />
-              </button>
+              {/* Recommended Jobs */}
+              <div className="pd-card">
+                <div className="pd-section-header">
+                  <h3>Recommended jobs for you</h3>
+                  <button 
+                    onClick={() => setShowJobsModal(true)} 
+                    className="pd-view-all" 
+                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: '#4477ee', fontWeight: '600' }}
+                  >
+                    View all →
+                  </button>
+                </div>
+                <div className="pd-tabs">
+                  {Object.keys(recommendedJobs).map(tab => (
+                    <button
+                      key={tab}
+                      className={`pd-tab ${activeTab === tab ? 'active' : ''}`}
+                      onClick={() => setActiveTab(tab)}
+                    >{tab}</button>
+                  ))}
+                </div>
 
-              <div className="pd-early-scroll" ref={earlyScrollRef}>
-                {[
-                  {
-                    role: 'Front End Developer',
-                    type: 'Foreign IT Consulting MNC',
-                    rating: '3.5+',
-                    tags: ['Foreign MNC', 'Service'],
-                    exp: '0-2 Yrs',
-                    salary: '2-5 Lacs P.A.',
-                    loc: 'Bengaluru',
-                    logos: ['A', 'N', 'B', 'I', 'X']
-                  },
-                  {
-                    role: 'Product Designer',
-                    type: 'Corporate in B2C Health',
-                    rating: '4.2+',
-                    tags: ['Corporate', 'HealthTech'],
-                    exp: '0-4 Yrs',
-                    salary: '5-8 Lacs P.A.',
-                    loc: 'Remote',
-                    logos: ['H', 'R', 'K', 'V', 'D']
-                  },
-                  {
-                    role: 'Back End Lead',
-                    type: 'Fintech Unicorn',
-                    rating: '4.8+',
-                    tags: ['Unicorn', 'Product'],
-                    exp: '5-8 Yrs',
-                    salary: '25-35 Lacs P.A.',
-                    loc: 'Pune',
-                    logos: ['P', 'F', 'M', 'S', 'L']
-                  }
-                ].map((role, idx) => (
-                  <div className="pd-early-role-card" key={idx}>
-                    <div className="pd-early-role-top">
-                      <h4>{role.role}</h4>
-                      <p>{role.type}</p>
-                    </div>
+                <div className="pd-job-scroll-container">
+                  <button className="pd-scroll-btn pd-scroll-left" onClick={() => handleScroll('left')}>
+                    <FiChevronLeft size={20} />
+                  </button>
 
-                    <div className="pd-early-tags">
-                      <span className="pd-early-rating">★ {role.rating}</span>
-                      {role.tags.map(tag => <span key={tag} className="pd-early-tag">{tag}</span>)}
-                    </div>
-
-                    <div className="pd-early-details">
-                      <span><FiBriefcase size={14} /> {role.exp}</span>
-                      <span><FiZap size={14} /> {role.salary}</span>
-                      <span><FiMapPin size={14} /> {role.loc}</span>
-                    </div>
-
-                    <div className="pd-early-hiring">
-                      <p>Hiring for one of these companies</p>
-                      <div className="pd-early-logos">
-                        {role.logos.map((l, i) => (
-                          <div key={i} className="pd-early-logo-circle">{l}</div>
-                        ))}
+                  <div className="pd-job-scroll" ref={jobScrollRef}>
+                    {(recommendedJobs[activeTab] || []).map(job => (
+                      <div className="pd-job-card" key={job.title}>
+                        <div className="pd-job-card-top">
+                          <div className="pd-job-logo" style={{ background: job.bg, color: job.col }}>{job.code}</div>
+                          <span className="pd-job-ago">{job.ago}</span>
+                        </div>
+                        <h4 className="pd-job-title">{job.title}</h4>
+                        <p className="pd-job-company">{job.company} <span className="pd-job-rating">★ {job.rating}</span></p>
+                        <p className="pd-job-loc"><FiMapPin size={12} /> {job.loc}</p>
+                        <button className="pd-job-apply-btn">Quick Apply</button>
                       </div>
-                    </div>
-
-                    <button className="pd-early-share-btn">Share interest</button>
+                    ))}
                   </div>
-                ))}
-              </div>
 
-              <button className="pd-early-scroll-btn pd-early-right" onClick={() => handleEarlyScroll('right')}>
-                <FiChevronRight size={18} />
-              </button>
-            </div>
-          </div>
-
-
-          {/* Highlight Banner */}
-          <div className="pd-card pd-highlight-card">
-            <div className="pd-highlight-text">
-              <h3>Stand out from the crowd</h3>
-              <p>Highlight your application and get noticed by top recruiters instantly.</p>
-              <button className="pd-btn-primary"><FiZap size={15} /> Know More</button>
-            </div>
-            <div className="pd-highlight-graphic">
-              <div className="pd-highlight-circle" />
-              <FiUsers size={40} color="#3b82f6" style={{ position: 'relative', zIndex: 1 }} />
-            </div>
-          </div>
-
-          {/* Applies Match Section */}
-          <div className="pd-card pd-match-card">
-            <div className="pd-section-header">
-              <h3>How your applies matched your profile in last 7 days?</h3>
-              <Link to="#" className="pd-view-all">View all</Link>
-            </div>
-
-            <div className="pd-match-container">
-              <button className="pd-match-scroll-btn pd-match-left" onClick={() => handleMatchScroll('left')}>
-                <FiChevronLeft size={18} />
-              </button>
-
-              <div className="pd-match-scroll" ref={matchScrollRef}>
-                {/* Summary Card */}
-                <div className="pd-match-metric-card pd-match-summary">
-                  <div className="pd-match-circle-main">
-                    <span className="pd-match-status-low">LOW</span>
-                    <div className="pd-match-dot-indicator" />
-                  </div>
-                  <p><strong>1 out of 49</strong> applies showed a match</p>
-                </div>
-
-                {[
-                  { label: 'Work Experience', val: '0.08 yr experience', pct: '84%', icon: <FiBriefcase /> },
-                  { label: 'Location', val: 'Dehradun', pct: '86%', icon: <FiMapPin /> },
-                  { label: 'Keyskills', val: 'Ui/Ux, Redux, NoSQL...', pct: '37%', icon: <FiEdit2 /> },
-                  { label: 'Industry', val: 'IT Services & Consulti...', pct: '57%', icon: <FiMonitor /> },
-                  { label: 'Department', val: 'Engineering - Softwar...', pct: '67%', icon: <FiUsers /> },
-                  { label: 'Early Applicant', val: 'Applied to fresh jobs', pct: '37%', icon: <FiTrendingUp /> },
-                ].map((m, i) => (
-                  <div className="pd-match-metric-card" key={i}>
-                    <div className="pd-match-circle">
-                      <div className="pd-match-icon">{m.icon}</div>
-                      <svg className="pd-match-svg">
-                        <circle cx="25" cy="25" r="21" />
-                        <circle cx="25" cy="25" r="21" style={{ strokeDashoffset: `calc(132 - (132 * ${parseInt(m.pct)}) / 100)` }} />
-                      </svg>
-                    </div>
-                    <div className="pd-match-info">
-                      <h4>{m.label}</h4>
-                      <p>{m.val}</p>
-                      <span className="pd-match-pct">{m.pct} match</span>
-                    </div>
-                  </div>
-                ))}
-
-                {/* Update Card */}
-                <div className="pd-match-metric-card pd-match-update">
-                  <h3>Want to review your profile information?</h3>
-                  <p>This will improve your job recommendations</p>
-                  <Link to="#" className="pd-update-link">Update Profile</Link>
+                  <button className="pd-scroll-btn pd-scroll-right" onClick={() => handleScroll('right')}>
+                    <FiChevronRight size={20} />
+                  </button>
                 </div>
               </div>
 
-              <button className="pd-match-scroll-btn pd-match-right" onClick={() => handleMatchScroll('right')}>
-                <FiChevronRight size={18} />
-              </button>
-            </div>
-          </div>
+              {/* NVites */}
+              <div className="pd-card pd-nvites-card">
+                <div className="pd-nvites-left">
+                  <div className="pd-nvites-icon-group">
+                    <div className="pd-nvites-main-icon">
+                      <FiMail size={32} />
+                      <span className="pd-nvites-badge-dot" />
+                    </div>
+                    <h3>NVites</h3>
+                    <p>Invitation to apply</p>
+                    <Link to="#" className="pd-view-all-inv">View all invites →</Link>
+                  </div>
+                </div>
+                <div className="pd-nvites-list">
+                  {[
+                    { code: 'N', title: 'NOC/SOC Analyst', company: 'Naukri e-Hire', when: '16d ago', bg: '#e0e7ff', col: '#3730a3' },
+                    { code: 'Z', title: 'Survey Developer', company: 'ZoomRx Healthcare', when: '22d ago', bg: '#111827', col: '#fff' },
+                    { code: 'F', title: 'Figma Specialist', company: 'IT Services Co.', when: '8d ago', bg: '#fef3c7', col: '#92400e' },
+                  ].map(inv => (
+                    <div className="pd-nvite-item" key={inv.title}>
+                      <div className="pd-nvite-logo" style={{ background: inv.bg, color: inv.col }}>{inv.code}</div>
+                      <div className="pd-nvite-info">
+                        <div className="pd-nvite-title">
+                          {inv.title}
+                        </div>
+                        <div className="pd-nvite-meta">
+                          <strong>{inv.company}</strong> · Invited {inv.when}
+                        </div>
+                      </div>
+                      <button className="pd-nvite-apply">Apply Now</button>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-        </section>
+              {/* Early Access Section */}
+              <div className="pd-card pd-early-access-card">
+                <div className="pd-section-header">
+                  <div className="pd-early-header-left">
+                    <FiSend className="pd-early-icon" size={24} />
+                    <div className="pd-early-titles">
+                      <h3>11 Early access roles from top companies <FiInfo size={14} className="pd-info-trigger" /></h3>
+                      <p>See what recruiters are searching for...</p>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => setShowJobsModal(true)} 
+                    className="pd-view-all" 
+                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: '#4477ee', fontWeight: '600' }}
+                  >
+                    View all
+                  </button>
+                </div>
 
-        {/* Right Sidebar */}
-        <aside className="pd-right">
+                <div className="pd-early-container">
+                  <button className="pd-early-scroll-btn pd-early-left" onClick={() => handleEarlyScroll('left')}>
+                    <FiChevronLeft size={18} />
+                  </button>
 
-          {/* App Download */}
-          <div className="pd-card pd-app-card">
-            <div className="pd-qr">
-              <img src={mavenLogo} alt="QR" style={{ width: 40, opacity: 0.5 }} />
-            </div>
-            <p className="pd-app-stat"><strong>3,587</strong> users downloaded our app in the last 30 mins!</p>
-            <p className="pd-app-sub">Scan to download from App Store</p>
-            <div className="pd-app-badges">
-              <span className="pd-store-badge">🍎 App Store</span>
-              <span className="pd-store-badge">▶ Play Store</span>
-            </div>
-          </div>
+                  <div className="pd-early-scroll" ref={earlyScrollRef}>
+                    {[
+                      {
+                        role: 'Front End Developer',
+                        type: 'Foreign IT Consulting MNC',
+                        rating: '3.5+',
+                        tags: ['Foreign MNC', 'Service'],
+                        exp: '0-2 Yrs',
+                        salary: '2-5 Lacs P.A.',
+                        loc: 'Bengaluru',
+                        logos: ['A', 'N', 'B', 'I', 'X']
+                      },
+                      {
+                        role: 'Product Designer',
+                        type: 'Corporate in B2C Health',
+                        rating: '4.2+',
+                        tags: ['Corporate', 'HealthTech'],
+                        exp: '0-4 Yrs',
+                        salary: '5-8 Lacs P.A.',
+                        loc: 'Remote',
+                        logos: ['H', 'R', 'K', 'V', 'D']
+                      },
+                      {
+                        role: 'Back End Lead',
+                        type: 'Fintech Unicorn',
+                        rating: '4.8+',
+                        tags: ['Unicorn', 'Product'],
+                        exp: '5-8 Yrs',
+                        salary: '25-35 Lacs P.A.',
+                        loc: 'Pune',
+                        logos: ['P', 'F', 'M', 'S', 'L']
+                      }
+                    ].map((role, idx) => (
+                      <div className="pd-early-role-card" key={idx}>
+                        <div className="pd-early-role-top">
+                          <h4>{role.role}</h4>
+                          <p>{role.type}</p>
+                        </div>
 
-          {/* Premium Ad */}
-          <div className="pd-card pd-premium-card">
-            <div className="pd-premium-glow" />
-            <h3 className="pd-premium-title">PremiumX</h3>
-            <p className="pd-premium-desc">AI-powered premium talent discovery for modern recruiters.</p>
-            <Link to="#" className="pd-premium-link">Know more →</Link>
-          </div>
+                        <div className="pd-early-tags">
+                          <span className="pd-early-rating">★ {role.rating}</span>
+                          {role.tags.map(tag => <span key={tag} className="pd-early-tag">{tag}</span>)}
+                        </div>
 
-          {/* Skills Widget */}
-          <div className="pd-card pd-skills-card">
-            <div className="pd-section-header">
-              <h4>Top Skills</h4>
-              <button className="pd-edit-name-icon"><FiPlus size={14} /></button>
-            </div>
-            {['React.js', 'Node.js', 'UI/UX Design', 'TypeScript', 'MongoDB'].map(skill => (
-              <div className="pd-skill-tag" key={skill}>{skill}</div>
-            ))}
-          </div>
+                        <div className="pd-early-details">
+                          <span><FiBriefcase size={14} /> {role.exp}</span>
+                          <span><FiZap size={14} /> {role.salary}</span>
+                          <span><FiMapPin size={14} /> {role.loc}</span>
+                        </div>
 
-        </aside>
+                        <div className="pd-early-hiring">
+                          <p>Hiring for one of these companies</p>
+                          <div className="pd-early-logos">
+                            {role.logos.map((l, i) => (
+                              <div key={i} className="pd-early-logo-circle">{l}</div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <button className="pd-early-share-btn">Share interest</button>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button className="pd-early-scroll-btn pd-early-right" onClick={() => handleEarlyScroll('right')}>
+                    <FiChevronRight size={18} />
+                  </button>
+                </div>
+              </div>
+
+
+              {/* Highlight Banner */}
+              <div className="pd-card pd-highlight-card">
+                <div className="pd-highlight-text">
+                  <h3>Stand out from the crowd</h3>
+                  <p>Highlight your application and get noticed by top recruiters instantly.</p>
+                  <button className="pd-btn-primary"><FiZap size={15} /> Know More</button>
+                </div>
+                <div className="pd-highlight-graphic">
+                  <div className="pd-highlight-circle" />
+                  <FiUsers size={40} color="#3b82f6" style={{ position: 'relative', zIndex: 1 }} />
+                </div>
+              </div>
+
+              {/* Applies Match Section */}
+              <div className="pd-card pd-match-card">
+                <div className="pd-section-header">
+                  <h3>How your applies matched your profile in last 7 days?</h3>
+                  <button 
+                    onClick={() => setShowJobsModal(true)} 
+                    className="pd-view-all" 
+                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: '#4477ee', fontWeight: '600' }}
+                  >
+                    View all
+                  </button>
+                </div>
+
+                <div className="pd-match-container">
+                  <button className="pd-match-scroll-btn pd-match-left" onClick={() => handleMatchScroll('left')}>
+                    <FiChevronLeft size={18} />
+                  </button>
+
+                  <div className="pd-match-scroll" ref={matchScrollRef}>
+                    {/* Summary Card */}
+                    <div className="pd-match-metric-card pd-match-summary">
+                      <div className="pd-match-circle-main">
+                        <span className="pd-match-status-low">LOW</span>
+                        <div className="pd-match-dot-indicator" />
+                      </div>
+                      <p><strong>1 out of 49</strong> applies showed a match</p>
+                    </div>
+
+                    {[
+                      { label: 'Work Experience', val: '0.08 yr experience', pct: '84%', icon: <FiBriefcase /> },
+                      { label: 'Location', val: 'Dehradun', pct: '86%', icon: <FiMapPin /> },
+                      { label: 'Keyskills', val: 'Ui/Ux, Redux, NoSQL...', pct: '37%', icon: <FiEdit2 /> },
+                      { label: 'Industry', val: 'IT Services & Consulti...', pct: '57%', icon: <FiMonitor /> },
+                      { label: 'Department', val: 'Engineering - Softwar...', pct: '67%', icon: <FiUsers /> },
+                      { label: 'Early Applicant', val: 'Applied to fresh jobs', pct: '37%', icon: <FiTrendingUp /> },
+                    ].map((m, i) => (
+                      <div className="pd-match-metric-card" key={i}>
+                        <div className="pd-match-circle">
+                          <div className="pd-match-icon">{m.icon}</div>
+                          <svg className="pd-match-svg">
+                            <circle cx="25" cy="25" r="21" />
+                            <circle cx="25" cy="25" r="21" style={{ strokeDashoffset: `calc(132 - (132 * ${parseInt(m.pct)}) / 100)` }} />
+                          </svg>
+                        </div>
+                        <div className="pd-match-info">
+                          <h4>{m.label}</h4>
+                          <p>{m.val}</p>
+                          <span className="pd-match-pct">{m.pct} match</span>
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* Update Card */}
+                    <div className="pd-match-metric-card pd-match-update">
+                      <h3>Want to review your profile information?</h3>
+                      <p>This will improve your job recommendations</p>
+                      <Link to="#" className="pd-update-link">Update Profile</Link>
+                    </div>
+                  </div>
+
+                  <button className="pd-match-scroll-btn pd-match-right" onClick={() => handleMatchScroll('right')}>
+                    <FiChevronRight size={18} />
+                  </button>
+                </div>
+              </div>
+
+            </section>
+
+            {/* Right Sidebar */}
+            <aside className="pd-right">
+
+              {/* App Download */}
+              <div className="pd-card pd-app-card">
+                <div className="pd-qr">
+                  <img src={mavenLogo} alt="QR" style={{ width: 40, opacity: 0.5 }} />
+                </div>
+                <p className="pd-app-stat"><strong>3,587</strong> users downloaded our app in the last 30 mins!</p>
+                <p className="pd-app-sub">Scan to download from App Store</p>
+                <div className="pd-app-badges">
+                  <span className="pd-store-badge">🍎 App Store</span>
+                  <span className="pd-store-badge">▶ Play Store</span>
+                </div>
+              </div>
+
+              {/* Premium Ad */}
+              <div className="pd-card pd-premium-card">
+                <div className="pd-premium-glow" />
+                <h3 className="pd-premium-title">PremiumX</h3>
+                <p className="pd-premium-desc">AI-powered premium talent discovery for modern recruiters.</p>
+                <Link to="#" className="pd-premium-link">Know more →</Link>
+              </div>
+
+              {/* Skills Widget */}
+              <div className="pd-card pd-skills-card">
+                <div className="pd-section-header">
+                  <h4>Top Skills</h4>
+                  <button className="pd-edit-name-icon"><FiPlus size={14} /></button>
+                </div>
+                {['React.js', 'Node.js', 'UI/UX Design', 'TypeScript', 'MongoDB'].map(skill => (
+                  <div className="pd-skill-tag" key={skill}>{skill}</div>
+                ))}
+              </div>
+
+            </aside>
 
       </div>
       {/* ─── Profile Preview Modal ─── */}
@@ -930,7 +958,21 @@ export default function ProfileDashboard() {
             </div>
           ))}
         </div>
-      </div>
+    </div>
+
+      {/* ─── Recommended Jobs Modal ─── */}
+      {showJobsModal && (
+        <div className="pd-modal-overlay" onClick={() => setShowJobsModal(false)}>
+          <div className="pd-modal-content" onClick={e => e.stopPropagation()}>
+            <button className="pd-modal-close" onClick={() => setShowJobsModal(false)}>
+              <FiX size={24} />
+            </button>
+            <div className="pd-modal-scroll-area">
+              <RecommendedJobs onBack={() => setShowJobsModal(false)} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -4,10 +4,11 @@ import {
   FiChevronRight, FiChevronLeft, FiFilter, FiCheckCircle, FiBell, FiLogOut,
   FiTrendingUp, FiSettings, FiFileText, FiArrowRight, FiX, FiAward, FiZap
 } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
 
 const CompaniesPage = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [showNotifications, setShowNotifications] = useState(false);
   const [sortBy, setSortBy] = useState('Most Popular');
@@ -193,6 +194,7 @@ const CompaniesPage = () => {
               {companies.map((company) => (
                 <div 
                   key={company.id} 
+                  onClick={() => navigate(`/company/${company.id}`)}
                   className="bg-white rounded-[1.5rem] p-5 border border-slate-100 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_15px_40px_rgba(0,35,102,0.08)] hover:border-[#002366]/10 transition-all duration-400 group cursor-pointer flex items-center gap-5 relative overflow-hidden"
                 >
                   <div className="absolute top-0 right-0 w-32 h-32 bg-[#002366]/[0.01] rounded-full -mr-16 -mt-16 group-hover:scale-125 transition-transform duration-700"></div>

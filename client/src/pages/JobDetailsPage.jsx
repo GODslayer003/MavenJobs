@@ -146,12 +146,57 @@ export default function JobDetailsPage() {
             </ul>
 
             <div className="jdp-match-score">
-              <h3 className="text-sm font-bold mb-4">Job match score</h3>
-              <div className="jdp-match-items">
-                <div className="jdp-match-item error"><FiXCircle /> Early Applicant</div>
-                <div className="jdp-match-item error"><FiXCircle /> Keyskills</div>
-                <div className="jdp-match-item success"><FiCheckCircle /> Location</div>
-                <div className="jdp-match-item success"><FiCheckCircle /> Work Experience</div>
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h3 className="text-base font-black text-[#1a1a1a] mb-1">Job match score</h3>
+                  <p className="text-xs font-medium text-slate-400 uppercase tracking-widest">Calculated based on your profile</p>
+                </div>
+                <div className="relative w-16 h-16 flex items-center justify-center shrink-0">
+                  <svg className="w-full h-full transform -rotate-90">
+                    <circle
+                      cx="32"
+                      cy="32"
+                      r="28"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="transparent"
+                      className="text-slate-100"
+                    />
+                    <circle
+                      cx="32"
+                      cy="32"
+                      r="28"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="transparent"
+                      strokeDasharray="175.9"
+                      strokeDashoffset={175.9 * (1 - 0.72)}
+                      className="text-[#10b981]"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="text-lg font-black text-[#1a1a1a] leading-none">72</span>
+                    <span className="text-[8px] font-bold text-slate-400 uppercase">Score</span>
+                  </div>
+                </div>
+              </div>
+              <div className="jdp-match-items grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="flex items-center gap-2 p-3 bg-red-50 rounded-xl border border-red-100">
+                  <FiXCircle className="text-red-500 shrink-0" size={16} />
+                  <span className="text-[10px] font-black text-red-700 uppercase tracking-tight">Early Applicant</span>
+                </div>
+                <div className="flex items-center gap-2 p-3 bg-red-50 rounded-xl border border-red-100">
+                  <FiXCircle className="text-red-500 shrink-0" size={16} />
+                  <span className="text-[10px] font-black text-red-700 uppercase tracking-tight">Keyskills</span>
+                </div>
+                <div className="flex items-center gap-2 p-3 bg-green-50 rounded-xl border border-green-100">
+                  <FiCheckCircle className="text-[#10b981] shrink-0" size={16} />
+                  <span className="text-[10px] font-black text-green-700 uppercase tracking-tight">Location</span>
+                </div>
+                <div className="flex items-center gap-2 p-3 bg-green-50 rounded-xl border border-green-100">
+                  <FiCheckCircle className="text-[#10b981] shrink-0" size={16} />
+                  <span className="text-[10px] font-black text-green-700 uppercase tracking-tight">Experience</span>
+                </div>
               </div>
             </div>
           </section>

@@ -6,6 +6,7 @@ import JobDetailsPage from "./pages/JobDetailsPage";
 import Buyonline from "./pages/Buyonline";
 import ProfileDashboard from "./pages/ProfileDashboard";
 import CompaniesPage from "./pages/CompaniesPage";
+import Jobprofile from "./pages/Jobprofile";
 import { AuthProvider } from "./AuthContext";
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/buy-online" element={<Buyonline />} />
           <Route path="/profile" element={<ProfileDashboard />} />
           <Route path="/companies" element={<CompaniesPage />} />
+          <Route path="/company/:id" element={<Jobprofile />} />
         </Routes>
       </Router>
     </AuthProvider>
