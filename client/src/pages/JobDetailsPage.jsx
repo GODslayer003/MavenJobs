@@ -17,6 +17,7 @@ export default function JobDetailsPage() {
   const navigate = useNavigate();
   const { user, openLogin, logout } = useAuth();
   const [job, setJob] = useState(null);
+  const [hasApplied, setHasApplied] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -116,11 +117,22 @@ export default function JobDetailsPage() {
                 Posted: <span className="font-semibold">{job.posted}</span> | Openings: <span className="font-semibold">200</span> | Applicants: <span className="font-semibold">100+</span>
               </div>
               <div className="jdp-actions">
-                <button className="jdp-save-btn">Save</button>
+                <button className="jdp-save-btn hover:bg-slate-50 transition-all font-black">Save</button>
                 {user ? (
-                  <button className="jdp-apply-btn">Apply</button>
+                  hasApplied ? (
+                    <button className="px-8 py-3 bg-[#10b981] text-white rounded-full font-black flex items-center gap-2 shadow-lg shadow-green-900/20 animate-in fade-in zoom-in duration-300">
+                      <FiCheckCircle size={20} /> Applied
+                    </button>
+                  ) : (
+                    <button 
+                      onClick={() => setHasApplied(true)}
+                      className="jdp-apply-btn hover:bg-blue-900 transition-all font-black shadow-lg shadow-blue-900/20"
+                    >
+                      Apply
+                    </button>
+                  )
                 ) : (
-                  <button className="jdp-apply-btn" onClick={openLogin}>Log In to apply</button>
+                  <button className="jdp-apply-btn hover:bg-blue-900 transition-all font-black shadow-lg shadow-blue-900/20" onClick={openLogin}>Log In to apply</button>
                 )}
               </div>
             </div>
