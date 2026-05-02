@@ -441,7 +441,7 @@ export default function NaukriLandingPage() {
 
         <div className="nav-links">
           {/* JOBS MENU */}
-          <div 
+          <div
             className="nav-link-item"
             onMouseEnter={() => setActiveNavDropdown('Jobs')}
             onMouseLeave={() => setActiveNavDropdown(null)}
@@ -481,7 +481,7 @@ export default function NaukriLandingPage() {
           </div>
 
           {/* COMPANIES MENU */}
-          <div 
+          <div
             className="nav-link-item"
             onMouseEnter={() => setActiveNavDropdown('Companies')}
             onMouseLeave={() => setActiveNavDropdown(null)}
@@ -517,12 +517,12 @@ export default function NaukriLandingPage() {
           </div>
 
           {/* SERVICES MENU */}
-          <div 
+          <div
             className="nav-link-item"
             onMouseEnter={() => setActiveNavDropdown('Services')}
             onMouseLeave={() => setActiveNavDropdown(null)}
           >
-            <a href="#services">Services</a>
+            <Link to="/services">Services</Link>
             {activeNavDropdown === 'Services' && (
               <div className="mega-menu">
                 <div className="mega-column">
@@ -530,7 +530,7 @@ export default function NaukriLandingPage() {
                   <a href="#">Text resume</a>
                   <a href="#">Visual resume</a>
                   <a href="#">Resume critique</a>
-                  
+
                   <h4 style={{ marginTop: '20px' }}>Find Jobs</h4>
                   <a href="#">Jobs4u</a>
                   <a href="#">Priority applicant</a>
@@ -539,7 +539,7 @@ export default function NaukriLandingPage() {
                 <div className="mega-column">
                   <h4>Get recruiter's attention</h4>
                   <a href="#">Resume display</a>
-                  
+
                   <h4 style={{ marginTop: '20px' }}>Monthly subscriptions</h4>
                   <a href="#">Basic &amp; premium plans</a>
                 </div>
@@ -555,7 +555,7 @@ export default function NaukriLandingPage() {
           </div>
 
           {/* COURSES MENU */}
-          <div 
+          <div
             className="nav-link-item"
             onMouseEnter={() => setActiveNavDropdown('Courses')}
             onMouseLeave={() => setActiveNavDropdown(null)}
@@ -687,10 +687,10 @@ export default function NaukriLandingPage() {
 
                 <div className="search-field search-field-compact dropdown-field" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                   <FiBriefcase className="search-field-icon" aria-hidden="true" />
-                  <input 
-                    type="text" 
-                    placeholder="Select experience" 
-                    aria-label="Experience" 
+                  <input
+                    type="text"
+                    placeholder="Select experience"
+                    aria-label="Experience"
                     value={experienceValue}
                     onChange={(e) => setExperienceValue(e.target.value)}
                     onFocus={() => setIsExperienceDropdownOpen(true)}
@@ -698,12 +698,12 @@ export default function NaukriLandingPage() {
                     style={{ paddingRight: '24px' }}
                   />
                   <FiChevronDown className="search-field-chevron" aria-hidden="true" style={{ position: 'absolute', right: '16px', color: 'var(--text-muted)', transition: 'transform 0.2s ease', transform: isExperienceDropdownOpen ? 'rotate(180deg)' : 'none', pointerEvents: 'none' }} />
-                  
+
                   {isExperienceDropdownOpen && (
                     <div className="experience-dropdown-menu">
                       {experienceOptions.map(opt => (
-                        <div 
-                          key={opt} 
+                        <div
+                          key={opt}
                           className="experience-dropdown-item"
                           onClick={() => {
                             setExperienceValue(opt);
@@ -810,7 +810,7 @@ export default function NaukriLandingPage() {
           </div>
 
           <div className="companies-carousel-wrapper">
-            <button 
+            <button
               className={`carousel-nav-btn carousel-nav-prev${companyPage === 0 ? ' disabled' : ''}`}
               onClick={() => setCompanyPage(p => Math.max(0, p - 1))}
               aria-label="Previous companies"
@@ -820,7 +820,7 @@ export default function NaukriLandingPage() {
             </button>
 
             <div className="cards-scroll-viewport">
-              <div 
+              <div
                 className="cards-scroll"
                 style={{ transform: `translateX(-${companyPage * 100}%)`, transition: 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)' }}
               >
@@ -846,7 +846,7 @@ export default function NaukriLandingPage() {
               </div>
             </div>
 
-            <button 
+            <button
               className={`carousel-nav-btn carousel-nav-next${companyPage >= maxCompanyPage ? ' disabled' : ''}`}
               onClick={() => setCompanyPage(p => Math.min(maxCompanyPage, p + 1))}
               aria-label="Next companies"
@@ -883,7 +883,7 @@ export default function NaukriLandingPage() {
             {/* Right side card */}
             <div className="discover-right-card">
               <div className="discover-nav-controls">
-                <button 
+                <button
                   className={`discover-nav-btn prev ${discoverRolePage === 0 ? 'disabled' : ''}`}
                   onClick={() => setDiscoverRolePage(0)}
                   aria-label="Previous page"
@@ -891,7 +891,7 @@ export default function NaukriLandingPage() {
                 >
                   <FiChevronRight style={{ transform: 'rotate(180deg)' }} />
                 </button>
-                <button 
+                <button
                   className={`discover-nav-btn next ${discoverRolePage === 1 ? 'disabled' : ''}`}
                   onClick={() => setDiscoverRolePage(1)}
                   aria-label="Next page"

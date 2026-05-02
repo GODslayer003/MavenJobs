@@ -117,11 +117,13 @@ export default function JobDetailsPage() {
                 Posted: <span className="font-semibold">{job.posted}</span> | Openings: <span className="font-semibold">200</span> | Applicants: <span className="font-semibold">100+</span>
               </div>
               <div className="jdp-actions">
-                <button className="jdp-save-btn hover:bg-slate-50 transition-all font-black">Save</button>
+                <button className="jdp-save-btn">
+                  <FiBookmark size={18} /> Save
+                </button>
                 {user ? (
                   hasApplied ? (
-                    <button className="px-8 py-3 bg-[#10b981] text-white rounded-full font-black flex items-center gap-2 shadow-lg shadow-green-900/20 animate-in fade-in zoom-in duration-300">
-                      <FiCheckCircle size={20} /> Applied
+                    <button className="jdp-applied-badge">
+                      <FiCheckCircle size={18} /> Applied
                     </button>
                   ) : (
                     <button 

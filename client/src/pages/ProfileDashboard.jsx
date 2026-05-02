@@ -1,33 +1,11 @@
 import React, { useState, useRef } from 'react';
 import {
-  FiEdit2,
-  FiBriefcase,
-  FiMapPin,
-  FiZap,
-  FiCheckCircle,
-  FiChevronRight,
-  FiHome,
-  FiFileText,
-  FiMonitor,
-  FiShare2,
-  FiDownload,
-  FiPlus,
-  FiUsers,
-  FiEye,
-  FiTrendingUp,
-  FiAward,
-  FiBell,
-  FiSettings,
-  FiLogOut,
-  FiPhone,
-  FiMail,
-  FiX,
-  FiCalendar,
-  FiClock,
-  FiChevronLeft,
-  FiInfo,
-  FiSend,
-  FiChevronDown
+  FiEdit2, FiBriefcase, FiMapPin, FiZap, FiCheckCircle,
+  FiChevronRight, FiHome, FiFileText, FiMonitor, FiShare2,
+  FiDownload, FiPlus, FiUsers, FiEye, FiTrendingUp, FiAward,
+  FiBell, FiSettings, FiLogOut, FiPhone, FiMail, FiX,
+  FiCalendar, FiClock, FiChevronLeft, FiInfo, FiSend, FiChevronDown,
+  FiStar, FiBookmark, FiGlobe
 } from 'react-icons/fi';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { GiCrown } from 'react-icons/gi';
@@ -50,115 +28,61 @@ export default function ProfileDashboard() {
   const jobScrollRef = useRef(null);
   const earlyScrollRef = useRef(null);
   const matchScrollRef = useRef(null);
-
-  const recommendedJobs = {
-    'Profile (18)': [
-      { code: 'PE', title: 'Product Engineer', company: 'SmartDocs Tech', rating: 3.1, loc: 'Hyderabad', ago: '4d ago', bg: '#eff6ff', col: '#1e40af' },
-      { code: 'UI', title: 'UI/UX Designer', company: 'Onebanc Tech', rating: 4.8, loc: 'Gurugram', ago: '1d ago', bg: '#fef3c7', col: '#b45309' },
-      { code: 'A', title: 'Software Tester', company: 'Aarons Visions', rating: 4.2, loc: 'Remote', ago: '2d ago', bg: '#f0fdf4', col: '#166534' },
-      { code: 'FE', title: 'Frontend Developer', company: 'DevMatrix', rating: 4.5, loc: 'Bengaluru', ago: '3d ago', bg: '#eef2ff', col: '#4338ca' },
-      { code: 'BE', title: 'Backend Lead', company: 'NodeMasters', rating: 4.9, loc: 'Pune', ago: '12h ago', bg: '#fdf2f8', col: '#9d174d' },
-    ],
-    'Applies (29)': [
-      { code: 'DS', title: 'Data Scientist', company: 'Analytica', rating: 4.6, loc: 'Mumbai', ago: '2d ago', bg: '#ecfdf5', col: '#047857' },
-      { code: 'ML', title: 'ML Engineer', company: 'DeepMind India', rating: 4.7, loc: 'Bengaluru', ago: '5d ago', bg: '#f5f3ff', col: '#6d28d9' },
-      { code: 'QA', title: 'Quality Analyst', company: 'TestRig', rating: 3.9, loc: 'Chennai', ago: '1w ago', bg: '#fff7ed', col: '#c2410c' },
-    ],
-    'Preferences (4)': [
-      { code: 'FS', title: 'Full Stack Dev', company: 'MetaScale', rating: 4.4, loc: 'Remote', ago: '1d ago', bg: '#f0f9ff', col: '#0369a1' },
-      { code: 'DO', title: 'DevOps Architect', company: 'CloudFlow', rating: 4.8, loc: 'Hyderabad', ago: '6h ago', bg: '#f8fafc', col: '#334155' },
-    ],
-    'You might like (10)': [
-      { code: 'GD', title: 'Graphic Designer', company: 'CreativeCo', rating: 4.3, loc: 'New Delhi', ago: '3d ago', bg: '#fdf4ff', col: '#a21caf' },
-      { code: 'PM', title: 'Product Manager', company: 'Innova', rating: 4.5, loc: 'Bengaluru', ago: '4d ago', bg: '#f0fdf4', col: '#166534' },
-    ]
-  };
-
-  const handleScroll = (direction) => {
-    if (jobScrollRef.current) {
-      const scrollAmount = 300;
-      jobScrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      });
-    }
-  };
-
-  const handleEarlyScroll = (direction) => {
-    if (earlyScrollRef.current) {
-      const scrollAmount = 300;
-      earlyScrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      });
-    }
-  };
-
-  const handleMatchScroll = (direction) => {
-    if (matchScrollRef.current) {
-      const scrollAmount = 300;
-      matchScrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      });
-    }
-  };
   const pfpInputRef = useRef(null);
   const coverInputRef = useRef(null);
 
+  const recommendedJobs = {
+    'Profile (18)': [
+      { code: 'PE', title: 'Product Engineer', company: 'SmartDocs Tech', rating: 3.1, loc: 'Hyderabad', ago: '4d ago', bg: '#EEF2FF', col: '#4338CA' },
+      { code: 'UI', title: 'UI/UX Designer', company: 'Onebanc Tech', rating: 4.8, loc: 'Gurugram', ago: '1d ago', bg: '#FFF7ED', col: '#C2410C' },
+      { code: 'A', title: 'Software Tester', company: 'Aarons Visions', rating: 4.2, loc: 'Remote', ago: '2d ago', bg: '#F0FDF4', col: '#15803D' },
+      { code: 'FE', title: 'Frontend Developer', company: 'DevMatrix', rating: 4.5, loc: 'Bengaluru', ago: '3d ago', bg: '#EFF6FF', col: '#1D4ED8' },
+      { code: 'BE', title: 'Backend Lead', company: 'NodeMasters', rating: 4.9, loc: 'Pune', ago: '12h ago', bg: '#FDF2F8', col: '#9D174D' },
+    ],
+    'Applies (29)': [
+      { code: 'DS', title: 'Data Scientist', company: 'Analytica', rating: 4.6, loc: 'Mumbai', ago: '2d ago', bg: '#ECFDF5', col: '#047857' },
+      { code: 'ML', title: 'ML Engineer', company: 'DeepMind India', rating: 4.7, loc: 'Bengaluru', ago: '5d ago', bg: '#F5F3FF', col: '#6D28D9' },
+      { code: 'QA', title: 'Quality Analyst', company: 'TestRig', rating: 3.9, loc: 'Chennai', ago: '1w ago', bg: '#FFF7ED', col: '#C2410C' },
+    ],
+    'Preferences (4)': [
+      { code: 'FS', title: 'Full Stack Dev', company: 'MetaScale', rating: 4.4, loc: 'Remote', ago: '1d ago', bg: '#F0F9FF', col: '#0369A1' },
+      { code: 'DO', title: 'DevOps Architect', company: 'CloudFlow', rating: 4.8, loc: 'Hyderabad', ago: '6h ago', bg: '#F8FAFC', col: '#334155' },
+    ],
+    'You might like (10)': [
+      { code: 'GD', title: 'Graphic Designer', company: 'CreativeCo', rating: 4.3, loc: 'New Delhi', ago: '3d ago', bg: '#FDF4FF', col: '#A21CAF' },
+      { code: 'PM', title: 'Product Manager', company: 'Innova', rating: 4.5, loc: 'Bengaluru', ago: '4d ago', bg: '#F0FDF4', col: '#166534' },
+    ]
+  };
+
+  const handleScroll = (ref, dir) => {
+    if (ref.current) ref.current.scrollBy({ left: dir === 'left' ? -300 : 300, behavior: 'smooth' });
+  };
+
   if (!user) return <Navigate to="/" />;
 
-  const handleNameSave = () => {
-    updateUser({ name: editNameValue });
-    setIsEditingName(false);
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') handleNameSave();
-    if (e.key === 'Escape') setIsEditingName(false);
-  };
+  const handleNameSave = () => { updateUser({ name: editNameValue }); setIsEditingName(false); };
+  const handleKeyDown = (e) => { if (e.key === 'Enter') handleNameSave(); if (e.key === 'Escape') setIsEditingName(false); };
 
   const handlePfpChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const file = e.target.files[0]; if (!file) return;
     const reader = new FileReader();
-    reader.onload = (ev) => {
-      updateUser({ profilePic: ev.target.result });
-    };
-    reader.readAsDataURL(file);
-    // reset so same file can be re-selected
-    e.target.value = '';
+    reader.onload = (ev) => updateUser({ profilePic: ev.target.result });
+    reader.readAsDataURL(file); e.target.value = '';
   };
 
   const handleCoverChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const file = e.target.files[0]; if (!file) return;
     const reader = new FileReader();
-    reader.onload = (ev) => {
-      setCoverImage(ev.target.result);
-    };
-    reader.readAsDataURL(file);
-    e.target.value = '';
+    reader.onload = (ev) => setCoverImage(ev.target.result);
+    reader.readAsDataURL(file); e.target.value = '';
   };
 
   return (
     <div className="pd-root">
-      {/* Hidden file inputs */}
-      <input
-        ref={pfpInputRef}
-        type="file"
-        accept="image/*"
-        style={{ display: 'none' }}
-        onChange={handlePfpChange}
-      />
-      <input
-        ref={coverInputRef}
-        type="file"
-        accept="image/*"
-        style={{ display: 'none' }}
-        onChange={handleCoverChange}
-      />
+      <input ref={pfpInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handlePfpChange} />
+      <input ref={coverInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleCoverChange} />
 
+      {/* ─── Navbar ─── */}
       <header className="pd-navbar">
         <div className="pd-navbar-inner">
           <Link to="/" className="pd-navbar-brand">
@@ -167,36 +91,25 @@ export default function ProfileDashboard() {
 
           <nav className="pd-navbar-links">
             <Link to="/jobs" className="pd-nav-link">Jobs</Link>
-            <div 
-              className="pd-nav-dropdown-wrapper"
+            <div className="pd-nav-dropdown-wrapper"
               onMouseEnter={() => setActiveNavDropdown('Companies')}
-              onMouseLeave={() => setActiveNavDropdown(null)}
-            >
-              <Link to="/companies" className="pd-nav-link">Companies</Link>
+              onMouseLeave={() => setActiveNavDropdown(null)}>
+              <Link to="/companies" className="pd-nav-link">
+                Companies <FiChevronDown size={13} className="pd-nav-chevron" />
+              </Link>
               {activeNavDropdown === 'Companies' && (
                 <div className="pd-megamenu">
-                  <div className="pd-megamenu-column">
-                    <h4>EXPLORE CATEGORIES</h4>
-                    <Link to="/companies">Unicorn</Link>
-                    <Link to="/companies">MNC</Link>
-                    <Link to="/companies">Startup</Link>
-                    <Link to="/companies">Product based</Link>
-                    <Link to="/companies">Internet</Link>
+                  <div className="pd-megamenu-col">
+                    <span className="pd-mega-label">EXPLORE CATEGORIES</span>
+                    {['Unicorn', 'MNC', 'Startup', 'Product Based', 'Internet'].map(i => <Link key={i} to="/companies">{i}</Link>)}
                   </div>
-                  <div className="pd-megamenu-column">
-                    <h4>EXPLORE COLLECTIONS</h4>
-                    <Link to="/companies">Top companies</Link>
-                    <Link to="/companies">IT companies</Link>
-                    <Link to="/companies">Fintech companies</Link>
-                    <Link to="/companies">Sponsored companies</Link>
-                    <Link to="/companies">Featured companies</Link>
+                  <div className="pd-megamenu-col">
+                    <span className="pd-mega-label">COLLECTIONS</span>
+                    {['Top Companies', 'IT Companies', 'Fintech', 'Sponsored', 'Featured'].map(i => <Link key={i} to="/companies">{i}</Link>)}
                   </div>
-                  <div className="pd-megamenu-column">
-                    <h4>RESEARCH COMPANIES</h4>
-                    <Link to="/companies">Interview questions</Link>
-                    <Link to="/companies">Company salaries</Link>
-                    <Link to="/companies">Company reviews</Link>
-                    <Link to="/companies">Salary Calculator</Link>
+                  <div className="pd-megamenu-col">
+                    <span className="pd-mega-label">RESEARCH</span>
+                    {['Interview Questions', 'Company Salaries', 'Reviews', 'Salary Calculator'].map(i => <Link key={i} to="/companies">{i}</Link>)}
                   </div>
                 </div>
               )}
@@ -207,767 +120,525 @@ export default function ProfileDashboard() {
 
           <div className="pd-navbar-actions">
             <div className="pd-nav-search">
-              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
+              <FiGlobe size={15} className="pd-search-icon" />
               <input type="text" placeholder="Search jobs, companies…" />
             </div>
-
-            <button
-              className={`pd-navbar-bell ${showNotifications ? 'active' : ''}`}
-              aria-label="Notifications"
-              onClick={() => setShowNotifications(true)}
-            >
-              <FiBell size={20} />
-              <span className="pd-nav-dot">3</span>
+            <button className={`pd-navbar-bell ${showNotifications ? 'active' : ''}`} onClick={() => setShowNotifications(true)}>
+              <FiBell size={19} />
+              <span className="pd-nav-badge">3</span>
             </button>
-
-            <div className="pd-navbar-profile" onClick={() => navigate('/profile')} title="View Profile">
+            <div className="pd-navbar-avatar" onClick={() => navigate('/profile')}>
               <img src={user.profilePic || "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg"} alt="You" />
+              <span className="pd-avatar-status" />
             </div>
-
             <button className="pd-navbar-logout" onClick={logout}>
-              <FiLogOut size={16} />
-              Logout
+              <FiLogOut size={15} /> Logout
             </button>
           </div>
         </div>
       </header>
 
-      {/* ─── Cover Photo Hero ─── */}
-      <div
-        className="pd-cover"
-        style={{ backgroundImage: `url(${coverImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-      >
-        {false && <div className="pd-cover-gradient" />}
-        <button className="pd-cover-edit-btn" onClick={() => coverInputRef.current.click()}>
-          <FiEdit2 size={14} /> Edit Cover
+      {/* ─── Cover ─── */}
+      <div className="pd-cover" style={{ backgroundImage: `url(${coverImage})` }}>
+        <div className="pd-cover-overlay" />
+        <button className="pd-cover-edit" onClick={() => coverInputRef.current.click()}>
+          <FiEdit2 size={13} /> Change Cover
         </button>
       </div>
 
-      {/* ─── Profile Identity Bar ─── */}
+      {/* ─── Identity Bar ─── */}
       <div className="pd-identity-bar">
         <div className="pd-identity-inner">
-          <div className="pd-avatar-ring">
-            <img src={user.profilePic || "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg"} alt="Profile" className="pd-big-avatar" />
-            <button className="pd-avatar-cam" onClick={() => pfpInputRef.current.click()} title="Change profile picture">
-              <FiEdit2 size={12} />
+          <div className="pd-avatar-wrap">
+            <img
+              src={user.profilePic || "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg"}
+              alt="Profile" className="pd-big-avatar"
+            />
+            <button className="pd-avatar-edit" onClick={() => pfpInputRef.current.click()}>
+              <FiEdit2 size={11} />
             </button>
+            <div className="pd-avatar-online" />
           </div>
 
           <div className="pd-identity-info">
-            <div className="pd-identity-top">
+            <div className="pd-name-row">
               {isEditingName ? (
                 <div className="pd-name-edit-row">
-                  <input
-                    className="pd-name-input"
-                    value={editNameValue}
-                    onChange={e => setEditNameValue(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    autoFocus
-                  />
+                  <input className="pd-name-input" value={editNameValue} onChange={e => setEditNameValue(e.target.value)} onKeyDown={handleKeyDown} autoFocus />
                   <button className="pd-save-btn" onClick={handleNameSave}>Save</button>
                   <button className="pd-cancel-btn" onClick={() => setIsEditingName(false)}>✕</button>
                 </div>
               ) : (
                 <h1 className="pd-name">
                   {user.name}
-                  <button className="pd-edit-name-icon" onClick={() => { setEditNameValue(user.name); setIsEditingName(true); }}>
-                    <FiEdit2 size={14} />
+                  <span className="pd-verified"><FiCheckCircle size={16} /></span>
+                  <button className="pd-edit-icon-btn" onClick={() => { setEditNameValue(user.name); setIsEditingName(true); }}>
+                    <FiEdit2 size={13} />
                   </button>
                 </h1>
               )}
-              <p className="pd-headline">{user.headline || 'Software Engineer • Open to Opportunities'}</p>
-              <p className="pd-location"><FiMapPin size={13} /> Bengaluru, Karnataka, India · <span className="pd-open-badge">Open to Work</span></p>
+              <span className="pd-open-badge">● Open to Work</span>
             </div>
+
+            <p className="pd-headline">{user.headline || 'MERN Stack Developer · Software Engineer'}</p>
+            <p className="pd-location"><FiMapPin size={12} /> Bengaluru, Karnataka, India</p>
 
             <div className="pd-quick-stats">
               <div className="pd-qs-item">
-                <FiEye size={16} />
-                <span><strong>130</strong> Profile views</span>
+                <FiEye size={15} />
+                <div><strong>130</strong><span>Profile views</span></div>
               </div>
-              <div className="pd-qs-sep" />
+              <div className="pd-qs-divider" />
               <div className="pd-qs-item">
-                <FiUsers size={16} />
-                <span><strong>6</strong> Recruiter actions</span>
+                <FiUsers size={15} />
+                <div><strong>6</strong><span>Recruiter actions</span></div>
               </div>
-              <div className="pd-qs-sep" />
+              <div className="pd-qs-divider" />
               <div className="pd-qs-item">
-                <FiTrendingUp size={16} />
-                <span><strong>18</strong> Job matches</span>
+                <FiTrendingUp size={15} />
+                <div><strong>18</strong><span>Job matches</span></div>
               </div>
             </div>
           </div>
 
           <div className="pd-identity-cta">
             <button className="pd-btn-primary" onClick={() => setShowPreview(true)}>
-              <FiEye size={15} /> View Profile
+              <FiEye size={14} /> View Profile
             </button>
-            <button className="pd-btn-secondary"><FiShare2 size={15} /> Share</button>
-            <button className="pd-btn-secondary"><FiDownload size={15} /> Resume</button>
+            <div className="pd-cta-row">
+              <button className="pd-btn-outline"><FiShare2 size={14} /> Share</button>
+              <button className="pd-btn-outline"><FiDownload size={14} /> Resume</button>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* ─── Main Content ─── */}
+      {/* ─── Main Layout ─── */}
       <div className="pd-main">
 
         {/* Left Sidebar */}
         <aside className="pd-left">
-
-          {/* Profile Completion */}
           <div className="pd-card pd-completion-card">
-            <div className="pd-completion-header">
-              <span>Profile Strength</span>
-              <FiAward size={16} color="#10b981" />
+            <div className="pd-completion-top">
+              <div>
+                <div className="pd-completion-label">Profile Strength</div>
+                <div className="pd-completion-pct">72% Complete</div>
+              </div>
+              <div className="pd-completion-ring">
+                <svg viewBox="0 0 44 44">
+                  <circle cx="22" cy="22" r="18" />
+                  <circle cx="22" cy="22" r="18" style={{ strokeDashoffset: `calc(113 - (113 * 72) / 100)` }} />
+                </svg>
+                <span>72</span>
+              </div>
             </div>
             <div className="pd-completion-bar-track">
               <div className="pd-completion-bar" style={{ width: '72%' }} />
             </div>
-            <div className="pd-completion-pct">72% Complete</div>
             <div className="pd-completion-tips">
-              <div className="pd-tip-item">
-                <FiPlus size={14} color="#2563eb" />
-                <span>Add work experience</span>
-              </div>
-              <div className="pd-tip-item">
-                <FiPlus size={14} color="#2563eb" />
-                <span>Add a profile summary</span>
-              </div>
-              <div className="pd-tip-item">
-                <FiPlus size={14} color="#2563eb" />
-                <span>Add skills</span>
-              </div>
+              {['Add work experience', 'Add a profile summary', 'Add your skills'].map(tip => (
+                <div className="pd-tip-item" key={tip}><FiPlus size={13} /><span>{tip}</span></div>
+              ))}
             </div>
           </div>
 
-          {/* Sidebar Nav */}
           <div className="pd-card pd-sidenav-card">
-            <nav>
-              <Link to="#" className="pd-sidenav-link active"><FiHome size={18} /> My Home</Link>
-              <button 
-                className="pd-sidenav-link" 
-                style={{ width: '100%', textAlign: 'left', border: 'none', background: 'none', cursor: 'pointer' }} 
-                onClick={() => setShowJobsModal(true)}
-              >
-                <FiBriefcase size={18} /> Jobs
-              </button>
-              <Link to="#" className="pd-sidenav-link"><FiMonitor size={18} /> Companies</Link>
-              <Link to="#" className="pd-sidenav-link"><FiFileText size={18} /> Blogs</Link>
-              <Link to="#" className="pd-sidenav-link"><FiSettings size={18} /> Settings</Link>
-            </nav>
+            <Link to="#" className="pd-sidenav-item active"><FiHome size={17} /><span>My Home</span></Link>
+            <button className="pd-sidenav-item" onClick={() => setShowJobsModal(true)}><FiBriefcase size={17} /><span>Jobs</span></button>
+            <Link to="#" className="pd-sidenav-item"><FiMonitor size={17} /><span>Companies</span></Link>
+            <Link to="#" className="pd-sidenav-item"><FiFileText size={17} /><span>Blogs</span></Link>
+            <Link to="#" className="pd-sidenav-item"><FiSettings size={17} /><span>Settings</span></Link>
           </div>
 
-          {/* Performance Stats */}
           <div className="pd-card pd-perf-card">
-            <div className="pd-perf-header">
-              <span>Performance</span>
-              <FiCheckCircle size={16} color="#10b981" />
-            </div>
+            <div className="pd-perf-title">Performance <FiTrendingUp size={15} /></div>
             <div className="pd-perf-grid">
-              <div className="pd-perf-item">
-                <span className="pd-perf-val">130 <FiChevronRight size={14} /></span>
+              <div className="pd-perf-stat">
+                <span className="pd-perf-val">130</span>
                 <span className="pd-perf-label">Search appearances</span>
               </div>
-              <div className="pd-perf-item">
-                <span className="pd-perf-val">6 <FiChevronRight size={14} /></span>
+              <div className="pd-perf-stat">
+                <span className="pd-perf-val">6</span>
                 <span className="pd-perf-label">Recruiter actions</span>
               </div>
             </div>
-            <div className="pd-boost-pill">
-              <FiZap className="pd-boost-zap" />
-              <span>Get 3X boost to your profile</span>
-              <FiChevronRight size={14} style={{ marginLeft: 'auto' }} />
+            <div className="pd-boost-banner">
+              <FiZap size={14} />
+              <span>Get 3× profile boost</span>
+              <FiChevronRight size={13} className="pd-boost-arrow" />
             </div>
           </div>
-
         </aside>
 
         {/* Center Feed */}
-        {/* Center Feed */}
         <section className="pd-center">
 
-              {/* PRO Banner */}
-              <div className="pd-card pd-pro-card">
-                <div className="pd-pro-left">
-                  <div className="pd-pro-label">With <span className="pd-pro-text">PRO</span></div>
-                  <p className="pd-pro-sub">you get hired <strong>3× faster</strong></p>
-                  <button className="pd-pro-btn">✦ Become a Pro</button>
-                </div>
-                <div className="pd-pro-features">
-                  {['Hidden job invitations', 'AI-enhanced profile', 'Auto-Apply on MavenJobs', 'Priority recruiter access'].map(f => (
-                    <div className="pd-pro-feature" key={f}>
-                      <FiCheckCircle size={15} className="pd-pro-check" /> {f}
+          {/* PRO Banner */}
+          <div className="pd-card pd-pro-card">
+            <div className="pd-pro-left">
+              <div className="pd-pro-eyebrow">UPGRADE YOUR CAREER</div>
+              <h3 className="pd-pro-heading">Get hired <em>3× faster</em> with Pro</h3>
+              <button className="pd-pro-btn">✦ Become Pro Member</button>
+            </div>
+            <div className="pd-pro-features">
+              {['Hidden job invitations', 'AI-enhanced profile', 'Auto-Apply on MavenJobs', 'Priority recruiter access'].map(f => (
+                <div className="pd-pro-feat" key={f}><FiCheckCircle size={14} /> {f}</div>
+              ))}
+            </div>
+          </div>
+
+          {/* Recommended Jobs */}
+          <div className="pd-card">
+            <div className="pd-section-header">
+              <h3>Recommended for you</h3>
+              <button className="pd-text-btn" onClick={() => setShowJobsModal(true)}>View all <FiChevronRight size={14} /></button>
+            </div>
+            <div className="pd-tabs">
+              {Object.keys(recommendedJobs).map(tab => (
+                <button key={tab} className={`pd-tab ${activeTab === tab ? 'active' : ''}`} onClick={() => setActiveTab(tab)}>{tab}</button>
+              ))}
+            </div>
+            <div className="pd-scroll-wrap">
+              <button className="pd-scroll-btn left" onClick={() => handleScroll(jobScrollRef, 'left')}><FiChevronLeft size={18} /></button>
+              <div className="pd-job-scroll" ref={jobScrollRef}>
+                {(recommendedJobs[activeTab] || []).map(job => (
+                  <div className="pd-job-card" key={job.title}>
+                    <div className="pd-job-header">
+                      <div className="pd-job-logo" style={{ background: job.bg, color: job.col }}>{job.code}</div>
+                      <span className="pd-job-ago">{job.ago}</span>
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Recommended Jobs */}
-              <div className="pd-card">
-                <div className="pd-section-header">
-                  <h3>Recommended jobs for you</h3>
-                  <button 
-                    onClick={() => setShowJobsModal(true)} 
-                    className="pd-view-all" 
-                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: '#4477ee', fontWeight: '600' }}
-                  >
-                    View all →
-                  </button>
-                </div>
-                <div className="pd-tabs">
-                  {Object.keys(recommendedJobs).map(tab => (
-                    <button
-                      key={tab}
-                      className={`pd-tab ${activeTab === tab ? 'active' : ''}`}
-                      onClick={() => setActiveTab(tab)}
-                    >{tab}</button>
-                  ))}
-                </div>
-
-                <div className="pd-job-scroll-container">
-                  <button className="pd-scroll-btn pd-scroll-left" onClick={() => handleScroll('left')}>
-                    <FiChevronLeft size={20} />
-                  </button>
-
-                  <div className="pd-job-scroll" ref={jobScrollRef}>
-                    {(recommendedJobs[activeTab] || []).map(job => (
-                      <div className="pd-job-card" key={job.title}>
-                        <div className="pd-job-card-top">
-                          <div className="pd-job-logo" style={{ background: job.bg, color: job.col }}>{job.code}</div>
-                          <span className="pd-job-ago">{job.ago}</span>
-                        </div>
-                        <h4 className="pd-job-title">{job.title}</h4>
-                        <p className="pd-job-company">{job.company} <span className="pd-job-rating">★ {job.rating}</span></p>
-                        <p className="pd-job-loc"><FiMapPin size={12} /> {job.loc}</p>
-                        <button className="pd-job-apply-btn">Quick Apply</button>
-                      </div>
-                    ))}
-                  </div>
-
-                  <button className="pd-scroll-btn pd-scroll-right" onClick={() => handleScroll('right')}>
-                    <FiChevronRight size={20} />
-                  </button>
-                </div>
-              </div>
-
-              {/* NVites */}
-              <div className="pd-card pd-nvites-card">
-                <div className="pd-nvites-left">
-                  <div className="pd-nvites-icon-group">
-                    <div className="pd-nvites-main-icon">
-                      <FiMail size={32} />
-                      <span className="pd-nvites-badge-dot" />
-                    </div>
-                    <h3>NVites</h3>
-                    <p>Invitation to apply</p>
-                    <Link to="#" className="pd-view-all-inv">View all invites →</Link>
-                  </div>
-                </div>
-                <div className="pd-nvites-list">
-                  {[
-                    { code: 'N', title: 'NOC/SOC Analyst', company: 'Naukri e-Hire', when: '16d ago', bg: '#e0e7ff', col: '#3730a3' },
-                    { code: 'Z', title: 'Survey Developer', company: 'ZoomRx Healthcare', when: '22d ago', bg: '#111827', col: '#fff' },
-                    { code: 'F', title: 'Figma Specialist', company: 'IT Services Co.', when: '8d ago', bg: '#fef3c7', col: '#92400e' },
-                  ].map(inv => (
-                    <div className="pd-nvite-item" key={inv.title}>
-                      <div className="pd-nvite-logo" style={{ background: inv.bg, color: inv.col }}>{inv.code}</div>
-                      <div className="pd-nvite-info">
-                        <div className="pd-nvite-title">
-                          {inv.title}
-                        </div>
-                        <div className="pd-nvite-meta">
-                          <strong>{inv.company}</strong> · Invited {inv.when}
-                        </div>
-                      </div>
-                      <button className="pd-nvite-apply">Apply Now</button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Early Access Section */}
-              <div className="pd-card pd-early-access-card">
-                <div className="pd-section-header">
-                  <div className="pd-early-header-left">
-                    <FiSend className="pd-early-icon" size={24} />
-                    <div className="pd-early-titles">
-                      <h3>11 Early access roles from top companies <FiInfo size={14} className="pd-info-trigger" /></h3>
-                      <p>See what recruiters are searching for...</p>
+                    <h4 className="pd-job-title">{job.title}</h4>
+                    <p className="pd-job-company">{job.company} <span className="pd-job-rating"><FiStar size={11} /> {job.rating}</span></p>
+                    <p className="pd-job-loc"><FiMapPin size={11} /> {job.loc}</p>
+                    <div className="pd-job-actions">
+                      <button className="pd-job-apply">Quick Apply</button>
+                      <button className="pd-job-save"><FiBookmark size={14} /></button>
                     </div>
                   </div>
-                  <button 
-                    onClick={() => setShowJobsModal(true)} 
-                    className="pd-view-all" 
-                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: '#4477ee', fontWeight: '600' }}
-                  >
-                    View all
-                  </button>
-                </div>
-
-                <div className="pd-early-container">
-                  <button className="pd-early-scroll-btn pd-early-left" onClick={() => handleEarlyScroll('left')}>
-                    <FiChevronLeft size={18} />
-                  </button>
-
-                  <div className="pd-early-scroll" ref={earlyScrollRef}>
-                    {[
-                      {
-                        role: 'Front End Developer',
-                        type: 'Foreign IT Consulting MNC',
-                        rating: '3.5+',
-                        tags: ['Foreign MNC', 'Service'],
-                        exp: '0-2 Yrs',
-                        salary: '2-5 Lacs P.A.',
-                        loc: 'Bengaluru',
-                        logos: ['A', 'N', 'B', 'I', 'X']
-                      },
-                      {
-                        role: 'Product Designer',
-                        type: 'Corporate in B2C Health',
-                        rating: '4.2+',
-                        tags: ['Corporate', 'HealthTech'],
-                        exp: '0-4 Yrs',
-                        salary: '5-8 Lacs P.A.',
-                        loc: 'Remote',
-                        logos: ['H', 'R', 'K', 'V', 'D']
-                      },
-                      {
-                        role: 'Back End Lead',
-                        type: 'Fintech Unicorn',
-                        rating: '4.8+',
-                        tags: ['Unicorn', 'Product'],
-                        exp: '5-8 Yrs',
-                        salary: '25-35 Lacs P.A.',
-                        loc: 'Pune',
-                        logos: ['P', 'F', 'M', 'S', 'L']
-                      }
-                    ].map((role, idx) => (
-                      <div className="pd-early-role-card" key={idx}>
-                        <div className="pd-early-role-top">
-                          <h4>{role.role}</h4>
-                          <p>{role.type}</p>
-                        </div>
-
-                        <div className="pd-early-tags">
-                          <span className="pd-early-rating">★ {role.rating}</span>
-                          {role.tags.map(tag => <span key={tag} className="pd-early-tag">{tag}</span>)}
-                        </div>
-
-                        <div className="pd-early-details">
-                          <span><FiBriefcase size={14} /> {role.exp}</span>
-                          <span><FiZap size={14} /> {role.salary}</span>
-                          <span><FiMapPin size={14} /> {role.loc}</span>
-                        </div>
-
-                        <div className="pd-early-hiring">
-                          <p>Hiring for one of these companies</p>
-                          <div className="pd-early-logos">
-                            {role.logos.map((l, i) => (
-                              <div key={i} className="pd-early-logo-circle">{l}</div>
-                            ))}
-                          </div>
-                        </div>
-
-                        <button className="pd-early-share-btn">Share interest</button>
-                      </div>
-                    ))}
-                  </div>
-
-                  <button className="pd-early-scroll-btn pd-early-right" onClick={() => handleEarlyScroll('right')}>
-                    <FiChevronRight size={18} />
-                  </button>
-                </div>
-              </div>
-
-
-              {/* Highlight Banner */}
-              <div className="pd-card pd-highlight-card">
-                <div className="pd-highlight-text">
-                  <h3>Stand out from the crowd</h3>
-                  <p>Highlight your application and get noticed by top recruiters instantly.</p>
-                  <button className="pd-btn-primary"><FiZap size={15} /> Know More</button>
-                </div>
-                <div className="pd-highlight-graphic">
-                  <div className="pd-highlight-circle" />
-                  <FiUsers size={40} color="#3b82f6" style={{ position: 'relative', zIndex: 1 }} />
-                </div>
-              </div>
-
-              {/* Applies Match Section */}
-              <div className="pd-card pd-match-card">
-                <div className="pd-section-header">
-                  <h3>How your applies matched your profile in last 7 days?</h3>
-                  <button 
-                    onClick={() => setShowJobsModal(true)} 
-                    className="pd-view-all" 
-                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: '#4477ee', fontWeight: '600' }}
-                  >
-                    View all
-                  </button>
-                </div>
-
-                <div className="pd-match-container">
-                  <button className="pd-match-scroll-btn pd-match-left" onClick={() => handleMatchScroll('left')}>
-                    <FiChevronLeft size={18} />
-                  </button>
-
-                  <div className="pd-match-scroll" ref={matchScrollRef}>
-                    {/* Summary Card */}
-                    <div className="pd-match-metric-card pd-match-summary">
-                      <div className="pd-match-circle-main">
-                        <span className="pd-match-status-low">LOW</span>
-                        <div className="pd-match-dot-indicator" />
-                      </div>
-                      <p><strong>1 out of 49</strong> applies showed a match</p>
-                    </div>
-
-                    {[
-                      { label: 'Work Experience', val: '0.08 yr experience', pct: '84%', icon: <FiBriefcase /> },
-                      { label: 'Location', val: 'Dehradun', pct: '86%', icon: <FiMapPin /> },
-                      { label: 'Keyskills', val: 'Ui/Ux, Redux, NoSQL...', pct: '37%', icon: <FiEdit2 /> },
-                      { label: 'Industry', val: 'IT Services & Consulti...', pct: '57%', icon: <FiMonitor /> },
-                      { label: 'Department', val: 'Engineering - Softwar...', pct: '67%', icon: <FiUsers /> },
-                      { label: 'Early Applicant', val: 'Applied to fresh jobs', pct: '37%', icon: <FiTrendingUp /> },
-                    ].map((m, i) => (
-                      <div className="pd-match-metric-card" key={i}>
-                        <div className="pd-match-circle">
-                          <div className="pd-match-icon">{m.icon}</div>
-                          <svg className="pd-match-svg">
-                            <circle cx="25" cy="25" r="21" />
-                            <circle cx="25" cy="25" r="21" style={{ strokeDashoffset: `calc(132 - (132 * ${parseInt(m.pct)}) / 100)` }} />
-                          </svg>
-                        </div>
-                        <div className="pd-match-info">
-                          <h4>{m.label}</h4>
-                          <p>{m.val}</p>
-                          <span className="pd-match-pct">{m.pct} match</span>
-                        </div>
-                      </div>
-                    ))}
-
-                    {/* Update Card */}
-                    <div className="pd-match-metric-card pd-match-update">
-                      <h3>Want to review your profile information?</h3>
-                      <p>This will improve your job recommendations</p>
-                      <Link to="#" className="pd-update-link">Update Profile</Link>
-                    </div>
-                  </div>
-
-                  <button className="pd-match-scroll-btn pd-match-right" onClick={() => handleMatchScroll('right')}>
-                    <FiChevronRight size={18} />
-                  </button>
-                </div>
-              </div>
-
-            </section>
-
-            {/* Right Sidebar */}
-            <aside className="pd-right">
-
-              {/* App Download */}
-              <div className="pd-card pd-app-card">
-                <div className="pd-qr">
-                  <img src={mavenLogo} alt="QR" style={{ width: 40, opacity: 0.5 }} />
-                </div>
-                <p className="pd-app-stat"><strong>3,587</strong> users downloaded our app in the last 30 mins!</p>
-                <p className="pd-app-sub">Scan to download from App Store</p>
-                <div className="pd-app-badges">
-                  <span className="pd-store-badge">🍎 App Store</span>
-                  <span className="pd-store-badge">▶ Play Store</span>
-                </div>
-              </div>
-
-              {/* Premium Ad */}
-              <div className="pd-card pd-premium-card">
-                <div className="pd-premium-glow" />
-                <h3 className="pd-premium-title">PremiumX</h3>
-                <p className="pd-premium-desc">AI-powered premium talent discovery for modern recruiters.</p>
-                <Link to="#" className="pd-premium-link">Know more →</Link>
-              </div>
-
-              {/* Skills Widget */}
-              <div className="pd-card pd-skills-card">
-                <div className="pd-section-header">
-                  <h4>Top Skills</h4>
-                  <button className="pd-edit-name-icon"><FiPlus size={14} /></button>
-                </div>
-                {['React.js', 'Node.js', 'UI/UX Design', 'TypeScript', 'MongoDB'].map(skill => (
-                  <div className="pd-skill-tag" key={skill}>{skill}</div>
                 ))}
               </div>
+              <button className="pd-scroll-btn right" onClick={() => handleScroll(jobScrollRef, 'right')}><FiChevronRight size={18} /></button>
+            </div>
+          </div>
 
-            </aside>
+          {/* NVites */}
+          <div className="pd-card pd-nvites-card">
+            <div className="pd-nvites-left">
+              <div className="pd-nvites-icon"><FiMail size={28} /><span className="pd-nvites-dot" /></div>
+              <h3>NVites</h3>
+              <p>Invitation to apply</p>
+              <Link to="#" className="pd-text-btn-sm">View all →</Link>
+            </div>
+            <div className="pd-nvites-list">
+              {[
+                { code: 'N', title: 'NOC/SOC Analyst', company: 'Naukri e-Hire', when: '16d ago', bg: '#E0E7FF', col: '#3730A3' },
+                { code: 'Z', title: 'Survey Developer', company: 'ZoomRx Healthcare', when: '22d ago', bg: '#1E293B', col: '#F8FAFC' },
+                { code: 'F', title: 'Figma Specialist', company: 'IT Services Co.', when: '8d ago', bg: '#FEF3C7', col: '#92400E' },
+              ].map(inv => (
+                <div className="pd-nvite-row" key={inv.title}>
+                  <div className="pd-nvite-logo" style={{ background: inv.bg, color: inv.col }}>{inv.code}</div>
+                  <div className="pd-nvite-info">
+                    <div className="pd-nvite-title">{inv.title}</div>
+                    <div className="pd-nvite-meta"><strong>{inv.company}</strong> · {inv.when}</div>
+                  </div>
+                  <button className="pd-nvite-apply">Apply</button>
+                </div>
+              ))}
+            </div>
+          </div>
 
+          {/* Early Access */}
+          <div className="pd-card pd-early-card">
+            <div className="pd-section-header">
+              <div className="pd-early-hd">
+                <div className="pd-early-icon-wrap"><FiSend size={20} /></div>
+                <div>
+                  <h3>11 Early access roles <FiInfo size={13} className="pd-info-icon" /></h3>
+                  <p>Exclusive roles before they go public</p>
+                </div>
+              </div>
+              <button className="pd-text-btn" onClick={() => setShowJobsModal(true)}>View all <FiChevronRight size={14} /></button>
+            </div>
+            <div className="pd-scroll-wrap">
+              <button className="pd-scroll-btn left" onClick={() => handleScroll(earlyScrollRef, 'left')}><FiChevronLeft size={18} /></button>
+              <div className="pd-early-scroll" ref={earlyScrollRef}>
+                {[
+                  { role: 'Front End Developer', type: 'Foreign IT Consulting MNC', rating: '3.5+', tags: ['Foreign MNC', 'Service'], exp: '0-2 Yrs', salary: '2–5 L P.A.', loc: 'Bengaluru', logos: ['A', 'N', 'B', 'I', 'X'] },
+                  { role: 'Product Designer', type: 'Corporate in B2C Health', rating: '4.2+', tags: ['Corporate', 'HealthTech'], exp: '0-4 Yrs', salary: '5–8 L P.A.', loc: 'Remote', logos: ['H', 'R', 'K', 'V', 'D'] },
+                  { role: 'Back End Lead', type: 'Fintech Unicorn', rating: '4.8+', tags: ['Unicorn', 'Product'], exp: '5-8 Yrs', salary: '25–35 L P.A.', loc: 'Pune', logos: ['P', 'F', 'M', 'S', 'L'] },
+                ].map((r, i) => (
+                  <div className="pd-early-role-card" key={i}>
+                    <div className="pd-early-role-badge">{r.tags[0]}</div>
+                    <h4>{r.role}</h4>
+                    <p className="pd-early-type">{r.type}</p>
+                    <div className="pd-early-tags">
+                      <span className="pd-early-rating">★ {r.rating}</span>
+                      {r.tags.map(t => <span key={t} className="pd-early-tag">{t}</span>)}
+                    </div>
+                    <div className="pd-early-meta">
+                      <span><FiBriefcase size={12} /> {r.exp}</span>
+                      <span><FiZap size={12} /> {r.salary}</span>
+                      <span><FiMapPin size={12} /> {r.loc}</span>
+                    </div>
+                    <div className="pd-early-hiring">
+                      <p>Hiring from one of these</p>
+                      <div className="pd-early-logos">{r.logos.map((l, i) => <div key={i} className="pd-early-logo">{l}</div>)}</div>
+                    </div>
+                    <button className="pd-early-cta">Share interest</button>
+                  </div>
+                ))}
+              </div>
+              <button className="pd-scroll-btn right" onClick={() => handleScroll(earlyScrollRef, 'right')}><FiChevronRight size={18} /></button>
+            </div>
+          </div>
+
+          {/* Stand Out Banner */}
+          <div className="pd-card pd-standout-card">
+            <div className="pd-standout-text">
+              <div className="pd-standout-eyebrow">RECRUITER SPOTLIGHT</div>
+              <h3>Stand out from the crowd</h3>
+              <p>Highlight your application and get noticed by top recruiters instantly.</p>
+              <button className="pd-btn-primary sm"><FiZap size={13} /> Know More</button>
+            </div>
+            <div className="pd-standout-graphic">
+              <div className="pd-graphic-rings">
+                <div className="pd-ring r1" />
+                <div className="pd-ring r2" />
+                <div className="pd-ring r3" />
+              </div>
+              <FiUsers size={36} className="pd-standout-icon" />
+            </div>
+          </div>
+
+          {/* Match Card */}
+          <div className="pd-card pd-match-card">
+            <div className="pd-section-header">
+              <h3>Apply match — last 7 days</h3>
+              <button className="pd-text-btn" onClick={() => setShowJobsModal(true)}>View all <FiChevronRight size={14} /></button>
+            </div>
+            <div className="pd-scroll-wrap">
+              <button className="pd-scroll-btn left" onClick={() => handleScroll(matchScrollRef, 'left')}><FiChevronLeft size={18} /></button>
+              <div className="pd-match-scroll" ref={matchScrollRef}>
+                <div className="pd-match-card-item summary">
+                  <div className="pd-match-low-ring"><span>LOW</span></div>
+                  <p><strong>1 of 49</strong> applies matched</p>
+                </div>
+                {[
+                  { label: 'Work Experience', val: '0.08 yr', pct: 84, icon: <FiBriefcase /> },
+                  { label: 'Location', val: 'Dehradun', pct: 86, icon: <FiMapPin /> },
+                  { label: 'Key Skills', val: 'Ui/Ux, Redux…', pct: 37, icon: <FiEdit2 /> },
+                  { label: 'Industry', val: 'IT Services…', pct: 57, icon: <FiMonitor /> },
+                  { label: 'Department', val: 'Engineering…', pct: 67, icon: <FiUsers /> },
+                  { label: 'Early Applicant', val: 'Fresh jobs', pct: 37, icon: <FiTrendingUp /> },
+                ].map((m, i) => (
+                  <div className="pd-match-card-item" key={i}>
+                    <div className="pd-match-ring-wrap">
+                      <svg viewBox="0 0 50 50" className="pd-match-svg">
+                        <circle cx="25" cy="25" r="21" />
+                        <circle cx="25" cy="25" r="21" style={{ strokeDashoffset: `calc(132 - (132 * ${m.pct}) / 100)` }} />
+                      </svg>
+                      <span className="pd-match-ring-icon">{m.icon}</span>
+                    </div>
+                    <div className="pd-match-info">
+                      <h4>{m.label}</h4>
+                      <p>{m.val}</p>
+                      <span className="pd-match-pct">{m.pct}%</span>
+                    </div>
+                  </div>
+                ))}
+                <div className="pd-match-card-item update">
+                  <h4>Review your profile</h4>
+                  <p>Improve job recommendations</p>
+                  <Link to="#" className="pd-update-link">Update Profile →</Link>
+                </div>
+              </div>
+              <button className="pd-scroll-btn right" onClick={() => handleScroll(matchScrollRef, 'right')}><FiChevronRight size={18} /></button>
+            </div>
+          </div>
+
+        </section>
+
+        {/* Right Sidebar */}
+        <aside className="pd-right">
+          <div className="pd-card pd-app-card">
+            <div className="pd-qr-box"><img src={mavenLogo} alt="QR" style={{ width: 32, opacity: 0.4 }} /></div>
+            <p className="pd-app-stat"><strong>3,587</strong> downloads in last 30 mins</p>
+            <p className="pd-app-sub">Scan to download the app</p>
+            <div className="pd-app-badges">
+              <span className="pd-badge-pill">🍎 App Store</span>
+              <span className="pd-badge-pill">▶ Play Store</span>
+            </div>
+          </div>
+
+          <div className="pd-card pd-premium-card">
+            <div className="pd-premium-glow" />
+            <div className="pd-premium-eyebrow">FOR RECRUITERS</div>
+            <h3 className="pd-premium-title">PremiumX</h3>
+            <p className="pd-premium-desc">AI-powered premium talent discovery for modern teams.</p>
+            <Link to="#" className="pd-premium-link">Explore →</Link>
+          </div>
+
+          <div className="pd-card pd-skills-card">
+            <div className="pd-section-header">
+              <h4>Top Skills</h4>
+              <button className="pd-icon-btn"><FiPlus size={15} /></button>
+            </div>
+            <div className="pd-skills-wrap">
+              {['React.js', 'Node.js', 'UI/UX Design', 'TypeScript', 'MongoDB'].map(s => (
+                <span className="pd-skill-pill" key={s}>{s}</span>
+              ))}
+            </div>
+          </div>
+        </aside>
       </div>
+
       {/* ─── Profile Preview Modal ─── */}
       {showPreview && (
         <div className="ppm-overlay" onClick={() => setShowPreview(false)}>
           <div className="ppm-content" onClick={e => e.stopPropagation()}>
-            <button className="ppm-close" onClick={() => setShowPreview(false)}><FiX size={24} /></button>
-
+            <button className="ppm-close" onClick={() => setShowPreview(false)}><FiX size={22} /></button>
             <div className="ppm-body">
-              {/* Header Card */}
               <div className="ppm-card ppm-header-card">
-                <div className="ppm-header-top">
-                  <div className="ppm-avatar-wrapper">
+                <div className="ppm-header-row">
+                  <div className="ppm-avatar-wrap">
                     <img src={user.profilePic || "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg"} alt="Profile" />
-                    <div className="ppm-completion-ring">100%</div>
+                    <div className="ppm-score">100%</div>
                   </div>
                   <div className="ppm-header-info">
-                    <h2>{user.name} <FiEdit2 size={14} className="ppm-edit-inline" /></h2>
-                    <p className="ppm-headline-main">Mern Stack Developer</p>
-                    <p className="ppm-at">at Dr Design Private Limited</p>
-                    <span className="ppm-updated">Profile last updated - Yesterday</span>
+                    <h2>{user.name} <FiEdit2 size={14} className="ppm-inline-edit" /></h2>
+                    <p className="ppm-role">MERN Stack Developer</p>
+                    <p className="ppm-company-at">at Dr Design Private Limited</p>
+                    <span className="ppm-updated">Last updated · Yesterday</span>
                   </div>
                 </div>
-
-                <div className="ppm-header-grid">
-                  <div className="ppm-grid-item"><FiMapPin size={16} /> Dehradun, INDIA</div>
-                  <div className="ppm-grid-item"><FiPhone size={16} /> 8126977256 <FiCheckCircle size={14} color="#10b981" /></div>
-                  <div className="ppm-grid-item"><FiBriefcase size={16} /> 0 Year 8 Months</div>
-                  <div className="ppm-grid-item"><FiMail size={16} /> {user.email || 'rohankundliya1@gmail.com'} <FiCheckCircle size={14} color="#10b981" /></div>
-                  <div className="ppm-grid-item">₹ 2,00,000</div>
-                  <div className="ppm-grid-item"><FiClock size={16} /> 15 Days or less notice period</div>
+                <div className="ppm-meta-grid">
+                  <div className="ppm-meta-item"><FiMapPin size={14} /> Dehradun, INDIA</div>
+                  <div className="ppm-meta-item"><FiPhone size={14} /> 8126977256 <FiCheckCircle size={13} color="#10b981" /></div>
+                  <div className="ppm-meta-item"><FiBriefcase size={14} /> 0 Yr 8 Months</div>
+                  <div className="ppm-meta-item"><FiMail size={14} /> {user.email || 'user@example.com'} <FiCheckCircle size={13} color="#10b981" /></div>
+                  <div className="ppm-meta-item">₹ 2,00,000</div>
+                  <div className="ppm-meta-item"><FiClock size={14} /> 15 Days notice period</div>
                 </div>
               </div>
 
-              <div className="ppm-main-layout">
-                {/* Left side: Quick Links */}
-                <div className="ppm-left">
+              <div className="ppm-layout">
+                <div className="ppm-left-col">
                   <div className="ppm-card ppm-links-card">
                     <h3>Quick links</h3>
-                    <div className="ppm-link-item">Resume <span>Update</span></div>
-                    <div className="ppm-link-item">Resume headline</div>
-                    <div className="ppm-link-item">Key skills</div>
-                    <div className="ppm-link-item">Employment <span>Add</span></div>
-                    <div className="ppm-link-item">Education <span>Add</span></div>
-                    <div className="ppm-link-item">IT skills <span>Add</span></div>
-                    <div className="ppm-link-item">Projects</div>
-                    <div className="ppm-link-item">Profile summary</div>
-                    <div className="ppm-link-item">Accomplishments</div>
-                    <div className="ppm-link-item">Career profile</div>
-                    <div className="ppm-link-item">Personal details</div>
+                    {['Resume', 'Resume headline', 'Key skills', 'Employment', 'Education', 'IT skills', 'Projects', 'Profile summary', 'Career profile'].map(link => (
+                      <div className="ppm-link-row" key={link}>
+                        <span>{link}</span>
+                        <FiChevronRight size={13} />
+                      </div>
+                    ))}
                   </div>
                 </div>
-
-                {/* Right side: Detailed Sections */}
-                <div className="ppm-right">
-                  {/* Pro Banner */}
+                <div className="ppm-right-col">
                   <div className="ppm-pro-banner">
-                    <div className="ppm-pro-title">MavenJobs<span>Pro</span> <GiCrown className="ppm-crown-icon" /></div>
-                    <div className="ppm-pro-text">Power up with <strong>up to 4x profile views</strong></div>
-                    <button className="ppm-pro-btn">Become a Pro | 25% off</button>
+                    <div className="ppm-pro-label">MavenJobs<span>Pro</span> <GiCrown className="ppm-crown" /></div>
+                    <div className="ppm-pro-pitch">Up to <strong>4× profile views</strong></div>
+                    <button className="ppm-pro-btn">Become Pro · 25% off</button>
                   </div>
-
-                  {/* Resume Section */}
-                  <div className="ppm-card">
-                    <div className="ppm-section-header">
-                      <h3>Resume</h3>
+                  {[
+                    {
+                      title: 'Resume', content: (
+                        <div>
+                          <div className="ppm-resume-row">
+                            <FiFileText size={20} color="#64748b" />
+                            <div><div className="ppm-fname">PranjalKundliyaResume.pdf</div><div className="ppm-fdate">Uploaded Apr 28, 2026</div></div>
+                            <div className="ppm-file-actions"><FiDownload size={16} /><FiSettings size={16} /></div>
+                          </div>
+                          <div className="ppm-upload-zone"><button className="ppm-upload-btn">Update resume</button><p>doc, docx, rtf, pdf — max 2MB</p></div>
+                        </div>
+                      )
+                    },
+                    { title: 'Resume headline', content: <p className="ppm-body-text">Hi, I'm Pranjal Kundliya, a MERN stack developer at DR Design Pvt. Ltd., building scalable apps including projects for Indian Railways. I specialize in React, Node.js, and MongoDB.</p> },
+                    {
+                      title: 'Key skills', content: (
+                        <div className="ppm-skills-wrap">
+                          {['Ui/Ux', 'Redux', 'NoSQL', 'Figma', 'MongoDB', 'API', 'Express', 'Mern Stack', 'Node.js', 'React.js', 'JavaScript'].map(s => (
+                            <span key={s} className="ppm-skill-chip">{s}</span>
+                          ))}
+                        </div>
+                      )
+                    },
+                    {
+                      title: 'Employment', content: (
+                        <div className="ppm-exp-item">
+                          <div className="ppm-exp-title">MERN Stack Developer <FiEdit2 size={13} /></div>
+                          <div className="ppm-exp-co">Dr Design Private Limited</div>
+                          <div className="ppm-exp-meta">Full-time · Oct 2025 – Present · 7 months</div>
+                          <p className="ppm-body-text">Results-driven MERN Stack Developer with 8 months of experience building scalable, production-grade web applications. Proficient in React.js, Node.js, Express.js, and MongoDB. <span className="ppm-readmore">Read More</span></p>
+                        </div>
+                      )
+                    },
+                    {
+                      title: 'Education', content: (
+                        <div>
+                          <div className="ppm-edu-item"><div className="ppm-edu-deg">B.Tech Computer Science & Engineering <FiEdit2 size={13} /></div><div className="ppm-edu-school">Graphic Era University, Dehradun</div><div className="ppm-exp-meta">2021–2025 · Full Time</div></div>
+                          <div className="ppm-edu-item mt"><div className="ppm-edu-deg">Class XII <FiEdit2 size={13} /></div><div className="ppm-edu-school">CBSE · 2020</div></div>
+                          <div className="ppm-edu-item mt"><div className="ppm-edu-deg">Class X <FiEdit2 size={13} /></div><div className="ppm-edu-school">CBSE · 2018</div></div>
+                        </div>
+                      )
+                    },
+                    {
+                      title: 'Projects', content: (
+                        <div className="ppm-project-item">
+                          <div className="ppm-exp-title">MyQuoteMate <FiEdit2 size={13} /></div>
+                          <div className="ppm-exp-meta">Jan 2026 – Mar 2026 · Full Time</div>
+                          <p className="ppm-body-text">Scalable backend with Node.js, Express, and MongoDB. AI orchestration layer integrating OpenAI models with deterministic prompt engineering. <span className="ppm-readmore">Read More</span></p>
+                        </div>
+                      )
+                    },
+                  ].map(sec => (
+                    <div className="ppm-card" key={sec.title}>
+                      <div className="ppm-sec-header"><h3>{sec.title}</h3></div>
+                      {sec.content}
                     </div>
-                    <div className="ppm-resume-file">
-                      <FiFileText size={20} color="#64748b" />
-                      <div className="ppm-file-info">
-                        <div className="ppm-file-name">PranjalKundliyaResume.pdf</div>
-                        <div className="ppm-file-date">Uploaded on Apr 28, 2026</div>
-                      </div>
-                      <div className="ppm-file-actions">
-                        <FiDownload size={18} />
-                        <FiSettings size={18} />
-                      </div>
-                    </div>
-                    <div className="ppm-resume-upload">
-                      <button className="ppm-upload-btn">Update resume</button>
-                      <p>Supported Formats: doc, docx, rtf, pdf, upto 2 MB</p>
-                    </div>
-                  </div>
-
-                  {/* Headline Section */}
-                  <div className="ppm-card">
-                    <div className="ppm-section-header">
-                      <h3>Resume headline <FiEdit2 size={14} /></h3>
-                    </div>
-                    <p className="ppm-text-content">
-                      Hi, I'm Pranjal Kundliya, a MERN stack developer currently working at DR Design Pvt. Ltd., where I build scalable, real-world applications including projects for Indian Railways and corporate platforms. I specialize in React, Node.js, and MongoDB.
-                    </p>
-                  </div>
-
-                  {/* Key Skills Section */}
-                  <div className="ppm-card">
-                    <div className="ppm-section-header">
-                      <h3>Key skills <FiEdit2 size={14} /></h3>
-                    </div>
-                    <div className="ppm-skills-grid">
-                      {['Ui/Ux', 'Redux', 'NoSQL', 'Figma', 'MongoDB', 'Alpha Testing', 'API', 'Express', 'Mern Stack', 'Node.js', 'Front End Engineer', 'Javascript', 'React.js'].map(skill => (
-                        <span key={skill} className="ppm-skill-tag">{skill}</span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Employment Section */}
-                  <div className="ppm-card">
-                    <div className="ppm-section-header">
-                      <h3>Employment</h3>
-                      <button className="ppm-add-btn">Add employment</button>
-                    </div>
-                    <div className="ppm-experience-item">
-                      <div className="ppm-exp-header">
-                        <h4>Mern Stack Developer <FiEdit2 size={14} /></h4>
-                        <div className="ppm-company">Dr Design Private Limited</div>
-                      </div>
-                      <div className="ppm-exp-meta">Full-time | Oct 2025 to Present (7 months)</div>
-                      <div className="ppm-exp-meta">15 Days or less Notice Period</div>
-                      <p className="ppm-exp-desc">
-                        Results-driven MERN Stack Developer with 8 months of experience in building scalable, production-grade web applications. Proficient in React.js, Node.js, Express.js, and MongoDB with hands-on experience in developing end-to-end full-stack solutions. Worked on real-world client projec... <span className="ppm-read-more">Read More</span>
-                      </p>
-                      <div className="ppm-exp-skills"><strong>Top 5 key skills:</strong> React.js, Mern Stack, Mern Full Stack, node.js, Node.js, Javascript, api, API Testing, Express, html</div>
-                    </div>
-                  </div>
-
-                  {/* Education Section */}
-                  <div className="ppm-card">
-                    <div className="ppm-section-header">
-                      <h3>Education</h3>
-                      <button className="ppm-add-btn">Add education</button>
-                    </div>
-                    <div className="ppm-edu-item">
-                      <h4>B.Tech / B.E. Computer Science and Engi... <FiEdit2 size={14} /></h4>
-                      <div className="ppm-school">Graphic Era University, Dehradun</div>
-                      <div className="ppm-edu-meta">2021-2025 | Full Time</div>
-                    </div>
-                    <div className="ppm-edu-sub">
-                      <div className="ppm-edu-item">
-                        <h4>Class XII <FiEdit2 size={14} /></h4>
-                        <div className="ppm-school">CBSE</div>
-                        <div className="ppm-edu-meta">2020</div>
-                      </div>
-                      <div className="ppm-edu-item">
-                        <h4>Class X <FiEdit2 size={14} /></h4>
-                        <div className="ppm-school">CBSE</div>
-                        <div className="ppm-edu-meta">2018</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* IT Skills Section */}
-                  <div className="ppm-card">
-                    <div className="ppm-section-header">
-                      <h3>IT skills</h3>
-                      <button className="ppm-add-btn">Add details</button>
-                    </div>
-                    <p className="ppm-muted-text">Show your technical expertise by mentioning softwares and skills you know</p>
-                  </div>
-
-                  {/* Projects Section */}
-                  <div className="ppm-card">
-                    <div className="ppm-section-header">
-                      <h3>Projects</h3>
-                      <button className="ppm-add-btn">Add project</button>
-                    </div>
-                    <div className="ppm-project-item">
-                      <h4>MyQuoteMate <FiEdit2 size={14} /></h4>
-                      <div className="ppm-project-sub">My Quote Mate (Onsite)</div>
-                      <div className="ppm-project-meta">Jan 2026 to Mar 2026 (Full Time)</div>
-                      <p className="ppm-project-desc">
-                        Built a scalable backend with Node.js, Express, and MongoDB to process and analyze contractor quotes, with strict authentication, rate limiting, and tiered access controls. Designed an AI orchestration layer that integrates OpenAI models with deterministic prompt engineering... <span className="ppm-read-more">Read More</span>
-                      </p>
-                    </div>
-                  </div>
-
+                  ))}
                 </div>
               </div>
             </div>
           </div>
         </div>
       )}
-      {/* Notification Sidebar */}
+
+      {/* ─── Notification Sidebar ─── */}
       <div className={`pd-notif-overlay ${showNotifications ? 'show' : ''}`} onClick={() => setShowNotifications(false)} />
       <div className={`pd-notif-sidebar ${showNotifications ? 'show' : ''}`}>
-        <div className="pd-notif-header">
+        <div className="pd-notif-head">
           <h3>Notifications</h3>
-          <button className="pd-notif-close" onClick={() => setShowNotifications(false)}>
-            <FiX size={20} />
-          </button>
+          <button className="pd-notif-close" onClick={() => setShowNotifications(false)}><FiX size={18} /></button>
         </div>
-
         <div className="pd-notif-body">
-          <div className="pd-notif-date-group">Today</div>
-
+          <div className="pd-notif-date">Today</div>
           {[
-            {
-              icon: <FiAward />,
-              color: '#7c3aed',
-              bg: '#f5f3ff',
-              title: '🚀 Practice these 4 interview questions for your Fortified Infotech EDI application!',
-              desc: 'Instant feedback to ace your Software & Sr Software...',
-              time: '2h ago',
-              action: 'Practice Now'
-            },
-            {
-              icon: <FiFileText />,
-              color: '#f59e0b',
-              bg: '#fffbeb',
-              title: 'Your resume for job application was viewed',
-              desc: 'Application History',
-              time: '3h ago'
-            },
-            {
-              icon: <FiUsers />,
-              color: '#2563eb',
-              bg: '#eff6ff',
-              title: 'Let AI help you ace your next job interview. Try now and prepare for success!',
-              desc: '🚀 Unlock Your Interview Success!',
-              time: '3h ago',
-              action: 'Practice Now'
-            },
-            {
-              icon: <FiCheckCircle />,
-              color: '#10b981',
-              bg: '#f0fdf4',
-              title: 'Apply by 11:10 AM for a job just posted for you by Infrrd.',
-              desc: 'Neo-AI Job Agent',
-              time: '4h ago'
-            },
-            {
-              icon: <FiX />,
-              color: '#ef4444',
-              bg: '#fef2f2',
-              title: 'Your application was marked not shortlisted',
-              desc: 'Application History',
-              time: '5h ago'
-            },
-            {
-              icon: <FiZap />,
-              color: '#7c3aed',
-              bg: '#f5f3ff',
-              title: 'AI has written answers using your resume for your upcoming Full Stack Developer interview.',
-              desc: '✨ Interview Q&A made for Pranjal',
-              time: '6h ago'
-            }
-          ].map((notif, idx) => (
-            <div className="pd-notif-item" key={idx}>
-              <div className="pd-notif-icon-box" style={{ background: notif.bg, color: notif.color }}>
-                {notif.icon}
-              </div>
+            { icon: <FiAward />, color: '#7C3AED', bg: '#F5F3FF', title: '🚀 Practice 4 interview questions for your Fortified Infotech application', desc: 'Get instant feedback to ace your interview', time: '2h ago', cta: 'Practice Now' },
+            { icon: <FiFileText />, color: '#D97706', bg: '#FFFBEB', title: 'Your resume was viewed by a recruiter', desc: 'Application History', time: '3h ago' },
+            { icon: <FiUsers />, color: '#2563EB', bg: '#EFF6FF', title: 'Let AI help you ace your next job interview', desc: 'Unlock Your Interview Success!', time: '3h ago', cta: 'Practice Now' },
+            { icon: <FiCheckCircle />, color: '#059669', bg: '#ECFDF5', title: 'Apply by 11:10 AM for a job posted by Infrrd', desc: 'Neo-AI Job Agent', time: '4h ago' },
+            { icon: <FiX />, color: '#DC2626', bg: '#FEF2F2', title: 'Your application was not shortlisted', desc: 'Application History', time: '5h ago' },
+            { icon: <FiZap />, color: '#7C3AED', bg: '#F5F3FF', title: 'AI wrote interview Q&A from your resume', desc: '✨ Personalized for you', time: '6h ago' },
+          ].map((n, i) => (
+            <div className="pd-notif-item" key={i}>
+              <div className="pd-notif-icon" style={{ background: n.bg, color: n.color }}>{n.icon}</div>
               <div className="pd-notif-content">
-                <div className="pd-notif-title">{notif.title}</div>
-                <div className="pd-notif-desc">{notif.desc}</div>
-                {notif.action && (
-                  <button className="pd-notif-action-btn">{notif.action}</button>
-                )}
-                <div className="pd-notif-time">{notif.time}</div>
+                <div className="pd-notif-title">{n.title}</div>
+                <div className="pd-notif-desc">{n.desc}</div>
+                {n.cta && <button className="pd-notif-cta">{n.cta}</button>}
+                <div className="pd-notif-time">{n.time}</div>
               </div>
             </div>
           ))}
         </div>
-    </div>
+      </div>
 
-      {/* ─── Recommended Jobs Modal ─── */}
+      {/* ─── Jobs Modal ─── */}
       {showJobsModal && (
         <div className="pd-modal-overlay" onClick={() => setShowJobsModal(false)}>
-          <div className="pd-modal-content" onClick={e => e.stopPropagation()}>
-            <button className="pd-modal-close" onClick={() => setShowJobsModal(false)}>
-              <FiX size={24} />
-            </button>
-            <div className="pd-modal-scroll-area">
+          <div className="pd-modal-box" onClick={e => e.stopPropagation()}>
+            <button className="pd-modal-close" onClick={() => setShowJobsModal(false)}><FiX size={22} /></button>
+            <div className="pd-modal-scroll">
               <RecommendedJobs onBack={() => setShowJobsModal(false)} />
             </div>
           </div>

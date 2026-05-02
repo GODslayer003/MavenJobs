@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  FiArrowRight, 
-  FiUsers, 
-  FiZap, 
-  FiSearch, 
-  FiAward, 
-  FiMessageSquare, 
-  FiCheckCircle, 
+import {
+  FiArrowRight,
+  FiUsers,
+  FiZap,
+  FiSearch,
+  FiAward,
+  FiMessageSquare,
+  FiCheckCircle,
   FiTrendingUp,
   FiBriefcase,
   FiX,
@@ -27,7 +27,7 @@ const EmployerLandingPage = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    
+
     const handleScroll = () => {
       if (window.scrollY > 50) {
         setScrolled(true);
@@ -86,7 +86,7 @@ const EmployerLandingPage = () => {
         <Link to="/" className="employer-logo">
           <img src={mavenLogo} alt="MavenJobs" style={{ height: '40px' }} />
         </Link>
-        
+
         <div className="employer-nav-links">
           <a href="#" className="employer-nav-link">Our offerings</a>
           <a href="#" className="employer-nav-link">Naukri Talent Cloud</a>
@@ -101,6 +101,17 @@ const EmployerLandingPage = () => {
 
       {/* Hero */}
       <section className="employer-hero">
+        <div className="employer-spline-bg">
+          <iframe 
+            src="https://my.spline.design/robotfollowcursorforlandingpage-hS0YvCWqGXh7qtQLoI7hRBJR/" 
+            frameBorder="0" 
+            width="100%" 
+            height="100%"
+            title="Spline Background"
+          ></iframe>
+          <div className="employer-spline-overlay" />
+        </div>
+        
         <div className="employer-hero-container">
           <div className="employer-hero-content">
             <span className="section-tag" style={{ textAlign: 'left', color: '#60a5fa', marginBottom: '24px' }}>Talent Decoded</span>
@@ -110,10 +121,10 @@ const EmployerLandingPage = () => {
               power of <span>AI</span>
             </h1>
             <p style={{ fontSize: '1.25rem', color: 'rgba(255,255,255,0.8)', maxWidth: '600px', lineHeight: '1.6', marginBottom: '40px' }}>
-              Accelerate your success with data-driven precision. Scale your workforce with 
+              Accelerate your success with data-driven precision. Scale your workforce with
               unparalleled intelligence and seamless recruitment workflows.
             </p>
-            
+
             <div className="employer-hero-stats">
               <div className="hero-stat-item">
                 <FiUsers className="hero-stat-icon" style={{ color: '#60a5fa' }} />
@@ -133,13 +144,13 @@ const EmployerLandingPage = () => {
           {/* Callback Form Card */}
           <div className="callback-card">
             <div className="callback-tabs">
-              <button 
+              <button
                 className={`callback-tab ${activeTab === 'sales' ? 'active' : ''}`}
                 onClick={() => setActiveTab('sales')}
               >
                 Sales enquiry
               </button>
-              <button 
+              <button
                 className={`callback-tab ${activeTab === 'login' ? 'active' : ''}`}
                 onClick={() => setActiveTab('login')}
               >
@@ -164,7 +175,7 @@ const EmployerLandingPage = () => {
               <div className="form-group">
                 <label>Hiring for</label>
                 <div className="hiring-options">
-                  <div 
+                  <div
                     className={`hiring-option ${hiringFor === 'company' ? 'active' : ''}`}
                     onClick={() => {
                       setHiringFor('company');
@@ -173,7 +184,7 @@ const EmployerLandingPage = () => {
                   >
                     Your company
                   </div>
-                  <div 
+                  <div
                     className={`hiring-option ${hiringFor === 'consultancy' ? 'active' : ''}`}
                     onClick={() => {
                       setHiringFor('consultancy');
@@ -236,48 +247,48 @@ const EmployerLandingPage = () => {
 
           <div className="offerings-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
             <div className="offering-card" style={{ padding: '0', overflow: 'hidden' }}>
-               <div style={{ height: '200px', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <FaBuilding style={{ fontSize: '4rem', color: '#cbd5e1' }} />
-               </div>
-               <div style={{ padding: '30px' }}>
-                 <h3>Large companies & enterprises</h3>
-                 <ul style={{ listStyle: 'none', padding: '0', color: 'var(--employer-muted)', lineHeight: '2' }}>
-                   <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Fill any role, from bulk hiring to leadership</li>
-                   <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Get AI-powered candidate insights</li>
-                   <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Boost brand visibility with custom solutions</li>
-                 </ul>
-                 <button className="btn-employer-outline" style={{ width: '100%', marginTop: '20px' }}>Request callback</button>
-               </div>
+              <div style={{ height: '200px', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <FaBuilding style={{ fontSize: '4rem', color: '#cbd5e1' }} />
+              </div>
+              <div style={{ padding: '30px' }}>
+                <h3>Large companies & enterprises</h3>
+                <ul style={{ listStyle: 'none', padding: '0', color: 'var(--employer-muted)', lineHeight: '2' }}>
+                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Fill any role, from bulk hiring to leadership</li>
+                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Get AI-powered candidate insights</li>
+                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Boost brand visibility with custom solutions</li>
+                </ul>
+                <button className="btn-employer-outline" style={{ width: '100%', marginTop: '20px' }}>Request callback</button>
+              </div>
             </div>
 
             <div className="offering-card" style={{ padding: '0', overflow: 'hidden' }}>
-               <div style={{ height: '200px', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <FiZap style={{ fontSize: '4rem', color: '#cbd5e1' }} />
-               </div>
-               <div style={{ padding: '30px' }}>
-                 <h3>Small & medium businesses</h3>
-                 <ul style={{ listStyle: 'none', padding: '0', color: 'var(--employer-muted)', lineHeight: '2' }}>
-                   <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Find local candidates across India</li>
-                   <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Hire candidates with relevant experience</li>
-                   <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Start hiring with low-cost plans</li>
-                 </ul>
-                 <button className="btn-employer-outline" style={{ width: '100%', marginTop: '20px' }}>Request callback</button>
-               </div>
+              <div style={{ height: '200px', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <FiZap style={{ fontSize: '4rem', color: '#cbd5e1' }} />
+              </div>
+              <div style={{ padding: '30px' }}>
+                <h3>Small & medium businesses</h3>
+                <ul style={{ listStyle: 'none', padding: '0', color: 'var(--employer-muted)', lineHeight: '2' }}>
+                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Find local candidates across India</li>
+                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Hire candidates with relevant experience</li>
+                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Start hiring with low-cost plans</li>
+                </ul>
+                <button className="btn-employer-outline" style={{ width: '100%', marginTop: '20px' }}>Request callback</button>
+              </div>
             </div>
 
             <div className="offering-card" style={{ padding: '0', overflow: 'hidden' }}>
-               <div style={{ height: '200px', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <FiMessageSquare style={{ fontSize: '4rem', color: '#cbd5e1' }} />
-               </div>
-               <div style={{ padding: '30px' }}>
-                 <h3>Consultants & agencies</h3>
-                 <ul style={{ listStyle: 'none', padding: '0', color: 'var(--employer-muted)', lineHeight: '2' }}>
-                   <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Speed up your hiring with faster turnaround</li>
-                   <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Track your team performance with data</li>
-                   <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Instantly connect with candidates</li>
-                 </ul>
-                 <button className="btn-employer-outline" style={{ width: '100%', marginTop: '20px' }}>Request callback</button>
-               </div>
+              <div style={{ height: '200px', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <FiMessageSquare style={{ fontSize: '4rem', color: '#cbd5e1' }} />
+              </div>
+              <div style={{ padding: '30px' }}>
+                <h3>Consultants & agencies</h3>
+                <ul style={{ listStyle: 'none', padding: '0', color: 'var(--employer-muted)', lineHeight: '2' }}>
+                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Speed up your hiring with faster turnaround</li>
+                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Track your team performance with data</li>
+                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Instantly connect with candidates</li>
+                </ul>
+                <button className="btn-employer-outline" style={{ width: '100%', marginTop: '20px' }}>Request callback</button>
+              </div>
             </div>
           </div>
         </div>
@@ -295,7 +306,7 @@ const EmployerLandingPage = () => {
             <button className="modal-close" onClick={() => setIsModalOpen(false)}>
               <FiX />
             </button>
-            
+
             <div className="modal-header">
               <h2>Request a Callback</h2>
               <p>Fill in the details below and our team will get back to you shortly.</p>
@@ -316,13 +327,13 @@ const EmployerLandingPage = () => {
               <div className="form-group">
                 <label>Hiring for</label>
                 <div className="hiring-options modal-hiring">
-                  <div 
+                  <div
                     className={`hiring-option ${hiringFor === 'company' ? 'active' : ''}`}
                     onClick={() => setHiringFor('company')}
                   >
                     Your company
                   </div>
-                  <div 
+                  <div
                     className={`hiring-option ${hiringFor === 'consultancy' ? 'active' : ''}`}
                     onClick={() => setHiringFor('consultancy')}
                   >
@@ -346,12 +357,12 @@ const EmployerLandingPage = () => {
                 <div className="custom-dropdown" onClick={() => setRangeOpen(!rangeOpen)}>
                   <span>{selectedRange}</span>
                   <FiChevronDown style={{ transform: rangeOpen ? 'rotate(180deg)' : 'none' }} />
-                  
+
                   {rangeOpen && (
                     <div className="dropdown-menu">
                       {['1-14', '15-49', '50-100', '101-200', '201-500', '501 and above'].map(range => (
-                        <div 
-                          key={range} 
+                        <div
+                          key={range}
                           className="dropdown-item"
                           onClick={(e) => {
                             e.stopPropagation();
@@ -375,13 +386,13 @@ const EmployerLandingPage = () => {
 
               <div className="recaptcha-placeholder">
                 <div className="recaptcha-box">
-                   <div className="recaptcha-check"></div>
-                   <span>I'm not a robot</span>
-                   <div className="recaptcha-logo">
-                     <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="" />
-                     <span>reCAPTCHA</span>
-                     <small>Privacy - Terms</small>
-                   </div>
+                  <div className="recaptcha-check"></div>
+                  <span>I'm not a robot</span>
+                  <div className="recaptcha-logo">
+                    <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="" />
+                    <span>reCAPTCHA</span>
+                    <small>Privacy - Terms</small>
+                  </div>
                 </div>
               </div>
 
