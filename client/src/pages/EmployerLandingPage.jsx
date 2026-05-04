@@ -1,20 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  FiArrowRight,
-  FiUsers,
-  FiZap,
-  FiSearch,
-  FiAward,
-  FiMessageSquare,
-  FiCheckCircle,
-  FiTrendingUp,
-  FiBriefcase,
-  FiX,
-  FiChevronDown
+  FiArrowRight, FiUsers, FiZap, FiSearch, FiAward,
+  FiMessageSquare, FiCheckCircle, FiTrendingUp, FiBriefcase,
+  FiX, FiChevronDown, FiPlay, FiShield, FiBarChart2,
+  FiTarget, FiCpu, FiLayers
 } from 'react-icons/fi';
-import { FaBuilding } from 'react-icons/fa';
-import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
+import { FaBuilding, FaQuoteLeft } from 'react-icons/fa';
+import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
 import './EmployerLandingPage.css';
 
 const EmployerLandingPage = () => {
@@ -24,352 +17,417 @@ const EmployerLandingPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [rangeOpen, setRangeOpen] = useState(false);
   const [selectedRange, setSelectedRange] = useState('Select range');
+  const [activeOfferingTab, setActiveOfferingTab] = useState(0);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const offerings = [
+    { title: 'Job Posting', desc: 'Receive applications instantly and connect with high-quality, relevant candidates at scale.', icon: <FiBriefcase />, color: '#2563eb', bg: '#eff6ff' },
+    { title: 'Resume Database', desc: 'Access and attract from a real-time pool of 10 crore+ active jobseekers across India.', icon: <FiSearch />, color: '#7c3aed', bg: '#f5f3ff' },
+    { title: 'Expert Assist', desc: 'Leave sourcing and shortlisting to our hiring experts — you focus only on final interviews.', icon: <FiUsers />, color: '#0891b2', bg: '#ecfeff' },
+    { title: 'Employer Branding', desc: 'Stand out as a top workplace and attract passive talent through custom brand campaigns.', icon: <FiAward />, color: '#d97706', bg: '#fffbeb' },
+    { title: 'Hiring Automation', desc: 'Streamline your recruitment workflow with AI-powered ATS and smart screening tools.', icon: <FiCpu />, color: '#059669', bg: '#ecfdf5' },
+    { title: 'Talent Planning', desc: 'Get deep insights into market trends and salary benchmarks to plan hiring with precision.', icon: <FiBarChart2 />, color: '#e11d48', bg: '#fff1f2' },
+  ];
+
+  const stats = [
+    { value: '10Cr+', label: 'Registered jobseekers' },
+    { value: '1.5L+', label: 'Companies trust us' },
+    { value: '98%', label: 'Placement success rate' },
+    { value: '48hrs', label: 'Average time-to-hire' },
+  ];
+
+  const testimonials = [
+    { name: 'Priya Sharma', role: 'VP Talent, Flipkart', text: 'MavenJobs helped us cut our hiring cycle by 40%. The AI-matching is genuinely impressive.', initials: 'PS', color: '#2563eb' },
+    { name: 'Arjun Mehta', role: 'HR Director, TCS', text: 'We filled 200+ roles in a quarter using Resdex. The quality of candidates is unmatched.', initials: 'AM', color: '#7c3aed' },
+    { name: 'Sneha Iyer', role: 'Talent Lead, Microsoft', text: 'The employer branding tools helped us become a recognized top workplace within 6 months.', initials: 'SI', color: '#059669' },
+  ];
+
+  const businessTypes = [
     {
-      title: "Job Posting",
-      desc: "Receive applications and quickly connect with high-quality, relevant candidates.",
-      icon: <FiBriefcase />,
-      link: "View plans"
+      icon: <FaBuilding size={28} />,
+      title: 'Large enterprises',
+      subtitle: 'End-to-end talent strategy',
+      color: '#2563eb', bg: '#eff6ff',
+      features: ['Fill any role — from bulk to leadership', 'AI-powered candidate scoring', 'Custom employer brand campaigns', 'Dedicated account management'],
     },
     {
-      title: "Resume Database (Resdex)",
-      desc: "Access & attract from a pool of 10 crore+ jobseekers - all in real-time!",
-      icon: <FiSearch />,
-      link: "View plans"
+      icon: <FiZap size={28} />,
+      title: 'SMBs & startups',
+      subtitle: 'Lean hiring, big results',
+      color: '#059669', bg: '#ecfdf5',
+      features: ['Find local candidates across India', 'Hire for relevant experience fast', 'Start hiring with affordable plans', 'Self-serve dashboard'],
+      featured: true,
     },
     {
-      title: "Expert Assist",
-      desc: "Leave sourcing & shortlisting to our hiring experts, you focus on interviewing.",
-      icon: <FiUsers />,
-      link: "View plans"
+      icon: <FiMessageSquare size={28} />,
+      title: 'Consultants & agencies',
+      subtitle: 'Scale your placements',
+      color: '#7c3aed', bg: '#f5f3ff',
+      features: ['Speed up hiring with faster turnaround', 'Multi-client management dashboard', 'Instantly connect with candidates', 'Performance analytics'],
     },
-    {
-      title: "Employer Branding",
-      desc: "Stand out as a top workplace and attract passive talent through custom campaigns.",
-      icon: <FiAward />,
-      link: "View plans"
-    },
-    {
-      title: "Hiring Automation",
-      desc: "Streamline your recruitment workflow with our AI-powered ATS and screening tools.",
-      icon: <FiZap />,
-      link: "View plans"
-    },
-    {
-      title: "Talent Planning",
-      desc: "Get insights into market trends and salary benchmarks to plan your hiring better.",
-      icon: <FiTrendingUp />,
-      link: "View plans"
-    }
+  ];
+
+  const steps = [
+    { num: '01', title: 'Create your account', desc: 'Sign up in under 2 minutes and set up your employer profile.' },
+    { num: '02', title: 'Post your requirements', desc: 'Describe the role and let our AI surface the best-fit candidates.' },
+    { num: '03', title: 'Review & shortlist', desc: 'Get ranked applications with AI insights straight to your dashboard.' },
+    { num: '04', title: 'Hire with confidence', desc: 'Interview, select, and onboard — all tracked in one place.' },
   ];
 
   return (
-    <div className="employer-app">
-      {/* Header */}
-      <nav className={`employer-nav ${scrolled ? 'scrolled' : ''}`}>
-        <Link to="/" className="employer-logo">
-          <img src={mavenLogo} alt="MavenJobs" style={{ height: '40px' }} />
-        </Link>
+    <div className="elp-root">
 
-        <div className="employer-nav-links">
-          <a href="#" className="employer-nav-link">Our offerings</a>
-          <a href="#" className="employer-nav-link">Naukri Talent Cloud</a>
-          <a href="#" className="employer-nav-link">Resources</a>
-        </div>
-
-        <div className="employer-nav-actions">
-          <Link to="/buy-online" className="btn-employer-outline" style={{ display: 'inline-block', textDecoration: 'none', textAlign: 'center' }}>Buy online</Link>
-          <button className="btn-employer-filled">Post a job</button>
+      {/* ─── Navbar ─── */}
+      <nav className={`elp-nav ${scrolled ? 'scrolled' : ''}`}>
+        <div className="elp-nav-inner">
+          <Link to="/" className="elp-logo">
+            <img src={mavenLogo} alt="MavenJobs" style={{ height: 36 }} />
+          </Link>
+          <div className="elp-nav-links">
+            <a href="#offerings" className="elp-nav-link">Our offerings</a>
+            <a href="#solutions" className="elp-nav-link">Solutions</a>
+            <a href="#how-it-works" className="elp-nav-link">How it works</a>
+            <a href="#resources" className="elp-nav-link">Resources</a>
+          </div>
+          <div className="elp-nav-actions">
+            <Link to="/buy-online" className="elp-btn-outline">Buy online</Link>
+            <button className="elp-btn-filled" onClick={() => setIsModalOpen(true)}>Post a job</button>
+          </div>
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="employer-hero">
-        <div className="employer-spline-bg">
-          <iframe 
-            src="https://my.spline.design/robotfollowcursorforlandingpage-hS0YvCWqGXh7qtQLoI7hRBJR/" 
-            frameBorder="0" 
-            width="100%" 
+      {/* ─── Hero ─── */}
+      <section className="elp-hero">
+        <div className="elp-hero-spline">
+          <iframe
+            src="https://my.spline.design/robotfollowcursorforlandingpage-hS0YvCWqGXh7qtQLoI7hRBJR/"
+            frameBorder="0"
+            width="100%"
             height="100%"
             title="Spline Background"
-          ></iframe>
-          <div className="employer-spline-overlay" />
+          />
+          <div className="elp-hero-overlay" />
         </div>
-        
-        <div className="employer-hero-container">
-          <div className="employer-hero-content">
-            <span className="section-tag" style={{ textAlign: 'left', color: '#60a5fa', marginBottom: '24px' }}>Talent Decoded</span>
-            <h1 style={{ textShadow: '0 10px 30px rgba(0,0,0,0.3)', marginBottom: '16px' }}>
-              Decode India’s largest <br />
-              talent pool with the <br />
-              power of <span>AI</span>
+
+        <div className="elp-hero-inner">
+          <div className="elp-hero-left">
+            <div className="elp-hero-eyebrow">
+              <span className="elp-eyebrow-dot" />
+              Talent Decoded
+            </div>
+            <h1 className="elp-hero-h1">
+              Decode India's<br />
+              largest talent pool<br />
+              with the power of <span className="elp-hero-accent">AI</span>
             </h1>
-            <p style={{ fontSize: '1.25rem', color: 'rgba(255,255,255,0.8)', maxWidth: '600px', lineHeight: '1.6', marginBottom: '40px' }}>
-              Accelerate your success with data-driven precision. Scale your workforce with
-              unparalleled intelligence and seamless recruitment workflows.
+            <p className="elp-hero-sub">
+              Accelerate hiring with data-driven precision. Scale your workforce with unparalleled intelligence and seamless recruitment workflows.
             </p>
 
-            <div className="employer-hero-stats">
-              <div className="hero-stat-item">
-                <FiUsers className="hero-stat-icon" style={{ color: '#60a5fa' }} />
-                <span><strong style={{ color: '#fff' }}>10 crore+ registered</strong> jobseekers for all your talent needs</span>
-              </div>
-              <div className="hero-stat-item">
-                <FiZap className="hero-stat-icon" style={{ color: '#34d399' }} />
-                <span><strong style={{ color: '#fff' }}>Most advanced</strong> recruitment AI for precision hiring</span>
-              </div>
+            <div className="elp-hero-stats">
+              {stats.map((s, i) => (
+                <div key={i} className="elp-hero-stat">
+                  <span className="elp-hero-stat-val">{s.value}</span>
+                  <span className="elp-hero-stat-label">{s.label}</span>
+                </div>
+              ))}
             </div>
 
-            <button className="btn-employer-filled" style={{ marginTop: '32px', padding: '18px 48px', fontSize: '1.15rem' }}>
-              Explore our products
-            </button>
+            <div className="elp-hero-ctas">
+              <button className="elp-btn-filled elp-btn-lg" onClick={() => setIsModalOpen(true)}>
+                Get started free <FiArrowRight size={18} />
+              </button>
+              <button className="elp-btn-ghost">
+                <span className="elp-play-btn"><FiPlay size={14} /></span>
+                Watch demo
+              </button>
+            </div>
           </div>
 
-          {/* Callback Form Card */}
-          <div className="callback-card">
-            <div className="callback-tabs">
+          {/* Callback Card */}
+          <div className="elp-callback-card">
+            <div className="elp-callback-tabs">
               <button
-                className={`callback-tab ${activeTab === 'sales' ? 'active' : ''}`}
+                className={`elp-callback-tab ${activeTab === 'sales' ? 'active' : ''}`}
                 onClick={() => setActiveTab('sales')}
               >
                 Sales enquiry
               </button>
               <button
-                className={`callback-tab ${activeTab === 'login' ? 'active' : ''}`}
+                className={`elp-callback-tab ${activeTab === 'login' ? 'active' : ''}`}
                 onClick={() => setActiveTab('login')}
               >
-                Register/Log In
+                Register / Log in
               </button>
             </div>
 
-            <form className="callback-form">
-              <div className="form-group">
+            <form className="elp-callback-form" onSubmit={e => e.preventDefault()}>
+              <div className="elp-form-group">
                 <label>Full name</label>
                 <input type="text" placeholder="Enter your full name" />
               </div>
-              <div className="form-group">
+              <div className="elp-form-group">
                 <label>Mobile number</label>
                 <input type="tel" placeholder="Enter mobile number" />
               </div>
-              <div className="form-group">
+              <div className="elp-form-group">
                 <label>Work email</label>
                 <input type="email" placeholder="Enter your work email" />
               </div>
-
-              <div className="form-group">
+              <div className="elp-form-group">
                 <label>Hiring for</label>
-                <div className="hiring-options">
+                <div className="elp-hiring-opts">
                   <div
-                    className={`hiring-option ${hiringFor === 'company' ? 'active' : ''}`}
-                    onClick={() => {
-                      setHiringFor('company');
-                      setIsModalOpen(true);
-                    }}
-                  >
-                    Your company
-                  </div>
-                  <div
-                    className={`hiring-option ${hiringFor === 'consultancy' ? 'active' : ''}`}
-                    onClick={() => {
-                      setHiringFor('consultancy');
-                      setIsModalOpen(true);
-                    }}
-                  >
-                    Your consultancy
-                  </div>
-                </div>
-              </div>
-
-              <button type="submit" className="btn-callback">
-                Request callback
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
-
-      {/* Partners */}
-      <div className="partners-strip">
-        <div className="partners-container">
-          <span className="partner-logo">TCS</span>
-          <span className="partner-logo">FLIPKART</span>
-          <span className="partner-logo">AMAZON</span>
-          <span className="partner-logo">MICROSOFT</span>
-          <span className="partner-logo">GOOGLE</span>
-          <span className="partner-logo">BYJUS</span>
-        </div>
-      </div>
-
-      {/* What we offer */}
-      <section className="employer-section">
-        <span className="section-tag">Our Solutions</span>
-        <h2>What MavenJobs offers</h2>
-        <p className="subtitle">We handle everything—from planning and branding to sourcing, so you can focus on hiring the best talent.</p>
-
-        <div className="offerings-grid">
-          {offerings.map((item, index) => (
-            <div className="offering-card" key={index}>
-              <div className="offering-icon-wrapper">
-                {item.icon}
-              </div>
-              <h3>{item.title}</h3>
-              <p>{item.desc}</p>
-              <a href="#" className="offering-link">
-                {item.link} <FiArrowRight />
-              </a>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Simple Hiring Section */}
-      <section className="employer-section" style={{ background: '#f8fafc', maxWidth: '100%' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <span className="section-tag">Business Focus</span>
-          <h2>Hiring made simple for every business</h2>
-          <p className="subtitle">Big or small, we've got you covered every step of the way.</p>
-
-          <div className="offerings-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
-            <div className="offering-card" style={{ padding: '0', overflow: 'hidden' }}>
-              <div style={{ height: '200px', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <FaBuilding style={{ fontSize: '4rem', color: '#cbd5e1' }} />
-              </div>
-              <div style={{ padding: '30px' }}>
-                <h3>Large companies & enterprises</h3>
-                <ul style={{ listStyle: 'none', padding: '0', color: 'var(--employer-muted)', lineHeight: '2' }}>
-                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Fill any role, from bulk hiring to leadership</li>
-                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Get AI-powered candidate insights</li>
-                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Boost brand visibility with custom solutions</li>
-                </ul>
-                <button className="btn-employer-outline" style={{ width: '100%', marginTop: '20px' }}>Request callback</button>
-              </div>
-            </div>
-
-            <div className="offering-card" style={{ padding: '0', overflow: 'hidden' }}>
-              <div style={{ height: '200px', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <FiZap style={{ fontSize: '4rem', color: '#cbd5e1' }} />
-              </div>
-              <div style={{ padding: '30px' }}>
-                <h3>Small & medium businesses</h3>
-                <ul style={{ listStyle: 'none', padding: '0', color: 'var(--employer-muted)', lineHeight: '2' }}>
-                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Find local candidates across India</li>
-                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Hire candidates with relevant experience</li>
-                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Start hiring with low-cost plans</li>
-                </ul>
-                <button className="btn-employer-outline" style={{ width: '100%', marginTop: '20px' }}>Request callback</button>
-              </div>
-            </div>
-
-            <div className="offering-card" style={{ padding: '0', overflow: 'hidden' }}>
-              <div style={{ height: '200px', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <FiMessageSquare style={{ fontSize: '4rem', color: '#cbd5e1' }} />
-              </div>
-              <div style={{ padding: '30px' }}>
-                <h3>Consultants & agencies</h3>
-                <ul style={{ listStyle: 'none', padding: '0', color: 'var(--employer-muted)', lineHeight: '2' }}>
-                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Speed up your hiring with faster turnaround</li>
-                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Track your team performance with data</li>
-                  <li><FiCheckCircle style={{ color: '#10b981', marginRight: '8px' }} /> Instantly connect with candidates</li>
-                </ul>
-                <button className="btn-employer-outline" style={{ width: '100%', marginTop: '20px' }}>Request callback</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer Placeholder */}
-      <footer style={{ background: '#020617', color: 'rgba(255,255,255,0.6)', padding: '60px 5%', textAlign: 'center' }}>
-        <img src={mavenLogo} alt="MavenJobs" style={{ height: '30px', filter: 'brightness(0) invert(1)', marginBottom: '20px' }} />
-        <p>&copy; 2026 MavenJobs. All rights reserved.</p>
-      </footer>
-      {/* Callback Modal */}
-      {isModalOpen && (
-        <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setIsModalOpen(false)}>
-              <FiX />
-            </button>
-
-            <div className="modal-header">
-              <h2>Request a Callback</h2>
-              <p>Fill in the details below and our team will get back to you shortly.</p>
-            </div>
-
-            <form className="modal-form">
-              <div className="modal-form-grid">
-                <div className="form-group">
-                  <label>Mobile number</label>
-                  <input type="tel" placeholder="Enter mobile number" />
-                </div>
-                <div className="form-group">
-                  <label>Work email</label>
-                  <input type="email" placeholder="Enter your work email" />
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>Hiring for</label>
-                <div className="hiring-options modal-hiring">
-                  <div
-                    className={`hiring-option ${hiringFor === 'company' ? 'active' : ''}`}
+                    className={`elp-hiring-opt ${hiringFor === 'company' ? 'active' : ''}`}
                     onClick={() => setHiringFor('company')}
                   >
                     Your company
                   </div>
                   <div
-                    className={`hiring-option ${hiringFor === 'consultancy' ? 'active' : ''}`}
+                    className={`elp-hiring-opt ${hiringFor === 'consultancy' ? 'active' : ''}`}
                     onClick={() => setHiringFor('consultancy')}
                   >
                     Your consultancy
                   </div>
                 </div>
               </div>
+              <button type="submit" className="elp-btn-callback">
+                Request callback <FiArrowRight size={16} />
+              </button>
+              <p className="elp-callback-note">
+                <FiShield size={12} /> Your data is safe. No spam, ever.
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
 
-              <div className="form-group">
-                <label>Designation name</label>
-                <input type="text" placeholder="e.g. Talent Acquisition Manager" />
+      {/* ─── Partners Strip ─── */}
+      <div className="elp-partners">
+        <div className="elp-partners-inner">
+          <span className="elp-partners-label">Trusted by India's leading companies</span>
+          <div className="elp-partners-logos">
+            {['TCS', 'Flipkart', 'Amazon', 'Microsoft', 'Google', 'Byju\'s', 'Infosys', 'Wipro'].map(name => (
+              <span key={name} className="elp-partner-logo">{name}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ─── Stats Bar ─── */}
+      <div className="elp-stats-bar">
+        {stats.map((s, i) => (
+          <div key={i} className="elp-stat-item">
+            <span className="elp-stat-val">{s.value}</span>
+            <span className="elp-stat-label">{s.label}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* ─── Offerings ─── */}
+      <section className="elp-section" id="offerings">
+        <div className="elp-section-inner">
+          <div className="elp-section-header">
+            <span className="elp-eyebrow-tag">Our Solutions</span>
+            <h2 className="elp-section-h2">Everything you need to hire better</h2>
+            <p className="elp-section-sub">From planning and branding to sourcing and automation — we handle it all so you can focus on hiring the best talent.</p>
+          </div>
+
+          <div className="elp-offerings-grid">
+            {offerings.map((item, i) => (
+              <div key={i} className="elp-offering-card">
+                <div className="elp-offering-icon" style={{ background: item.bg, color: item.color }}>
+                  {item.icon}
+                </div>
+                <h3 className="elp-offering-title">{item.title}</h3>
+                <p className="elp-offering-desc">{item.desc}</p>
+                <a href="#" className="elp-offering-link" style={{ color: item.color }}>
+                  View plans <FiArrowRight size={14} />
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── How It Works ─── */}
+      <section className="elp-hiw-section" id="how-it-works">
+        <div className="elp-section-inner">
+          <div className="elp-section-header">
+            <span className="elp-eyebrow-tag">Simple Process</span>
+            <h2 className="elp-section-h2">Hire in 4 simple steps</h2>
+            <p className="elp-section-sub">Get from job posting to hired candidate in record time.</p>
+          </div>
+          <div className="elp-steps-grid">
+            {steps.map((step, i) => (
+              <div key={i} className="elp-step-card">
+                <div className="elp-step-num">{step.num}</div>
+                <div className="elp-step-connector" style={{ opacity: i < steps.length - 1 ? 1 : 0 }} />
+                <h3 className="elp-step-title">{step.title}</h3>
+                <p className="elp-step-desc">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Business Types ─── */}
+      <section className="elp-section elp-biz-section" id="solutions">
+        <div className="elp-section-inner">
+          <div className="elp-section-header">
+            <span className="elp-eyebrow-tag">Business Focus</span>
+            <h2 className="elp-section-h2">Built for every kind of business</h2>
+            <p className="elp-section-sub">Big or small, we've got you covered at every stage of growth.</p>
+          </div>
+          <div className="elp-biz-grid">
+            {businessTypes.map((biz, i) => (
+              <div key={i} className={`elp-biz-card ${biz.featured ? 'featured' : ''}`}>
+                {biz.featured && <div className="elp-featured-badge">Most popular</div>}
+                <div className="elp-biz-icon" style={{ background: biz.bg, color: biz.color }}>
+                  {biz.icon}
+                </div>
+                <h3 className="elp-biz-title">{biz.title}</h3>
+                <p className="elp-biz-subtitle">{biz.subtitle}</p>
+                <ul className="elp-biz-features">
+                  {biz.features.map((f, j) => (
+                    <li key={j}>
+                      <FiCheckCircle size={15} style={{ color: biz.color, flexShrink: 0 }} />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  className="elp-biz-btn"
+                  style={biz.featured ? { background: biz.color, color: 'white', borderColor: biz.color } : { borderColor: biz.color, color: biz.color }}
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  Request callback
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Testimonials ─── */}
+      <section className="elp-testimonials-section">
+        <div className="elp-section-inner">
+          <div className="elp-section-header">
+            <span className="elp-eyebrow-tag">Customer Stories</span>
+            <h2 className="elp-section-h2">Trusted by 1.5L+ companies</h2>
+          </div>
+          <div className="elp-testimonials-grid">
+            {testimonials.map((t, i) => (
+              <div key={i} className="elp-testimonial-card">
+                <FaQuoteLeft size={20} style={{ color: t.color, opacity: 0.6, marginBottom: 16 }} />
+                <p className="elp-testimonial-text">"{t.text}"</p>
+                <div className="elp-testimonial-author">
+                  <div className="elp-testimonial-avatar" style={{ background: t.color + '20', color: t.color }}>
+                    {t.initials}
+                  </div>
+                  <div>
+                    <div className="elp-testimonial-name">{t.name}</div>
+                    <div className="elp-testimonial-role">{t.role}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CTA Banner ─── */}
+      <section className="elp-cta-banner">
+        <div className="elp-cta-inner">
+          <div className="elp-cta-left">
+            <h2 className="elp-cta-h2">Ready to find your next great hire?</h2>
+            <p className="elp-cta-sub">Join 1.5 lakh+ companies already using MavenJobs to build world-class teams.</p>
+          </div>
+          <div className="elp-cta-actions">
+            <button className="elp-btn-filled elp-btn-lg" onClick={() => setIsModalOpen(true)}>
+              Get started free <FiArrowRight size={18} />
+            </button>
+            <a href="#" className="elp-cta-link">Talk to sales <FiArrowRight size={14} /></a>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Footer ─── */}
+      <footer className="elp-footer">
+        <div className="elp-footer-inner">
+          <div className="elp-footer-brand">
+            <img src={mavenLogo} alt="MavenJobs" className="elp-footer-logo" />
+            <p className="elp-footer-tagline">Decoding India's talent, one hire at a time.</p>
+          </div>
+          <div className="elp-footer-links">
+            {['Privacy Policy', 'Terms of Service', 'Help Center', 'Cookies'].map(l => (
+              <a key={l} href="#" className="elp-footer-link">{l}</a>
+            ))}
+          </div>
+          <p className="elp-footer-copy">© 2026 MavenJobs. All rights reserved.</p>
+        </div>
+      </footer>
+
+      {/* ─── Modal ─── */}
+      {isModalOpen && (
+        <div className="elp-modal-overlay" onClick={() => setIsModalOpen(false)}>
+          <div className="elp-modal" onClick={e => e.stopPropagation()}>
+            <div className="elp-modal-header">
+              <div>
+                <h2 className="elp-modal-title">Request a Callback</h2>
+                <p className="elp-modal-subtitle">Our team will get back to you within 24 hours.</p>
+              </div>
+              <button className="elp-modal-close" onClick={() => setIsModalOpen(false)}>
+                <FiX size={16} />
+              </button>
+            </div>
+
+            <form className="elp-modal-form" onSubmit={e => e.preventDefault()}>
+              <div className="elp-modal-grid">
+                <div className="elp-form-group elp-modal-field">
+                  <label>Mobile number</label>
+                  <input type="tel" placeholder="Enter mobile number" />
+                </div>
+                <div className="elp-form-group elp-modal-field">
+                  <label>Work email</label>
+                  <input type="email" placeholder="Enter your work email" />
+                </div>
               </div>
 
-              <div className="form-group">
-                <label>Company name</label>
-                <input type="text" placeholder="Enter your company name" />
+              <div className="elp-form-group elp-modal-field">
+                <label>Hiring for</label>
+                <div className="elp-hiring-opts elp-modal-hiring">
+                  <div className={`elp-hiring-opt ${hiringFor === 'company' ? 'active' : ''}`} onClick={() => setHiringFor('company')}>Your company</div>
+                  <div className={`elp-hiring-opt ${hiringFor === 'consultancy' ? 'active' : ''}`} onClick={() => setHiringFor('consultancy')}>Your consultancy</div>
+                </div>
               </div>
 
-              <div className="form-group dropdown-container">
-                <label>Select range</label>
-                <div className="custom-dropdown" onClick={() => setRangeOpen(!rangeOpen)}>
-                  <span>{selectedRange}</span>
-                  <FiChevronDown style={{ transform: rangeOpen ? 'rotate(180deg)' : 'none' }} />
+              <div className="elp-modal-grid">
+                <div className="elp-form-group elp-modal-field">
+                  <label>Designation</label>
+                  <input type="text" placeholder="e.g. Talent Acquisition Manager" />
+                </div>
+                <div className="elp-form-group elp-modal-field">
+                  <label>Company name</label>
+                  <input type="text" placeholder="Enter your company name" />
+                </div>
+              </div>
 
+              <div className="elp-form-group elp-modal-field">
+                <label>Team size</label>
+                <div className="elp-custom-dropdown" onClick={() => setRangeOpen(!rangeOpen)}>
+                  <span style={{ color: selectedRange === 'Select range' ? '#94A3B8' : '#1e293b' }}>{selectedRange}</span>
+                  <FiChevronDown size={15} style={{ transform: rangeOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', color: '#94A3B8' }} />
                   {rangeOpen && (
-                    <div className="dropdown-menu">
-                      {['1-14', '15-49', '50-100', '101-200', '201-500', '501 and above'].map(range => (
-                        <div
-                          key={range}
-                          className="dropdown-item"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedRange(range);
-                            setRangeOpen(false);
-                          }}
-                        >
+                    <div className="elp-dropdown-menu">
+                      {['1–14', '15–49', '50–100', '101–200', '201–500', '501 and above'].map(range => (
+                        <div key={range} className="elp-dropdown-item" onClick={e => { e.stopPropagation(); setSelectedRange(range); setRangeOpen(false); }}>
                           {range}
                         </div>
                       ))}
@@ -378,26 +436,13 @@ const EmployerLandingPage = () => {
                 </div>
               </div>
 
-              <div className="form-group">
+              <div className="elp-form-group elp-modal-field">
                 <label>City</label>
-                <input type="text" placeholder="Enter your city" className="error-border" />
-                <span className="error-msg">Enter a valid city. Allowed characters are alphabets, numbers, space, @ - () & , . / [] _ ' " !*</span>
+                <input type="text" placeholder="Enter your city" />
               </div>
 
-              <div className="recaptcha-placeholder">
-                <div className="recaptcha-box">
-                  <div className="recaptcha-check"></div>
-                  <span>I'm not a robot</span>
-                  <div className="recaptcha-logo">
-                    <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="" />
-                    <span>reCAPTCHA</span>
-                    <small>Privacy - Terms</small>
-                  </div>
-                </div>
-              </div>
-
-              <button type="submit" className="btn-callback modal-submit">
-                Request callback
+              <button type="submit" className="elp-btn-callback elp-modal-submit">
+                Request callback <FiArrowRight size={16} />
               </button>
             </form>
           </div>

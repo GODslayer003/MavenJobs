@@ -3,7 +3,8 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   FiMapPin, FiBriefcase, FiClock, FiBookmark, FiArrowRight,
   FiShare2, FiMoreVertical, FiCheckCircle, FiXCircle, FiPlus,
-  FiChevronRight, FiBookOpen, FiActivity, FiCoffee, FiTruck, FiAward
+  FiChevronRight, FiBookOpen, FiActivity, FiCoffee, FiTruck, FiAward,
+  FiSearch, FiBell, FiLogOut
 } from "react-icons/fi";
 import { FaRupeeSign, FaStar, FaFacebookF, FaLinkedinIn, FaDumbbell } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -51,30 +52,39 @@ export default function JobDetailsPage() {
             <Link to="#" className="jdp-nav-link">Companies</Link>
             <Link to="#" className="jdp-nav-link">Services</Link>
           </div>
-          <div className="jdp-search-mock border border-gray-200 rounded-full px-6 py-2 flex items-center gap-4 bg-gray-50 w-96">
-            <input type="text" placeholder="Search jobs here..." className="bg-transparent border-none outline-none text-sm w-full" />
-            <FiArrowRight className="text-blue-600" />
+          <div className="jdp-search-mock">
+            <FiSearch className="jdp-search-icon" size={16} />
+            <input type="text" placeholder="Search jobs, skills..." className="jdp-search-input" />
+            <FiArrowRight className="jdp-search-arrow" size={16} />
           </div>
-          <div className="flex items-center gap-4">
+
+          <div className="jdp-user-actions">
             {user ? (
-              <div className="flex items-center gap-4">
-                <span className="text-sm font-semibold text-gray-700">Hi, {user.name}</span>
-                <button 
-                  className="px-4 py-2 text-sm font-semibold text-blue-600 border border-blue-600 rounded-full hover:bg-blue-50"
-                  onClick={logout}
-                >
-                  Logout
+              <div className="jdp-user-logged">
+                <button title="Notifications" className="jdp-icon-btn jdp-notif-btn">
+                  <FiBell size={18} />
+                  <span className="jdp-notif-dot"></span>
+                </button>
+                
+                <Link to="/profile" className="jdp-avatar-link">
+                  <div className="jdp-avatar-wrap">
+                    <img 
+                      src={user.profilePic || "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg"} 
+                      alt="Profile" 
+                    />
+                  </div>
+                </Link>
+
+                <button onClick={logout} title="Logout" className="jdp-icon-btn jdp-logout-btn">
+                  <FiLogOut size={16} />
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-3">
-                <button className="px-5 py-2 text-sm font-semibold text-blue-600 border border-blue-600 rounded-full hover:bg-blue-50" onClick={openLogin}>Login</button>
-                <button className="px-5 py-2 text-sm font-semibold text-white bg-blue-600 rounded-full hover:bg-blue-700 shadow-md">Register</button>
+              <div className="jdp-user-guest">
+                <button className="jdp-btn-secondary" onClick={openLogin}>Login</button>
+                <button className="jdp-btn-primary">Register</button>
               </div>
             )}
-            <div className="relative ml-2">
-              <FiBookmark size={20} className="text-gray-500 cursor-pointer" />
-            </div>
           </div>
         </div>
       </header>
@@ -254,11 +264,15 @@ export default function JobDetailsPage() {
               </div>
             </div>
 
-            <div className="mt-8 flex gap-4">
-              <FaFacebookF className="text-gray-400 cursor-pointer hover:text-blue-600" />
-              <FaXTwitter className="text-gray-400 cursor-pointer hover:text-black" />
-              <FaLinkedinIn className="text-gray-400 cursor-pointer hover:text-blue-700" />
-              <div className="flex-1 text-right text-blue-600 text-sm font-semibold cursor-pointer">Report this job</div>
+            <div className="jdp-social-share mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
+              <div className="flex gap-4">
+                <div className="jdp-social-icon fb"><FaFacebookF /></div>
+                <div className="jdp-social-icon x"><FaXTwitter /></div>
+                <div className="jdp-social-icon li"><FaLinkedinIn /></div>
+              </div>
+              <div className="text-blue-600 text-sm font-bold cursor-pointer hover:underline flex items-center gap-1">
+                Report this job
+              </div>
             </div>
           </section>
 
@@ -275,9 +289,14 @@ export default function JobDetailsPage() {
           </section>
 
           {/* 5. Beware Notice */}
-          <div className="bg-white rounded-xl p-6 border border-gray-200">
-            <h4 className="font-bold text-sm mb-2">Beware of imposters!</h4>
-            <p className="text-xs text-gray-500">MavenJobs.com does not promise a job or an interview in exchange of money. Fraudsters may ask you to pay in the pretext of registration fee, Refundable Fee... <span className="text-blue-600 font-bold cursor-pointer">Read more</span></p>
+          <div className="jdp-security-notice">
+            <div className="jdp-security-icon">
+              <FiXCircle size={20} />
+            </div>
+            <div className="jdp-security-content">
+              <h4>Security Advisory: Beware of imposters!</h4>
+              <p>MavenJobs.com does not promise a job or an interview in exchange of money. Fraudsters may ask you to pay in the pretext of registration fee, Refundable Fee... <span className="read-more">Read more</span></p>
+            </div>
           </div>
 
           {/* 6. Similar Jobs */}
@@ -329,45 +348,52 @@ export default function JobDetailsPage() {
             ))}
           </div>
 
-          <div className="jdp-sidebar-card">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="jdp-sidebar-title">Reviews</h3>
-              <span className="text-blue-600 text-sm font-bold cursor-pointer">View all</span>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
-              <div className="flex items-center gap-2 mb-2">
-                <FaStar className="text-yellow-400" />
-                <span className="font-bold">3.0</span>
+          <div className="jdp-sidebar-card jdp-salary-card">
+            <h3 className="jdp-sidebar-title">Salary insights</h3>
+            <div className="jdp-salary-content">
+              <p className="jdp-salary-sub">Average annual salary for this role in <span>{job.company}</span></p>
+              <div className="jdp-salary-amount">
+                ₹11.3 - ₹15.9 <span>L/yr</span>
               </div>
-              <p className="text-xs text-gray-500 mb-4">rated by SDE-2 in Bengaluru</p>
-              <div className="mb-4">
-                <h5 className="text-xs font-bold uppercase text-gray-400 mb-1">Likes</h5>
-                <p className="text-xs italic">"Better than other service based companies. As this is a service based company, your experience depend..."</p>
+              <div className="jdp-salary-link">
+                See detailed salary breakup <FiArrowRight size={14} />
               </div>
-              <div className="mb-4">
-                <h5 className="text-xs font-bold uppercase text-gray-400 mb-1">Dislikes</h5>
-                <p className="text-xs italic">"Networking is very important in the company. If you are not having good relations with the senior..."</p>
-              </div>
-              <span className="text-blue-600 text-xs font-bold cursor-pointer">Read full review</span>
-            </div>
-
-            <div className="mt-6 p-4 bg-orange-50 rounded-xl border border-orange-100">
-              <div className="flex justify-between items-center">
-                <p className="text-xs font-semibold">Follow {job.company} to receive alerts</p>
-                <button className="flex items-center gap-1 bg-white text-blue-600 border border-blue-200 px-3 py-1 rounded-full text-xs font-bold shadow-sm">
-                  <FiPlus /> Follow
-                </button>
-              </div>
-              <p className="text-[10px] text-gray-400 mt-2 text-right">1343.3k followers</p>
             </div>
           </div >
 
           <div className="jdp-sidebar-card">
-            <h3 className="jdp-sidebar-title">Salary insights</h3>
-            <div className="p-4 bg-blue-50/50 rounded-xl border border-blue-100">
-              <p className="text-xs text-gray-600 mb-2">{job.title} in {job.company} typically earns between</p>
-              <h4 className="text-xl font-bold text-gray-900 mb-4">₹11.3 - ₹15.9 L/yr</h4>
-              <span className="text-blue-600 text-xs font-bold cursor-pointer flex items-center gap-1">See detailed salary breakup <FiArrowRight /></span>
+            <div className="flex justify-between items-center mb-5">
+              <h3 className="jdp-sidebar-title m-0">Reviews</h3>
+              <span className="jdp-view-all">View all</span>
+            </div>
+            <div className="jdp-review-box">
+              <div className="jdp-review-header">
+                <div className="jdp-rating-stars">
+                  {[1,2,3].map(i => <FaStar key={i} size={12} className="text-[#facc15]" />)}
+                  {[1,2].map(i => <FaStar key={i} size={12} className="text-[#e2e8f0]" />)}
+                </div>
+                <span className="jdp-rating-num">3.0</span>
+              </div>
+              <p className="jdp-review-meta">rated by Senior SDE in Bengaluru</p>
+              <div className="jdp-review-quote">
+                <span className="tag likes">LIKES</span>
+                <p>"Better than other service based companies. Experience depends on your project lead..."</p>
+              </div>
+              <div className="jdp-review-quote">
+                <span className="tag dislikes">DISLIKES</span>
+                <p>"Networking is very important. If you are not having good relations with seniors..."</p>
+              </div>
+              <div className="jdp-review-footer">Read full review</div>
+            </div>
+
+            <div className="jdp-follow-box">
+              <div className="jdp-follow-info">
+                <p>Follow {job.company} for updates</p>
+                <span>1343.3k followers</span>
+              </div>
+              <button className="jdp-follow-btn">
+                <FiPlus size={14} /> Follow
+              </button>
             </div>
           </div >
 
