@@ -106,24 +106,15 @@ const Services = () => {
         html{scroll-behavior:smooth}
         body{font-family:var(--fb);background:#f0f4fb;color:var(--s900)}
 
-        /* PROMO */
-        .pb{
-          background:linear-gradient(90deg,var(--navy-d),#003db5,var(--navy-d));
-          background-size:200% 100%;animation:sh 5s linear infinite;
-          color:#fff;padding:10px 0;text-align:center;font-size:11px;
-          font-weight:800;letter-spacing:.18em;text-transform:uppercase;
-          position:sticky;top:0;z-index:100;display:flex;align-items:center;
-          justify-content:center;gap:14px;font-family:var(--fd);
-        }
+
+
+
         .pa{color:#6ee7b7}
         @keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
         /* NAVBAR */
         .nb{
-          background: transparent !important;
-          border-bottom: 1px solid transparent !important;
-          position: fixed; top: 37px; left: 0; right: 0; z-index: 90; 
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          background:transparent !important;border-bottom:1px solid transparent !important;position:fixed;top:0;left:0;right:0;z-index:90;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);
         }
         .nb.sc{
           background: rgba(255, 255, 255, 0.98) !important;
@@ -465,12 +456,7 @@ const Services = () => {
         }
       `}</style>
 
-      {/* PROMO */}
-      <div className="pb">
-        <FiZap fill="currentColor" size={11} />
-        <span>Flat 20% OFF · Use code <span className="pa">MAVEN20</span> · Limited Time</span>
-        <FiZap fill="currentColor" size={11} />
-      </div>
+
 
       {/* NAVBAR */}
       <header className={`nb${isScrolled ? ' sc' : ''}`}>
@@ -672,15 +658,15 @@ const Services = () => {
                 </div>
               </div>
               <div className="pcard">
-                <p className="pce">Starting at only</p>
+                <div className="pce">MONTHLY PLAN</div>
                 <div className="ppr">
                   <span className="ppc">₹</span>
-                  <span className="ppa">890</span>
-                  <span className="ppd">/mo</span>
+                  <span className="ppa">999</span>
+                  <span className="ppd">/month</span>
                 </div>
-                <p className="ppn">Billed monthly · Cancel anytime</p>
+                <p className="ppn">Cancel anytime · No lock-in</p>
                 <button className="bsub">Subscribe Now</button>
-                <p className="pcn">Flexible Plans · No Lock-in</p>
+                <div className="pcn">30-day money-back guarantee</div>
               </div>
             </div>
           </div>

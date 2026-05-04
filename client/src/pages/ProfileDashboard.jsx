@@ -278,7 +278,7 @@ export default function ProfileDashboard() {
             <div className="pd-pro-left">
               <div className="pd-pro-eyebrow">UPGRADE YOUR CAREER</div>
               <h3 className="pd-pro-heading">Get hired <em>3× faster</em> with Pro</h3>
-              <button className="pd-pro-btn">✦ Become Pro Member</button>
+              <button className="pd-pro-btn" onClick={() => navigate('/pro')}>✦ Become Pro Member</button>
             </div>
             <div className="pd-pro-features">
               {['Hidden job invitations', 'AI-enhanced profile', 'Auto-Apply on MavenJobs', 'Priority recruiter access'].map(f => (
@@ -537,7 +537,7 @@ export default function ProfileDashboard() {
                   <div className="ppm-pro-banner">
                     <div className="ppm-pro-label">MavenJobs<span>Pro</span> <GiCrown className="ppm-crown" /></div>
                     <div className="ppm-pro-pitch">Up to <strong>4× profile views</strong></div>
-                    <button className="ppm-pro-btn">Become Pro · 25% off</button>
+                    <button className="ppm-pro-btn" onClick={() => navigate('/pro')}>Become Pro · 25% off</button>
                   </div>
                   {[
                     {
