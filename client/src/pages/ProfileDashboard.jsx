@@ -656,16 +656,20 @@ export default function ProfileDashboard() {
 
             <div className="km-modal-content">
               <div className="km-modal-left">
-                <div className="km-eyebrow">RECRUITER SPOTLIGHT</div>
-                <h2 className="km-title">Stand out to the <span>Top 1%</span> of recruiters</h2>
-                <p className="km-subtitle">Highlight your application and get noticed by top recruiters instantly with our priority matching engine.</p>
+                <div className="km-sticky-top">
+                  <div className="km-eyebrow">RECRUITER SPOTLIGHT</div>
+                  <h2 className="km-title">Stand out to the <span>Top 1%</span> of recruiters</h2>
+                  <p className="km-subtitle">Highlight your application and get noticed by top recruiters instantly with our priority matching engine.</p>
+                </div>
 
-                <div className="km-features-grid">
+                <div className="km-features-list">
                   {[
                     { icon: <FiTrendingUp />, title: 'Priority Ranking', desc: 'Your application appears at the top of the recruiter\'s list for every job you apply.' },
                     { icon: <FiCheckCircle />, title: 'Verified Badge', desc: 'Get a distinct "Verified Premium" badge on your profile to build instant trust.' },
                     { icon: <FiZap />, title: 'AI-Enhanced Pitch', desc: 'Our AI crafts the perfect elevator pitch for each application based on your profile.' },
-                    { icon: <FiSend />, title: 'Direct Messaging', desc: 'Unlock the ability to message hiring managers directly before they even see your resume.' }
+                    { icon: <FiSend />, title: 'Direct Messaging', desc: 'Unlock the ability to message hiring managers directly before they even see your resume.' },
+                    { icon: <FiAward />, title: 'Profile Boost', desc: 'Get up to 4x more visibility in recruiter search results compared to standard members.' },
+                    { icon: <FiEye />, title: 'Advanced Analytics', desc: 'See exactly who viewed your profile and which companies are interested in your skills.' }
                   ].map((f, i) => (
                     <div key={i} className="km-feat-item">
                       <div className="km-feat-icon">{f.icon}</div>
@@ -677,32 +681,81 @@ export default function ProfileDashboard() {
                   ))}
                 </div>
 
-                <div className="km-modal-actions">
+                <div className="km-modal-actions-fixed">
                   <button className="km-btn-premium" onClick={() => navigate('/pro')}>Upgrade to Pro Member</button>
                   <button className="km-btn-ghost" onClick={() => setShowKnowMoreModal(false)}>Maybe Later</button>
                 </div>
               </div>
 
               <div className="km-modal-right">
-                <div className="km-visual-card">
-                  <div className="km-user-mini">
-                    <img src={user.profilePic || "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg"} alt="" />
-                    <div>
-                      <div className="km-mini-name">{user.name} <FiCheckCircle size={10} color="#10b981" /></div>
-                      <div className="km-mini-role">MERN Stack Developer</div>
+                <div className="km-insights-scroll">
+                  <div className="km-insight-header">PERFORMANCE INSIGHTS</div>
+                  
+                  {/* Rohan Profile Card */}
+                  <div className="km-visual-card">
+                    <div className="km-user-mini">
+                      <img src={user.profilePic || "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg"} alt="" />
+                      <div>
+                        <div className="km-mini-name">{user.name} <FiCheckCircle size={10} color="#10b981" /></div>
+                        <div className="km-mini-role">{user.headline || 'MERN Stack Developer'}</div>
+                      </div>
+                      <span className="km-mini-tag">TOP MATCH</span>
                     </div>
-                    <span className="km-mini-tag">TOP MATCH</span>
+                    <div className="km-visual-stats">
+                      <div className="km-vstat"><strong>4.2x</strong><span>Profile Views</span></div>
+                      <div className="km-vstat"><strong>98%</strong><span>Match Score</span></div>
+                    </div>
+                    <div className="km-visual-graph">
+                      {[40, 70, 45, 90, 65, 100].map((h, i) => (
+                        <div key={i} className="km-graph-bar" style={{ height: `${h}%` }} />
+                      ))}
+                    </div>
+                    <p className="km-visual-label">Real-time Recruiter Interest</p>
                   </div>
-                  <div className="km-visual-stats">
-                    <div className="km-vstat"><strong>4.2x</strong><span>Profile Views</span></div>
-                    <div className="km-vstat"><strong>98%</strong><span>Match Score</span></div>
+
+                  {/* Job Application Stats */}
+                  <div className="km-stat-card">
+                    <div className="km-sc-header">
+                      <FiBriefcase color="#10b981" />
+                      <span>Applications Sent</span>
+                      <strong className="km-sc-val">49</strong>
+                    </div>
+                    <div className="km-mini-trend">
+                      <div className="km-mt-bar" style={{ width: '40%' }} />
+                      <div className="km-mt-bar active" style={{ width: '85%' }} />
+                      <div className="km-mt-bar" style={{ width: '60%' }} />
+                    </div>
+                    <p className="km-sc-sub">+12% increase from last week</p>
                   </div>
-                  <div className="km-visual-graph">
-                    {[40, 70, 45, 90, 65, 100].map((h, i) => (
-                      <div key={i} className="km-graph-bar" style={{ height: `${h}%` }} />
-                    ))}
+
+                  {/* Recruiter Actions */}
+                  <div className="km-stat-card">
+                    <div className="km-sc-header">
+                      <FiUsers color="#3b82f6" />
+                      <span>Shortlisted</span>
+                      <strong className="km-sc-val">14</strong>
+                    </div>
+                    <div className="km-shortlist-circles">
+                      {[1,2,3,4,5].map(i => <div key={i} className={`km-sc-dot ${i < 4 ? 'filled' : ''}`} />)}
+                      <span className="km-sc-pct">80% Success Rate</span>
+                    </div>
                   </div>
-                  <p className="km-visual-label">Real-time Recruiter Interest</p>
+
+                  {/* New Insight: Interview Performance */}
+                  <div className="km-stat-card dark">
+                    <div className="km-sc-header">
+                      <FiTrendingUp color="#8b5cf6" />
+                      <span>Interview Invitations</span>
+                      <strong className="km-sc-val">6</strong>
+                    </div>
+                    <div className="km-interview-graph">
+                      <svg viewBox="0 0 100 30">
+                        <path d="M0,25 L20,15 L40,20 L60,5 L80,18 L100,10" fill="none" stroke="#8b5cf6" strokeWidth="2" />
+                        <circle cx="60" cy="5" r="3" fill="#8b5cf6" />
+                      </svg>
+                    </div>
+                    <p className="km-sc-sub">Peak performance reached today</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -745,22 +798,67 @@ export default function ProfileDashboard() {
         }
         .km-modal-close:hover { background: rgba(255,255,255,0.1); color: #fff; transform: rotate(90deg); }
 
-        .km-modal-content { display: flex; min-height: 520px; }
-        .km-modal-left { flex: 1.2; padding: 56px; }
-        .km-modal-right { flex: 0.8; background: rgba(255,255,255,0.02); display: flex; align-items: center; justify-content: center; padding: 40px; border-left: 1px solid rgba(255,255,255,0.05); }
+        .km-modal-content { display: flex; height: 620px; overflow: hidden; }
+        
+        /* Left Column Scrolling */
+        .km-modal-left { 
+          flex: 1.2; 
+          display: flex; flex-direction: column;
+          position: relative;
+        }
+        .km-sticky-top {
+          padding: 56px 56px 24px;
+          background: #0a0f18;
+          z-index: 5;
+          border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .km-features-list {
+          flex: 1;
+          overflow-y: auto;
+          padding: 32px 56px;
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255,255,255,0.1) transparent;
+        }
+        .km-features-list::-webkit-scrollbar { width: 4px; }
+        .km-features-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+        .km-modal-actions-fixed {
+          padding: 24px 56px 40px;
+          background: #0a0f18;
+          display: flex; gap: 16px; align-items: center;
+          border-top: 1px solid rgba(255,255,255,0.03);
+        }
+
+        /* Right Column Scrolling */
+        .km-modal-right { 
+          flex: 0.8; 
+          background: rgba(255,255,255,0.015); 
+          border-left: 1px solid rgba(255,255,255,0.05); 
+          overflow-y: auto;
+          scrollbar-width: none;
+        }
+        .km-modal-right::-webkit-scrollbar { display: none; }
+        
+        .km-insights-scroll {
+          padding: 56px 40px;
+          display: flex; flex-direction: column; gap: 24px;
+        }
+        .km-insight-header {
+          font-size: 10px; color: rgba(255,255,255,0.3); font-weight: 800;
+          letter-spacing: 0.15em; margin-bottom: 8px;
+        }
 
         .km-eyebrow { color: #10b981; font-weight: 800; font-size: 11px; letter-spacing: 0.2em; margin-bottom: 16px; }
-        .km-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 38px; color: #fff; line-height: 1.1; margin-bottom: 20px; }
+        .km-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 34px; color: #fff; line-height: 1.1; margin-bottom: 16px; }
         .km-title span { color: #10b981; }
-        .km-subtitle { color: rgba(255,255,255,0.5); font-size: 16px; line-height: 1.6; margin-bottom: 40px; }
+        .km-subtitle { color: rgba(255,255,255,0.5); font-size: 15px; line-height: 1.6; }
 
-        .km-features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 48px; }
-        .km-feat-item { display: flex; gap: 16px; }
+        .km-feat-item { display: flex; gap: 16px; margin-bottom: 28px; }
+        .km-feat-item:last-child { margin-bottom: 0; }
         .km-feat-icon { width: 36px; height: 36px; background: rgba(16,185,129,0.1); border-radius: 10px; color: #10b981; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .km-feat-text h4 { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
         .km-feat-text p { color: rgba(255,255,255,0.4); font-size: 12px; line-height: 1.5; }
 
-        .km-modal-actions { display: flex; gap: 16px; align-items: center; }
         .km-btn-premium { background: #10b981; color: #fff; border: none; padding: 14px 28px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s; }
         .km-btn-premium:hover { background: #059669; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(16,185,129,0.2); }
         .km-btn-ghost { background: transparent; color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.1); padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; }
@@ -786,6 +884,28 @@ export default function ProfileDashboard() {
         .km-graph-bar { flex: 1; background: linear-gradient(to top, #10b981, #6ee7b7); border-radius: 4px 4px 0 0; opacity: 0.6; }
         .km-graph-bar:last-child { opacity: 1; box-shadow: 0 0 15px rgba(16,185,129,0.4); }
         .km-visual-label { text-align: center; color: rgba(255,255,255,0.3); font-size: 10px; font-style: italic; }
+
+        /* Performance Stat Cards */
+        .km-stat-card {
+          background: rgba(255,255,255,0.03); border-radius: 20px;
+          padding: 20px; border: 1px solid rgba(255,255,255,0.05);
+        }
+        .km-stat-card.dark { background: #000; border-color: rgba(139, 92, 246, 0.2); }
+        .km-sc-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .km-sc-header span { flex: 1; color: rgba(255,255,255,0.6); font-size: 13px; font-weight: 600; }
+        .km-sc-val { color: #fff; font-size: 18px; font-weight: 800; }
+        .km-sc-sub { color: rgba(255,255,255,0.3); font-size: 11px; margin-top: 12px; }
+
+        .km-mini-trend { display: flex; gap: 4px; height: 20px; align-items: flex-end; }
+        .km-mt-bar { background: rgba(255,255,255,0.05); height: 8px; border-radius: 4px; }
+        .km-mt-bar.active { background: #10b981; height: 18px; }
+
+        .km-shortlist-circles { display: flex; align-items: center; gap: 8px; }
+        .km-sc-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.1); }
+        .km-sc-dot.filled { background: #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); }
+        .km-sc-pct { color: #3b82f6; font-size: 11px; font-weight: 700; margin-left: 8px; }
+
+        .km-interview-graph { height: 30px; margin-top: 8px; }
 
         @media (max-width: 850px) {
           .km-modal-content { flex-direction: column; }
