@@ -470,13 +470,15 @@ export default function ProfileDashboard() {
             </div>
           </div>
 
-          <div className="pd-card pd-premium-card">
-            <div className="pd-premium-glow" />
-            <div className="pd-premium-eyebrow">FOR RECRUITERS</div>
-            <h3 className="pd-premium-title">PremiumX</h3>
-            <p className="pd-premium-desc">AI-powered premium talent discovery for modern teams.</p>
-            <Link to="#" className="pd-premium-link">Explore →</Link>
-          </div>
+          <Link to="/premium" style={{ textDecoration: 'none' }}>
+            <div className="pd-card pd-premium-card" style={{ cursor: 'pointer' }}>
+              <div className="pd-premium-glow" />
+              <div className="pd-premium-eyebrow">FOR RECRUITERS</div>
+              <h3 className="pd-premium-title">PremiumX</h3>
+              <p className="pd-premium-desc">AI-powered premium talent discovery for modern teams.</p>
+              <span className="pd-premium-link">Explore →</span>
+            </div>
+          </Link>
 
           <div className="pd-card pd-skills-card">
             <div className="pd-section-header">
