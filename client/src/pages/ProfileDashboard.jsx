@@ -31,6 +31,10 @@ export default function ProfileDashboard() {
   const matchScrollRef = useRef(null);
   const pfpInputRef = useRef(null);
   const coverInputRef = useRef(null);
+  const [skills, setSkills] = useState(['React.js', 'Node.js', 'UI/UX Design', 'TypeScript', 'MongoDB']);
+  const [isAddingSkill, setIsAddingSkill] = useState(false);
+  const [newSkillValue, setNewSkillValue] = useState('');
+  const [activeTip, setActiveTip] = useState(null); // 'experience', 'summary', 'skills'
 
   const recommendedJobs = {
     'Profile (18)': [
@@ -76,6 +80,19 @@ export default function ProfileDashboard() {
     const reader = new FileReader();
     reader.onload = (ev) => setCoverImage(ev.target.result);
     reader.readAsDataURL(file); e.target.value = '';
+  };
+
+  const addSkill = () => {
+    const s = newSkillValue.trim();
+    if (s && !skills.includes(s)) {
+      setSkills([...skills, s]);
+      setNewSkillValue('');
+      setIsAddingSkill(false);
+    }
+  };
+
+  const removeSkill = (s) => {
+    setSkills(skills.filter(item => item !== s));
   };
 
   return (
@@ -237,8 +254,15 @@ export default function ProfileDashboard() {
               <div className="pd-completion-bar" style={{ width: '72%' }} />
             </div>
             <div className="pd-completion-tips">
-              {['Add work experience', 'Add a profile summary', 'Add your skills'].map(tip => (
-                <div className="pd-tip-item" key={tip}><FiPlus size={13} /><span>{tip}</span></div>
+              {[
+                { id: 'experience', label: 'Add work experience' },
+                { id: 'summary', label: 'Add a profile summary' },
+                { id: 'skills', label: 'Add your skills' }
+              ].map(tip => (
+                <div className="pd-tip-item" key={tip.id} onClick={() => setActiveTip(tip.id)}>
+                  <FiPlus size={13} />
+                  <span>{tip.label}</span>
+                </div>
               ))}
             </div>
           </div>
@@ -484,12 +508,33 @@ export default function ProfileDashboard() {
           <div className="pd-card pd-skills-card">
             <div className="pd-section-header">
               <h4>Top Skills</h4>
-              <button className="pd-icon-btn"><FiPlus size={15} /></button>
+              <button className="pd-icon-btn" onClick={() => setIsAddingSkill(!isAddingSkill)}>
+                {isAddingSkill ? <FiX size={15} /> : <FiPlus size={15} />}
+              </button>
             </div>
+            {isAddingSkill && (
+              <div className="pd-skill-add-row">
+                <input 
+                  type="text" 
+                  placeholder="Type skill..." 
+                  value={newSkillValue}
+                  onChange={e => setNewSkillValue(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && addSkill()}
+                  autoFocus
+                />
+                <button onClick={addSkill}><FiCheckCircle size={14} /></button>
+              </div>
+            )}
             <div className="pd-skills-wrap">
-              {['React.js', 'Node.js', 'UI/UX Design', 'TypeScript', 'MongoDB'].map(s => (
-                <span className="pd-skill-pill" key={s}>{s}</span>
+              {skills.map(s => (
+                <span className="pd-skill-pill" key={s}>
+                  {s}
+                  <button className="pd-skill-remove" onClick={() => removeSkill(s)}>
+                    <FiX size={10} />
+                  </button>
+                </span>
               ))}
+              {skills.length === 0 && !isAddingSkill && <p className="pd-no-skills">No skills added yet.</p>}
             </div>
           </div>
         </aside>
@@ -913,7 +958,191 @@ export default function ProfileDashboard() {
           .km-features-grid { grid-template-columns: 1fr; gap: 20px; }
           .km-modal-left { padding: 40px; }
         }
+
+        /* Dynamic Skills Styles */
+        .pd-skill-add-row {
+          display: flex; gap: 8px; margin-bottom: 16px;
+          animation: kmFadeIn 0.2s ease;
+        }
+        .pd-skill-add-row input {
+          flex: 1; background: #f8fafc; border: 1px solid #e2e8f0;
+          padding: 8px 12px; border-radius: 8px; font-size: 13px;
+          outline: none; transition: border-color 0.2s;
+        }
+        .pd-skill-add-row input:focus { border-color: #2563eb; }
+        .pd-skill-add-row button {
+          background: #2563eb; color: #fff; border: none;
+          padding: 0 10px; border-radius: 8px; cursor: pointer;
+          transition: background 0.2s; display: flex; align-items: center; justify-content: center;
+        }
+        .pd-skill-add-row button:hover { background: #1d4ed8; }
+
+        .pd-skill-pill {
+          display: inline-flex; align-items: center; gap: 6px;
+          background: #eff6ff; color: #1e40af; padding: 6px 12px;
+          border-radius: 100px; font-size: 13px; font-weight: 500;
+          transition: all 0.2s; border: 1px solid transparent;
+        }
+        .pd-skill-pill:hover { border-color: rgba(30, 64, 175, 0.2); background: #e0e7ff; }
+
+        .pd-skill-remove {
+          background: rgba(30, 64, 175, 0.1); border: none;
+          color: #1e40af; width: 16px; height: 16px;
+          border-radius: 50%; display: flex; align-items: center;
+          justify-content: center; cursor: pointer; transition: all 0.2s;
+          padding: 0; margin-right: -4px;
+        }
+        .pd-skill-remove:hover { background: #1e40af; color: #fff; transform: scale(1.1); }
+
+        .pd-no-skills { color: #94a3b8; font-size: 12px; font-style: italic; margin-top: 4px; }
+
+        /* Completion Modal Styles */
+        .cm-modal-overlay {
+          position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
+          backdrop-filter: blur(8px); z-index: 20000;
+          display: flex; align-items: center; justify-content: center;
+          padding: 20px; animation: kmFadeIn 0.3s ease;
+        }
+        .cm-modal-box {
+          background: #ffffff; width: 100%; max-width: 540px;
+          border-radius: 20px; overflow: hidden;
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+          animation: kmSlideUp 0.3s ease;
+        }
+        .cm-modal-header {
+          padding: 24px 32px; border-bottom: 1px solid #f1f5f9;
+          display: flex; align-items: center; justify-content: space-between;
+          background: #fff;
+        }
+        .cm-modal-header h3 { color: #0f172a; font-size: 18px; font-weight: 800; }
+        .cm-modal-close {
+          background: transparent; border: none; color: #64748b;
+          cursor: pointer; transition: color 0.2s; display: flex;
+        }
+        .cm-modal-close:hover { color: #0f172a; }
+
+        .cm-modal-body { padding: 32px; max-height: 70vh; overflow-y: auto; }
+        
+        .cm-form-group { margin-bottom: 20px; }
+        .cm-form-group label { display: block; font-size: 13px; font-weight: 700; color: #475569; margin-bottom: 8px; }
+        .cm-form-group input, .cm-form-group textarea {
+          width: 100%; padding: 12px 16px; border: 1.5px solid #e2e8f0;
+          border-radius: 12px; font-size: 14px; transition: all 0.2s; outline: none;
+        }
+        .cm-form-group input:focus, .cm-form-group textarea:focus {
+          border-color: #10b981; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+        }
+        .cm-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .cm-helper-text { color: #64748b; font-size: 13px; margin-bottom: 24px; }
+        .cm-summary-area { width: 100%; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 16px; outline: none; resize: none; font-size: 14px; line-height: 1.6; }
+        .cm-summary-area:focus { border-color: #10b981; }
+
+        .cm-skill-input-wrap { display: flex; gap: 12px; margin-bottom: 24px; }
+        .cm-skill-input-wrap input { flex: 1; padding: 12px 16px; border: 1.5px solid #e2e8f0; border-radius: 12px; outline: none; }
+        .cm-add-btn { background: #0f172a; color: #fff; border: none; padding: 0 20px; border-radius: 12px; font-weight: 700; cursor: pointer; }
+
+        .cm-skills-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .cm-skill-chip {
+          background: #f1f5f9; color: #0f172a; padding: 6px 14px;
+          border-radius: 100px; font-size: 13px; font-weight: 600;
+          display: flex; align-items: center; gap: 8px;
+        }
+        .cm-skill-chip svg { cursor: pointer; color: #94a3b8; transition: color 0.2s; }
+        .cm-skill-chip svg:hover { color: #ef4444; }
+
+        .cm-modal-footer {
+          padding: 24px 32px; background: #f8fafc;
+          display: flex; justify-content: flex-end; gap: 12px;
+        }
+        .cm-btn-cancel { background: transparent; border: none; color: #64748b; font-weight: 700; cursor: pointer; padding: 10px 20px; }
+        .cm-btn-save { background: #10b981; color: #fff; border: none; padding: 10px 24px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .cm-btn-save:hover { background: #059669; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
       `}</style>
+      {/* ─── Profile Completion Modal ─── */}
+      {activeTip && (
+        <div className="cm-modal-overlay" onClick={() => setActiveTip(null)}>
+          <div className="cm-modal-box" onClick={e => e.stopPropagation()}>
+            <div className="cm-modal-header">
+              <h3>
+                {activeTip === 'experience' && 'Add Work Experience'}
+                {activeTip === 'summary' && 'Professional Summary'}
+                {activeTip === 'skills' && 'Manage Core Skills'}
+              </h3>
+              <button className="cm-modal-close" onClick={() => setActiveTip(null)}><FiX size={20} /></button>
+            </div>
+            
+            <div className="cm-modal-body">
+              {activeTip === 'experience' && (
+                <div className="cm-form">
+                  <div className="cm-form-group">
+                    <label>Job Title</label>
+                    <input type="text" placeholder="e.g. Senior Software Engineer" />
+                  </div>
+                  <div className="cm-form-group">
+                    <label>Company Name</label>
+                    <input type="text" placeholder="e.g. Google India" />
+                  </div>
+                  <div className="cm-form-row">
+                    <div className="cm-form-group">
+                      <label>Start Date</label>
+                      <input type="month" />
+                    </div>
+                    <div className="cm-form-group">
+                      <label>End Date</label>
+                      <input type="month" />
+                    </div>
+                  </div>
+                  <div className="cm-form-group">
+                    <label>Description</label>
+                    <textarea placeholder="Describe your key responsibilities and achievements..." rows={4} />
+                  </div>
+                </div>
+              )}
+
+              {activeTip === 'summary' && (
+                <div className="cm-form">
+                  <p className="cm-helper-text">Briefly highlight your expertise and what you bring to the table.</p>
+                  <textarea 
+                    className="cm-summary-area"
+                    placeholder="Results-driven professional with expertise in..." 
+                    rows={8} 
+                    autoFocus
+                  />
+                </div>
+              )}
+
+              {activeTip === 'skills' && (
+                <div className="cm-skills-editor">
+                  <p className="cm-helper-text">Add skills to get 40% better job recommendations.</p>
+                  <div className="cm-skill-input-wrap">
+                    <input 
+                      type="text" 
+                      placeholder="Add a skill (e.g. Python, Figma)..." 
+                      value={newSkillValue}
+                      onChange={e => setNewSkillValue(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && addSkill()}
+                    />
+                    <button className="cm-add-btn" onClick={addSkill}>Add</button>
+                  </div>
+                  <div className="cm-skills-list">
+                    {skills.map(s => (
+                      <span key={s} className="cm-skill-chip">
+                        {s} <FiX size={12} onClick={() => removeSkill(s)} />
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="cm-modal-footer">
+              <button className="cm-btn-cancel" onClick={() => setActiveTip(null)}>Cancel</button>
+              <button className="cm-btn-save" onClick={() => setActiveTip(null)}>Save Changes</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
