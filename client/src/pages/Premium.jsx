@@ -411,6 +411,7 @@ export default function Premium() {
                                 padding: '7px 18px', borderRadius: 100, marginBottom: 28,
                                 fontFamily: "'Bricolage Grotesque',sans-serif",
                                 backdropFilter: 'blur(8px)',
+                                marginLeft: -6
                             }}>
                                 <FiZap size={11} fill="currentColor" />
                                 AI-Powered Premium Talent Discovery
@@ -425,6 +426,7 @@ export default function Premium() {
                                 fontWeight: 800, lineHeight: 1.04,
                                 color: '#fff', marginBottom: 22,
                                 letterSpacing: '-0.04em',
+                                marginLeft: -10
                             }}>
                                 Hire India's
                                 <span style={{ display: 'block', color: '#10b981' }}>Top 1% of</span>
