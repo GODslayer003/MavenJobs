@@ -5,8 +5,9 @@ import {
   FiDownload, FiPlus, FiUsers, FiEye, FiTrendingUp, FiAward,
   FiBell, FiSettings, FiLogOut, FiPhone, FiMail, FiX,
   FiCalendar, FiClock, FiChevronLeft, FiInfo, FiSend, FiChevronDown,
-  FiStar, FiBookmark, FiGlobe, FiTwitter, FiFacebook, FiLinkedin, FiCopy
+  FiStar, FiBookmark, FiGlobe, FiTwitter, FiFacebook, FiLinkedin, FiCopy, FiShare
 } from 'react-icons/fi';
+import { FaWhatsapp, FaLinkedinIn, FaTwitter as FaXTwitter, FaFacebookF } from 'react-icons/fa';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { GiCrown } from 'react-icons/gi';
 import { useAuth } from '../AuthContext';
@@ -1145,59 +1146,82 @@ export default function ProfileDashboard() {
       `}</style>
       {/* ─── Share Profile Modal ─── */}
       {showShareModal && (
-        <div className="cm-modal-overlay" onClick={() => setShowShareModal(false)}>
-          <div className="cm-modal-box" style={{ maxWidth: 520, padding: 0 }} onClick={e => e.stopPropagation()}>
-            <div className="cm-modal-header" style={{ borderBottom: 'none', padding: '24px 32px 16px' }}>
-              <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a' }}>Share</h3>
-              <button className="cm-modal-close" style={{ background: 'rgba(0,0,0,0.05)', borderRadius: '50%', width: 36, height: 36, justifyContent: 'center' }} onClick={() => setShowShareModal(false)}>
-                <FiX size={20} />
+        <div className="cm-modal-overlay" style={{ backdropFilter: 'blur(8px)', background: 'rgba(15, 23, 42, 0.4)' }} onClick={() => setShowShareModal(false)}>
+          <div className="cm-modal-box" style={{ maxWidth: 540, padding: 0, borderRadius: 28, overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }} onClick={e => e.stopPropagation()}>
+            <div className="cm-modal-header" style={{ borderBottom: 'none', padding: '32px 32px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <h3 style={{ fontSize: '24px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', fontFamily: 'var(--fd)' }}>Share Profile</h3>
+              <button className="cm-modal-close" style={{ background: '#f1f5f9', borderRadius: '50%', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s', border: 'none' }} onClick={() => setShowShareModal(false)}>
+                <FiX size={20} color="#64748b" />
               </button>
             </div>
             
-            <div className="cm-modal-body" style={{ padding: '0 32px 32px', overflowY: 'visible' }}>
-              <div style={{ display: 'flex', gap: '20px', marginBottom: '32px', overflowX: 'auto', paddingBottom: '10px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                {/* Social Icons similar to YouTube */}
+            <div className="cm-modal-body" style={{ padding: '0 32px 36px' }}>
+              <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '28px', fontWeight: 500 }}>Share your professional profile with your network or recruiters.</p>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px', marginBottom: '36px' }}>
                 {[
-                  { name: 'WhatsApp', color: '#25D366', icon: <span style={{fontWeight: 800, fontSize: 24}}>W</span> },
-                  { name: 'LinkedIn', color: '#0A66C2', icon: <FiLinkedin size={24} /> },
-                  { name: 'X', color: '#000000', icon: <FiTwitter size={24} /> },
-                  { name: 'Facebook', color: '#1877F2', icon: <FiFacebook size={24} /> },
-                  { name: 'Email', color: '#EA4335', icon: <FiMail size={24} /> }
+                  { name: 'WhatsApp', color: '#25D366', bg: '#ecfdf5', icon: <FaWhatsapp size={24} /> },
+                  { name: 'LinkedIn', color: '#0A66C2', bg: '#eef2ff', icon: <FaLinkedinIn size={22} /> },
+                  { name: 'X', color: '#000000', bg: '#f8fafc', icon: <FaXTwitter size={20} /> },
+                  { name: 'Facebook', color: '#1877F2', bg: '#eff6ff', icon: <FaFacebookF size={20} /> },
+                  { name: 'Email', color: '#EA4335', bg: '#fff1f2', icon: <FiMail size={22} /> }
                 ].map(social => (
-                  <div key={social.name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                  <div key={social.name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', cursor: 'pointer', group: 'true' }}>
                     <div style={{ 
-                      width: 64, height: 64, borderRadius: '50%', background: '#f8fafc', 
+                      width: 60, height: 60, borderRadius: '20px', background: social.bg, 
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      color: social.color, transition: 'all 0.2s', border: '1px solid #e2e8f0'
-                    }} onMouseEnter={e => { e.currentTarget.style.background = '#e2e8f0'; e.currentTarget.style.transform = 'scale(1.05)'; }}
-                       onMouseLeave={e => { e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.transform = 'scale(1)'; }}>
+                      color: social.color, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                      border: '1px solid transparent'
+                    }} onMouseEnter={e => { 
+                      e.currentTarget.style.transform = 'translateY(-5px) scale(1.05)'; 
+                      e.currentTarget.style.boxShadow = `0 12px 20px -8px ${social.color}40`;
+                      e.currentTarget.style.borderColor = `${social.color}20`;
+                    }}
+                       onMouseLeave={e => { 
+                         e.currentTarget.style.transform = 'translateY(0) scale(1)'; 
+                         e.currentTarget.style.boxShadow = 'none';
+                         e.currentTarget.style.borderColor = 'transparent';
+                       }}>
                       {social.icon}
                     </div>
-                    <span style={{ fontSize: '13px', fontWeight: 600, color: '#475569' }}>{social.name}</span>
+                    <span style={{ fontSize: '12px', fontWeight: 700, color: '#475569', fontFamily: 'var(--fd)' }}>{social.name}</span>
                   </div>
                 ))}
               </div>
 
               <div style={{ 
-                display: 'flex', alignItems: 'center', border: '1.5px solid #cbd5e1', 
-                borderRadius: '12px', padding: '6px', background: '#f8fafc' 
-              }}>
+                position: 'relative',
+                background: '#f8fafc',
+                border: '2px solid #e2e8f0',
+                borderRadius: '16px',
+                padding: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                transition: 'all 0.2s'
+              }} onFocusCapture={e => e.currentTarget.style.borderColor = '#1e5eff'}>
+                <div style={{ padding: '0 16px', color: '#94a3b8' }}>
+                  <FiGlobe size={18} />
+                </div>
                 <input 
                   type="text" 
                   readOnly 
                   value={profileLink} 
                   style={{ 
                     flex: 1, background: 'transparent', border: 'none', 
-                    padding: '10px 14px', outline: 'none', color: '#0f172a',
-                    fontSize: '15px', fontWeight: 600, fontFamily: 'var(--font)'
+                    padding: '12px 0', outline: 'none', color: '#0f172a',
+                    fontSize: '14px', fontWeight: 600, fontFamily: 'monospace'
                   }} 
                 />
                 <button 
                   style={{ 
-                    background: linkCopied ? '#10b981' : '#1e5eff', color: '#fff', border: 'none', 
-                    padding: '10px 24px', borderRadius: '8px', fontWeight: 700, 
-                    cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px',
-                    fontSize: '14px'
+                    background: linkCopied ? '#10b981' : '#1e5eff', 
+                    color: '#fff', border: 'none', 
+                    height: '44px',
+                    padding: '0 24px', borderRadius: '12px', fontWeight: 800, 
+                    cursor: 'pointer', transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', 
+                    display: 'flex', alignItems: 'center', gap: '8px',
+                    fontSize: '14px', fontFamily: 'var(--fd)',
+                    boxShadow: linkCopied ? '0 4px 12px rgba(16, 185, 129, 0.2)' : '0 4px 12px rgba(30, 94, 255, 0.2)'
                   }}
                   onClick={() => {
                     navigator.clipboard.writeText(`https://${profileLink}`);
@@ -1205,7 +1229,7 @@ export default function ProfileDashboard() {
                     setTimeout(() => setLinkCopied(false), 2000);
                   }}
                 >
-                  {linkCopied ? 'Copied' : 'Copy'}
+                  {linkCopied ? <><FiCheckCircle size={16} /> Copied</> : <><FiCopy size={16} /> Copy</>}
                 </button>
               </div>
             </div>
