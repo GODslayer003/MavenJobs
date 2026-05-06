@@ -57,7 +57,7 @@ export const ResumeTemplate = forwardRef((_, ref) => (
       /* sidebar */
       .R-sbg {
         position:absolute; top:0; left:0; bottom:0; width:242px;
-        background:linear-gradient(175deg,#00103a 0%,#002366 62%,#003382 100%);
+        background-color:#002366;
         z-index:0;
       }
       .R-sdots {
@@ -107,7 +107,7 @@ export const ResumeTemplate = forwardRef((_, ref) => (
       /* divider */
       .R-div {
         height:1px; flex-shrink:0;
-        background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);
+        background-color:rgba(255,255,255,.1);
         margin-bottom:13px;
       }
 
@@ -184,7 +184,7 @@ export const ResumeTemplate = forwardRef((_, ref) => (
       }
       .R-rh::after {
         content:''; flex:1; height:2px;
-        background:linear-gradient(90deg,#002366,#10b981 40%,transparent);
+        background-color:#10b981;
         border-radius:2px;
       }
 
@@ -193,7 +193,7 @@ export const ResumeTemplate = forwardRef((_, ref) => (
       .R-xrow:last-child { margin-bottom:0; }
       .R-xtl { display:flex; flex-direction:column; align-items:center; width:13px; flex-shrink:0; padding-top:4px; }
       .R-xdot { width:9px; height:9px; border-radius:50%; background:#10b981; box-shadow:0 0 0 3px rgba(16,185,129,.18); flex-shrink:0; }
-      .R-xline { flex:1; width:1.5px; margin-top:4px; background:linear-gradient(180deg,rgba(16,185,129,.3),transparent); }
+      .R-xline { flex:1; width:1.5px; margin-top:4px; background-color:rgba(16,185,129,.2); }
       .R-xb { flex:1; min-width:0; }
       .R-xrole { font-family:'Bricolage Grotesque',sans-serif; font-size:12.5px; font-weight:800; color:#0f172a; margin-bottom:1px; }
       .R-xco { font-size:10.5px; font-weight:700; color:#002366; margin-bottom:4px; }
@@ -208,7 +208,7 @@ export const ResumeTemplate = forwardRef((_, ref) => (
       .R-pc::before {
         content:''; position:absolute; top:0; left:0;
         width:3px; height:100%;
-        background:linear-gradient(180deg,#002366,#10b981);
+        background-color:#10b981;
       }
       .R-pc:last-child { margin-bottom:0; }
       .R-pname { font-family:'Bricolage Grotesque',sans-serif; font-size:12px; font-weight:800; color:#0f172a; margin-bottom:3px; }
@@ -228,7 +228,7 @@ export const ResumeTemplate = forwardRef((_, ref) => (
       /* footer */
       .R-strip {
         height:4px; flex-shrink:0;
-        background:linear-gradient(90deg,#002366 0%,#10b981 50%,#002366 100%);
+        background-color:#002366;
       }
 
       /* minimalist skills list */
