@@ -36,64 +36,6 @@ const CONTACT = [
 
 const PHOTO = 'https://images.weserv.nl/?url=i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg&w=200&h=200&fit=cover&a=attention';
 
-/* ─── The ONE pill style used everywhere ───────────────────────────
-   display:flex + align-items:center + justify-content:center
-   is the ONLY cross-browser guarantee for both axes.
-   height is fixed. padding:0. line-height:1. No block/inline tricks.
-─────────────────────────────────────────────────────────────────── */
-const PILL_BASE = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  lineHeight: 1,
-  whiteSpace: 'nowrap',
-  cursor: 'default',
-  userSelect: 'none',
-};
-
-/* skill chip on dark sidebar */
-const chipStyle = {
-  ...PILL_BASE,
-  height: '24px',
-  padding: '0 6px',
-  background: 'rgba(255,255,255,.09)',
-  border: '1px solid rgba(255,255,255,.14)',
-  borderRadius: '5px',
-  fontSize: '9.5px',
-  fontWeight: 700,
-  color: 'rgba(255,255,255,.84)',
-  letterSpacing: '.01em',
-};
-
-/* project tag on white background */
-const tagStyle = {
-  ...PILL_BASE,
-  height: '18px',
-  padding: '0 8px',
-  background: '#EEF2FF',
-  border: '1px solid rgba(0,35,102,.14)',
-  borderRadius: '4px',
-  fontSize: '9px',
-  fontWeight: 800,
-  color: '#002366',
-  letterSpacing: '.03em',
-};
-
-/* date badge (gradient) */
-const dateStyle = {
-  ...PILL_BASE,
-  display: 'inline-flex',   /* inline so it doesn't stretch full width */
-  height: '18px',
-  padding: '0 10px',
-  background: 'linear-gradient(90deg,#002366,#10b981)',
-  borderRadius: '100px',
-  fontSize: '9px',
-  fontWeight: 800,
-  color: '#fff',
-  letterSpacing: '.04em',
-  marginBottom: '5px',
-};
-
 export const ResumeTemplate = forwardRef((_, ref) => (
   <>
     <style>{`
@@ -120,8 +62,9 @@ export const ResumeTemplate = forwardRef((_, ref) => (
       }
       .R-sdots {
         position:absolute; inset:0;
-        background-image:radial-gradient(rgba(255,255,255,.065) 1px,transparent 1px);
-        background-size:15px 15px; pointer-events:none;
+        /* Removed radial-gradient as it causes html2canvas InvalidStateError */
+        background-color:rgba(255,255,255,0.01);
+        pointer-events:none;
       }
       .R-sglow {
         position:absolute; bottom:-90px; left:-70px;
@@ -274,18 +217,48 @@ export const ResumeTemplate = forwardRef((_, ref) => (
 
       /* achievements */
       .R-ach {
-        display:flex; align-items:center; gap:9px;
+        display:flex; align-items:flex-start; gap:9px;
         padding:7px 11px; background:#f8fafc;
         border:1px solid #e2e8f0; border-radius:7px; margin-bottom:5px;
       }
       .R-ach:last-child { margin-bottom:0; }
-      .R-adot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+      .R-adot { width:6px; height:6px; border-radius:50%; flex-shrink:0; margin-top:5px; }
       .R-atxt { font-size:10.5px; color:#334155; line-height:1.5; font-weight:500; }
 
       /* footer */
       .R-strip {
         height:4px; flex-shrink:0;
         background:linear-gradient(90deg,#002366 0%,#10b981 50%,#002366 100%);
+      }
+
+      /* minimalist skills list */
+      .R-skill {
+        display:flex; align-items:center; gap:6px;
+        font-size:10.5px; font-weight:600; color:rgba(255,255,255,.9);
+        letter-spacing:.02em; padding:4px 0;
+      }
+      .R-skill-dot {
+        color:#10b981; font-size:14px;
+        line-height:1; margin-right:2px;
+      }
+
+      /* minimalist date */
+      .R-date-clean {
+        font-size:9px; font-weight:800; color:#10b981;
+        letter-spacing:.06em; text-transform:uppercase;
+        margin-bottom:6px; display:inline-block;
+      }
+
+      /* minimalist project tags */
+      .R-ptags-clean {
+        font-size:9px; font-weight:700; color:#002366;
+        letter-spacing:.04em; text-transform:uppercase;
+        margin-top:2px; display:flex; flex-wrap:wrap;
+      }
+      .R-ptag-item:not(:last-child)::after {
+        content: ' • ';
+        color: #10b981;
+        margin: 0 5px;
       }
     `}</style>
 
@@ -325,7 +298,9 @@ export const ResumeTemplate = forwardRef((_, ref) => (
           <div className="R-slbl">Skills</div>
           <div className="R-sgrid">
             {SKILL_PAIRS.flat().map(s => (
-              <div key={s} style={chipStyle}>{s}</div>
+              <div key={s} className="R-skill">
+                <span className="R-skill-dot">•</span> {s}
+              </div>
             ))}
           </div>
 
@@ -376,8 +351,8 @@ export const ResumeTemplate = forwardRef((_, ref) => (
               <div className="R-xb">
                 <div className="R-xrole">{x.role}</div>
                 <div className="R-xco">{x.co}</div>
-                {/* date badge — inline-flex, flex-centered */}
-                <div style={dateStyle}>{x.date}</div>
+                {/* sleek date text */}
+                <div className="R-date-clean">{x.date}</div>
                 <div className="R-xdesc">{x.desc}</div>
               </div>
             </div>
@@ -404,9 +379,9 @@ export const ResumeTemplate = forwardRef((_, ref) => (
             <div className="R-pc" key={p.name}>
               <div className="R-pname">{p.name}</div>
               <div className="R-pdesc">{p.desc}</div>
-              <div className="R-tags">
-                {/* project tags — inline-flex, flex-centered */}
-                {p.tags.map(t => <span key={t} style={tagStyle}>{t}</span>)}
+              <div className="R-ptags-clean">
+                {/* clean inline text tags */}
+                {p.tags.map(t => <span key={t} className="R-ptag-item">{t}</span>)}
               </div>
             </div>
           ))}
