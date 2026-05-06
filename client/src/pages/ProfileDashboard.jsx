@@ -15,6 +15,9 @@ import RecommendedJobs from './RecommendedJobs';
 import EarlyAccessModal from '../components/EarlyAccessModal';
 import './ProfileDashboard.css';
 import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
+import ResumeTemplate from '../components/ResumeTemplate';
 
 export default function ProfileDashboard() {
   const { user, updateUser, logout } = useAuth();
@@ -44,6 +47,30 @@ export default function ProfileDashboard() {
   const [showWorkStatusModal, setShowWorkStatusModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
+  
+  const resumeRef = useRef(null);
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownloadResume = async () => {
+    setIsDownloading(true);
+    const element = resumeRef.current;
+    
+    if (element) {
+      try {
+        const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'pt', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save('Pranjal_Kundliya_Resume.pdf');
+      } catch (error) {
+        console.error("Error generating PDF:", error);
+      }
+    }
+    setIsDownloading(false);
+  };
   
   const profileLink = `mavenjobs.com/in/${user?.name?.toLowerCase().replace(/\s+/g, '-') || 'user'}-7a8b9c`;
 
@@ -108,6 +135,9 @@ export default function ProfileDashboard() {
 
   return (
     <div className="pd-root">
+      <div style={{ position: 'absolute', left: '-9999px', top: '-9999px' }}>
+        <ResumeTemplate ref={resumeRef} />
+      </div>
       <input ref={pfpInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handlePfpChange} />
       <input ref={coverInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleCoverChange} />
 
@@ -240,7 +270,9 @@ export default function ProfileDashboard() {
               <button className="pd-btn-white" onClick={() => setShowShareModal(true)}>
                 <FiShare2 size={14} /> Share
               </button>
-              <button className="pd-btn-white"><FiDownload size={14} /> Resume</button>
+              <button className="pd-btn-white" onClick={handleDownloadResume} disabled={isDownloading}>
+                <FiDownload size={14} /> {isDownloading ? 'Generating...' : 'Resume'}
+              </button>
             </div>
             <button className="pd-btn-black" onClick={() => navigate('/info')}>
               <FiInfo size={14} /> Information
