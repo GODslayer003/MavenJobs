@@ -11,6 +11,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { GiCrown } from 'react-icons/gi';
 import { useAuth } from '../AuthContext';
 import RecommendedJobs from './RecommendedJobs';
+import EarlyAccessModal from '../components/EarlyAccessModal';
 import './ProfileDashboard.css';
 import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
 
@@ -25,6 +26,7 @@ export default function ProfileDashboard() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [activeNavDropdown, setActiveNavDropdown] = useState(null);
   const [showJobsModal, setShowJobsModal] = useState(false);
+  const [showEarlyAccessModal, setShowEarlyAccessModal] = useState(false);
   const [showKnowMoreModal, setShowKnowMoreModal] = useState(false);
   const jobScrollRef = useRef(null);
   const earlyScrollRef = useRef(null);
@@ -221,13 +223,16 @@ export default function ProfileDashboard() {
           </div>
 
           <div className="pd-identity-cta">
-            <button className="pd-btn-primary" onClick={() => setShowPreview(true)}>
+            <button className="pd-btn-black" onClick={() => setShowPreview(true)}>
               <FiEye size={14} /> View Profile
             </button>
             <div className="pd-cta-row">
-              <button className="pd-btn-outline"><FiShare2 size={14} /> Share</button>
-              <button className="pd-btn-outline"><FiDownload size={14} /> Resume</button>
+              <button className="pd-btn-white"><FiShare2 size={14} /> Share</button>
+              <button className="pd-btn-white"><FiDownload size={14} /> Resume</button>
             </div>
+            <button className="pd-btn-black" onClick={() => navigate('/info')}>
+              <FiInfo size={14} /> Information
+            </button>
           </div>
         </div>
       </div>
@@ -383,7 +388,7 @@ export default function ProfileDashboard() {
                   <p>Exclusive roles before they go public</p>
                 </div>
               </div>
-              <button className="pd-text-btn" onClick={() => setShowJobsModal(true)}>View all <FiChevronRight size={14} /></button>
+              <button className="pd-text-btn" onClick={() => setShowEarlyAccessModal(true)}>View all <FiChevronRight size={14} /></button>
             </div>
             <div className="pd-scroll-wrap">
               <button className="pd-scroll-btn left" onClick={() => handleScroll(earlyScrollRef, 'left')}><FiChevronLeft size={18} /></button>
@@ -693,6 +698,11 @@ export default function ProfileDashboard() {
           </div>
         </div>
       )}
+      {/* ─── Early Access Modal ─── */}
+      <EarlyAccessModal 
+        isOpen={showEarlyAccessModal} 
+        onClose={() => setShowEarlyAccessModal(false)} 
+      />
       {/* ─── Know More Modal ─── */}
       {showKnowMoreModal && (
         <div className="km-modal-overlay" onClick={() => setShowKnowMoreModal(false)}>

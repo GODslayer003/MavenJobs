@@ -583,9 +583,55 @@
   gap: 8px;
 }
 
-/* ═══════════════════════════════
-   BUTTONS
-═══════════════════════════════ */
+/* ─── Buttons ─── */
+.pd-btn-black {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #000000;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-family: var(--font);
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: -0.01em;
+  width: 100%;
+}
+
+.pd-btn-black:hover {
+  background: #1a1a1a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.pd-btn-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #ffffff;
+  color: #000000;
+  border: 1.5px solid #000000;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-family: var(--font);
+  font-size: 0.825rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+}
+
+.pd-btn-white:hover {
+  background: #f8fafc;
+  border-color: #334155;
+}
+
 .pd-btn-primary {
   display: inline-flex;
   align-items: center;

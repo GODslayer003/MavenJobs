@@ -10,6 +10,7 @@ import Jobprofile from "./pages/Jobprofile";
 import Services from "./pages/Services";
 import MavenPro from "./pages/MavenPro";
 import Premium from "./pages/Premium";
+import Info from "./pages/Info";
 import { AuthProvider } from "./AuthContext";
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/pro" element={<MavenPro />} />
           <Route path="/premium" element={<Premium />} />
+          <Route path="/info" element={<Info />} />
         </Routes>
       </Router>
     </AuthProvider>
