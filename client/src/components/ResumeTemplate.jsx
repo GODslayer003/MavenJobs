@@ -69,7 +69,7 @@ export const ResumeTemplate = forwardRef((_, ref) => (
       .R-sglow {
         position:absolute; bottom:-90px; left:-70px;
         width:280px; height:280px; border-radius:50%;
-        background:radial-gradient(circle,rgba(16,185,129,.22) 0%,transparent 65%);
+        background-color:rgba(16,185,129,0.05); /* Fallback solid color instead of radial-gradient to prevent html2canvas crash */
         pointer-events:none;
       }
 
