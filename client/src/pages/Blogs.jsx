@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FiChevronRight, FiSearch, FiClock, FiUser, FiTrendingUp, FiBookOpen, FiArrowRight } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const CATEGORIES = [
   { id: 'all', label: 'All Posts' },
@@ -23,6 +23,10 @@ const IMGS = [
   'https://i1-e.pinimg.com/736x/f9/fa/72/f9fa72bc4e11357047c5cfb5f07364ba.jpg',
   'https://i.pinimg.com/736x/92/09/d7/9209d70d8f3aa5fdc816a0af6ac8f1a4.jpg',
   'https://i1-e.pinimg.com/736x/2f/9b/7b/2f9b7bdb7a233b3ebb9339a91fa8b9f9.jpg',
+  'https://i1-e.pinimg.com/1200x/12/54/66/1254665d49d01171371303f441ddf649.jpg',
+  'https://i1-e.pinimg.com/1200x/cc/d4/8b/ccd48b5a88bbf94391f875f7ca0b38ff.jpg',
+  'https://i1-e.pinimg.com/736x/a9/b4/ff/a9b4ff595b31f7852434f2f55ff4f448.jpg',
+  'https://i.pinimg.com/736x/af/b2/b4/afb2b4abaa7268de5adea4df7d2b7670.jpg',
 ];
 
 const FEATURED = [
@@ -34,35 +38,36 @@ const FEATURED = [
 const BLOGS = [
   // Career Advice
   { id: 1, cat: 'career', title: 'One-Day Leave Application Samples & Templates', desc: 'Worried about asking for a day off? Learn how to write a one-day leave application to do it right.', img: IMGS[3], author: 'MavenJobs Content Team', date: '25 Apr 2026', read: '5 min' },
-  { id: 2, cat: 'career', title: 'What Is MIS Report? Types, Examples & How to Create One', desc: 'Dive into the world of MIS reports: types, examples, and how to create them. Unlock the power of data for smarter decisions.', img: IMGS[4], author: 'MavenJobs Content Team', date: '22 Apr 2026', read: '8 min' },
-  { id: 3, cat: 'career', title: 'How to Become a Project Manager (2026 Guide)', desc: 'Find out how to become a project manager along with its scope, advantages, challenges, and certifications in this extensive article.', img: IMGS[5], author: 'Guneet Puri', date: '18 Apr 2026', read: '10 min' },
+  { id: 2, cat: 'career', title: 'What Is MIS Report? Types, Examples & How to Create One', desc: 'Dive into the world of MIS reports: types, examples, and how to create them. Unlock the power of data for smarter decisions.', img: IMGS[9], author: 'MavenJobs Content Team', date: '22 Apr 2026', read: '8 min' },
+  { id: 3, cat: 'career', title: 'How to Become a Project Manager (2026 Guide)', desc: 'Find out how to become a project manager along with its scope, advantages, challenges, and certifications in this extensive article.', img: IMGS[10], author: 'Guneet Puri', date: '18 Apr 2026', read: '10 min' },
   // Interview Tips
   { id: 4, cat: 'interview', title: '50+ Top HR Interview Questions and Answers for 2026', desc: 'Go through this well-curated list of some of the most frequently asked HR interview questions. Prepare confidently with best possible answers.', img: IMGS[6], author: 'Geetanjali', date: '20 Apr 2026', read: '12 min' },
-  { id: 5, cat: 'interview', title: 'How to Answer "Why Should We Hire You?" (With 15 Sample Answers)', desc: 'The HR interview question "Why Should We Hire You" turns out to be tricky no matter how simple it may sound.', img: IMGS[7], author: 'Saba Anwar', date: '15 Apr 2026', read: '7 min' },
-  { id: 6, cat: 'interview', title: 'How to Answer "Are You a Team Player?" With Sample Answers', desc: 'This blog provides with all the nitty gritties to answering the basic interview question "Are you a team player?"', img: IMGS[8], author: 'MavenJobs Content Team', date: '12 Apr 2026', read: '6 min' },
+  { id: 5, cat: 'interview', title: 'How to Answer "Why Should We Hire You?" (With 15 Sample Answers)', desc: 'The HR interview question "Why Should We Hire You" turns out to be tricky no matter how simple it may sound.', img: IMGS[11], author: 'Saba Anwar', date: '15 Apr 2026', read: '7 min' },
+  { id: 6, cat: 'interview', title: 'How to Answer "Are You a Team Player?" With Sample Answers', desc: 'This blog provides with all the nitty gritties to answering the basic interview question "Are you a team player?"', img: IMGS[12], author: 'MavenJobs Content Team', date: '12 Apr 2026', read: '6 min' },
   // Resume
   { id: 7, cat: 'resume', title: 'Career Objective Or Resume Objective Samples', desc: 'A career objective is a crucial aspect of a professional resume. Get it right with this article and check out samples.', img: IMGS[0], author: 'MavenJobs Content Team', date: '10 Apr 2026', read: '6 min' },
-  { id: 8, cat: 'resume', title: 'Career Objectives for Engineers: A Comprehensive Guide', desc: 'Learn how to craft powerful career objectives for engineers with tips, examples, and expert strategies to stand out.', img: IMGS[1], author: 'Smita Nag', date: '08 Apr 2026', read: '7 min' },
-  { id: 9, cat: 'resume', title: 'How To Write A Career Objective for Marketing Analysts', desc: 'Learn how to write a standout career objective for marketing analysts with expert tips, samples, and strategies.', img: IMGS[2], author: 'Smita Nag', date: '05 Apr 2026', read: '5 min' },
+  { id: 8, cat: 'resume', title: 'Career Objectives for Engineers: A Comprehensive Guide', desc: 'Learn how to craft powerful career objectives for engineers with tips, examples, and expert strategies to stand out.', img: IMGS[4], author: 'Smita Nag', date: '08 Apr 2026', read: '7 min' },
+  { id: 9, cat: 'resume', title: 'How To Write A Career Objective for Marketing Analysts', desc: 'Learn how to write a standout career objective for marketing analysts with expert tips, samples, and strategies.', img: IMGS[7], author: 'Smita Nag', date: '05 Apr 2026', read: '5 min' },
   // Salary
   { id: 10, cat: 'salary', title: '8 Highest-Paying Skills for Career Growth in 2026', desc: 'We explore the high-paying skills in India along with their education path, career path, and job roles related to those skills.', img: IMGS[5], author: 'Guneet Puri', date: '02 Apr 2026', read: '9 min' },
-  { id: 11, cat: 'salary', title: 'What Are Conceptual Skills? Definition, Examples & How to Develop', desc: 'Table of Contents: What Are Conceptual Skills, Key Types of Conceptual Skills, Real Life Examples, and How to Showcase Them.', img: IMGS[4], author: 'MavenJobs Content Team', date: '28 Mar 2026', read: '8 min' },
-  { id: 12, cat: 'salary', title: 'What is SEO? Types, Methods, and Best Practices', desc: 'A comprehensive guide to SEO covering types, ranking factors, and proven methods for search engine optimization.', img: IMGS[3], author: 'MavenJobs Content Team', date: '25 Mar 2026', read: '11 min' },
+  { id: 11, cat: 'salary', title: 'What Are Conceptual Skills? Definition, Examples & How to Develop', desc: 'Table of Contents: What Are Conceptual Skills, Key Types of Conceptual Skills, Real Life Examples, and How to Showcase Them.', img: IMGS[10], author: 'MavenJobs Content Team', date: '28 Mar 2026', read: '8 min' },
+  { id: 12, cat: 'salary', title: 'What is SEO? Types, Methods, and Best Practices', desc: 'A comprehensive guide to SEO covering types, ranking factors, and proven methods for search engine optimization.', img: IMGS[9], author: 'MavenJobs Content Team', date: '25 Mar 2026', read: '11 min' },
   // Remote
-  { id: 13, cat: 'remote', title: 'Tips to Make Remote Working Work For You', desc: 'To help you make remote working work for you, here are some best work-from-home practices to stay productive.', img: IMGS[8], author: 'Swati Srivastava', date: '22 Mar 2026', read: '6 min' },
-  { id: 14, cat: 'remote', title: 'Hiring Activity Continues to Move on the Path of Recovery Now', desc: 'Here are some quick hiring trends that will help job seekers understand how the job market is shaping up.', img: IMGS[7], author: 'Swati Srivastava', date: '18 Mar 2026', read: '5 min' },
-  { id: 15, cat: 'remote', title: 'Start Your Career in Ethical Hacking With These Courses', desc: 'Want to start your career as an ethical hacker? We have curated a list of top ethical hacking courses.', img: IMGS[6], author: 'Khunika Yadav', date: '15 Mar 2026', read: '7 min' },
+  { id: 13, cat: 'remote', title: 'Tips to Make Remote Working Work For You', desc: 'To help you make remote working work for you, here are some best work-from-home practices to stay productive.', img: IMGS[12], author: 'Swati Srivastava', date: '22 Mar 2026', read: '6 min' },
+  { id: 14, cat: 'remote', title: 'Hiring Activity Continues to Move on the Path of Recovery Now', desc: 'Here are some quick hiring trends that will help job seekers understand how the job market is shaping up.', img: IMGS[11], author: 'Swati Srivastava', date: '18 Mar 2026', read: '5 min' },
+  { id: 15, cat: 'remote', title: 'Start Your Career in Ethical Hacking With These Courses', desc: 'Want to start your career as an ethical hacker? We have curated a list of top ethical hacking courses.', img: IMGS[8], author: 'Khunika Yadav', date: '15 Mar 2026', read: '7 min' },
   // Skills
   { id: 16, cat: 'skills', title: 'Emergency Leave Letter: How to Write, Templates and Samples', desc: 'We have got you covered. In this article, learn what an emergency leave letter is, its uses, elements, and templates.', img: IMGS[2], author: 'Guneet Puri', date: '12 Mar 2026', read: '6 min' },
-  { id: 17, cat: 'skills', title: 'How to Prepare for Your Resignation Meeting?', desc: 'Resigning from a job can be tricky but the procedure doesn\'t have to be. Here is an extensive guide on how to prepare.', img: IMGS[1], author: 'Guneet Puri', date: '08 Mar 2026', read: '7 min' },
-  { id: 18, cat: 'skills', title: 'How to Write a Retirement Letter of Resignation?', desc: 'Write an impactful retirement resignation letter with this list of what to include, tips, and samples.', img: IMGS[0], author: 'Guneet Puri', date: '05 Mar 2026', read: '5 min' },
+  { id: 17, cat: 'skills', title: 'How to Prepare for Your Resignation Meeting?', desc: 'Resigning from a job can be tricky but the procedure doesn\'t have to be. Here is an extensive guide on how to prepare.', img: IMGS[9], author: 'Guneet Puri', date: '08 Mar 2026', read: '7 min' },
+  { id: 18, cat: 'skills', title: 'How to Write a Retirement Letter of Resignation?', desc: 'Write an impactful retirement resignation letter with this list of what to include, tips, and samples.', img: IMGS[12], author: 'Guneet Puri', date: '05 Mar 2026', read: '5 min' },
   // Product Updates
-  { id: 19, cat: 'product', title: 'Best Practices for Your MavenJobs Profile', desc: 'Wondering how to get shortlisted for a job interview? This blog presents the best practices for your profile.', img: IMGS[5], author: 'MavenJobs Content Team', date: '01 Mar 2026', read: '4 min' },
-  { id: 20, cat: 'product', title: 'Top 10 Hiring Companies on Resdex in February', desc: 'In this blog, we talk about what is Resdex and the top 10 hiring companies on Resdex in February.', img: IMGS[3], author: 'MavenJobs Content Team', date: '25 Feb 2026', read: '5 min' },
-  { id: 21, cat: 'product', title: 'Understanding Hiring Trends With MavenJobs JobSpeak Report', desc: 'We shall dissect important observations of MavenJobs JobSpeak Report & highlight its key takeaways.', img: IMGS[8], author: 'MavenJobs Content Team', date: '20 Feb 2026', read: '8 min' },
+  { id: 19, cat: 'product', title: 'Best Practices for Your MavenJobs Profile', desc: 'Wondering how to get shortlisted for a job interview? This blog presents the best practices for your profile.', img: IMGS[11], author: 'MavenJobs Content Team', date: '01 Mar 2026', read: '4 min' },
+  { id: 20, cat: 'product', title: 'Top 10 Hiring Companies on Resdex in February', desc: 'In this blog, we talk about what is Resdex and the top 10 hiring companies on Resdex in February.', img: IMGS[10], author: 'MavenJobs Content Team', date: '25 Feb 2026', read: '5 min' },
+  { id: 21, cat: 'product', title: 'Understanding Hiring Trends With MavenJobs JobSpeak Report', desc: 'We shall dissect important observations of MavenJobs JobSpeak Report & highlight its key takeaways.', img: IMGS[1], author: 'MavenJobs Content Team', date: '20 Feb 2026', read: '8 min' },
 ];
 
 export default function Blogs() {
+  const navigate = useNavigate();
   const [activeCat, setActiveCat] = useState('all');
   const [search, setSearch] = useState('');
 
@@ -139,7 +144,7 @@ export default function Blogs() {
             <div style={{ fontSize:11, fontWeight:800, letterSpacing:'.14em', textTransform:'uppercase', color:'#64748b', marginBottom:18 }}>RECENT POSTS</div>
             <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:20 }}>
               {FEATURED.map((f, i) => (
-                <div key={i} className="blog-card">
+                <div key={i} className="blog-card" onClick={() => navigate('/blog-article')}>
                   <div style={{ height:180, backgroundImage:`url(${f.img})`, backgroundSize:'cover', backgroundPosition:'center', display:'flex', alignItems:'center', justifyContent:'center', position:'relative' }}>
                     <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.3) 100%)' }} />
                     <span style={{ ...f.labelStyle, padding:'6px 16px', borderRadius:8, position:'relative', zIndex:1, backdropFilter:'blur(4px)' }}>{f.label}</span>
@@ -171,7 +176,7 @@ export default function Blogs() {
               </div>
               <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:20 }}>
                 {items.slice(0, 3).map(b => (
-                  <BlogCard key={b.id} blog={b} />
+                  <BlogCard key={b.id} blog={b} onClick={() => navigate('/blog-article')} />
                 ))}
               </div>
             </div>
@@ -184,7 +189,7 @@ export default function Blogs() {
             </div>
             <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:20 }}>
               {filtered.map(b => (
-                <BlogCard key={b.id} blog={b} />
+                <BlogCard key={b.id} blog={b} onClick={() => navigate('/blog-article')} />
               ))}
             </div>
             {filtered.length === 0 && (
@@ -201,9 +206,9 @@ export default function Blogs() {
   );
 }
 
-function BlogCard({ blog }) {
+function BlogCard({ blog, onClick }) {
   return (
-    <div className="blog-card">
+    <div className="blog-card" onClick={onClick}>
       <div style={{ height:150, position:'relative', overflow:'hidden' }}>
         <img src={blog.img} alt={blog.title} style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
       </div>

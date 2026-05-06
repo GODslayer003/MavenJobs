@@ -12,6 +12,7 @@ import MavenPro from "./pages/MavenPro";
 import Premium from "./pages/Premium";
 import Info from "./pages/Info";
 import Blogs from "./pages/Blogs";
+import BlogAIRex from "./pages/Blogsx";
 import { AuthProvider } from "./AuthContext";
 
 export default function App() {
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="/premium" element={<Premium />} />
           <Route path="/info" element={<Info />} />
           <Route path="/blogs" element={<Blogs />} />
+          <Route path="/blog-article" element={<BlogAIRex />} />
         </Routes>
       </Router>
     </AuthProvider>
