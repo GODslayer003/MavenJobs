@@ -5,7 +5,7 @@ import {
   FiDownload, FiPlus, FiUsers, FiEye, FiTrendingUp, FiAward,
   FiBell, FiSettings, FiLogOut, FiPhone, FiMail, FiX,
   FiCalendar, FiClock, FiChevronLeft, FiInfo, FiSend, FiChevronDown,
-  FiStar, FiBookmark, FiGlobe
+  FiStar, FiBookmark, FiGlobe, FiTwitter, FiFacebook, FiLinkedin, FiCopy
 } from 'react-icons/fi';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { GiCrown } from 'react-icons/gi';
@@ -31,6 +31,7 @@ export default function ProfileDashboard() {
   const jobScrollRef = useRef(null);
   const earlyScrollRef = useRef(null);
   const matchScrollRef = useRef(null);
+  const blogScrollRef = useRef(null);
   const pfpInputRef = useRef(null);
   const coverInputRef = useRef(null);
   const [skills, setSkills] = useState(['React.js', 'Node.js', 'UI/UX Design', 'TypeScript', 'MongoDB']);
@@ -38,6 +39,12 @@ export default function ProfileDashboard() {
   const [newSkillValue, setNewSkillValue] = useState('');
   const [activeTip, setActiveTip] = useState(null); // 'experience', 'summary', 'skills'
   const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(false);
+  const [workStatus, setWorkStatus] = useState('Open to Work');
+  const [showWorkStatusModal, setShowWorkStatusModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
+  
+  const profileLink = `mavenjobs.com/in/${user?.name?.toLowerCase().replace(/\s+/g, '-') || 'user'}-7a8b9c`;
 
   const recommendedJobs = {
     'Profile (18)': [
@@ -198,7 +205,9 @@ export default function ProfileDashboard() {
                   </button>
                 </h1>
               )}
-              <span className="pd-open-badge">● Open to Work</span>
+              <span className={`pd-open-badge ${workStatus === 'Working' ? 'working' : ''}`} onClick={() => setShowWorkStatusModal(true)}>
+                ● {workStatus}
+              </span>
             </div>
 
             <p className="pd-headline">{user.headline || 'MERN Stack Developer · Software Engineer'}</p>
@@ -227,7 +236,9 @@ export default function ProfileDashboard() {
               <FiEye size={14} /> View Profile
             </button>
             <div className="pd-cta-row">
-              <button className="pd-btn-white"><FiShare2 size={14} /> Share</button>
+              <button className="pd-btn-white" onClick={() => setShowShareModal(true)}>
+                <FiShare2 size={14} /> Share
+              </button>
               <button className="pd-btn-white"><FiDownload size={14} /> Resume</button>
             </div>
             <button className="pd-btn-black" onClick={() => navigate('/info')}>
@@ -277,7 +288,7 @@ export default function ProfileDashboard() {
             <Link to="#" className="pd-sidenav-item active"><FiHome size={17} /><span>My Home</span></Link>
             <button className="pd-sidenav-item" onClick={() => setShowJobsModal(true)}><FiBriefcase size={17} /><span>Jobs</span></button>
             <Link to="#" className="pd-sidenav-item"><FiMonitor size={17} /><span>Companies</span></Link>
-            <Link to="#" className="pd-sidenav-item"><FiFileText size={17} /><span>Blogs</span></Link>
+            <Link to="/blogs" className="pd-sidenav-item"><FiFileText size={17} /><span>Blogs</span></Link>
             <Link to="#" className="pd-sidenav-item"><FiSettings size={17} /><span>Settings</span></Link>
           </div>
 
@@ -484,6 +495,37 @@ export default function ProfileDashboard() {
                 </div>
               </div>
               <button className="pd-scroll-btn right" onClick={() => handleScroll(matchScrollRef, 'right')}><FiChevronRight size={18} /></button>
+            </div>
+          </div>
+
+          {/* Blog Section */}
+          <div className="pd-card pd-blog-card">
+            <div className="pd-section-header">
+              <h3>Stay updated with our blogs</h3>
+              <button className="pd-text-btn" onClick={() => navigate('/blogs')}>View all <FiChevronRight size={14} /></button>
+            </div>
+            <div className="pd-scroll-wrap">
+              <button className="pd-scroll-btn left" onClick={() => handleScroll(blogScrollRef, 'left')}><FiChevronLeft size={18} /></button>
+              <div className="pd-blog-scroll" ref={blogScrollRef}>
+                {[
+                  { title: 'AI-powered premium talent discovery', banner: 'linear-gradient(135deg, #FFF7ED 0%, #FEF3C7 50%, #FBBF24 100%)', label: 'PremiumX', labelStyle: { background: 'rgba(255,255,255,0.85)', color: '#92400E', fontWeight: 800, fontSize: '16px', padding: '6px 14px', borderRadius: 8 }, source: 'MavenJobs blog', date: '28 Apr 2026' },
+                  { title: 'Resdex Enterprise - Search smarter, reach faster, and operate...', banner: 'linear-gradient(135deg, #1E40AF 0%, #3B82F6 40%, #06B6D4 100%)', label: 'Resdex Enterprise', labelStyle: { background: 'rgba(255,255,255,0.15)', color: '#fff', fontWeight: 700, fontSize: '13px', padding: '5px 12px', borderRadius: 6 }, source: 'MavenJobs blog', date: '10 Apr 2026' },
+                  { title: 'Introducing AI REX — MavenJobs\'s Agentic AI Talent Sourcing...', banner: 'linear-gradient(135deg, #7C3AED 0%, #A855F7 50%, #C084FC 100%)', label: 'AI REX', labelStyle: { background: 'rgba(255,255,255,0.18)', color: '#fff', fontWeight: 800, fontSize: '15px', padding: '5px 14px', borderRadius: 8 }, source: 'MavenJobs blog', date: '10 Apr 2026' },
+                  { title: 'How to write a resume that gets you hired in 2026', banner: 'linear-gradient(135deg, #059669 0%, #10B981 50%, #6EE7B7 100%)', label: 'Career Tips', labelStyle: { background: 'rgba(255,255,255,0.18)', color: '#fff', fontWeight: 700, fontSize: '13px', padding: '5px 12px', borderRadius: 6 }, source: 'MavenJobs blog', date: '02 Apr 2026' },
+                  { title: 'Top 10 interview questions every developer should prepare for', banner: 'linear-gradient(135deg, #DC2626 0%, #F43F5E 50%, #FB7185 100%)', label: 'Interview Prep', labelStyle: { background: 'rgba(255,255,255,0.18)', color: '#fff', fontWeight: 700, fontSize: '13px', padding: '5px 12px', borderRadius: 6 }, source: 'MavenJobs blog', date: '25 Mar 2026' },
+                ].map((blog, i) => (
+                  <div className="pd-blog-item" key={i}>
+                    <div className="pd-blog-banner" style={{ background: blog.banner }}>
+                      <span style={blog.labelStyle}>{blog.label}</span>
+                    </div>
+                    <div className="pd-blog-body">
+                      <h4>{blog.title}</h4>
+                      <p>{blog.source} &bull; {blog.date}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <button className="pd-scroll-btn right" onClick={() => handleScroll(blogScrollRef, 'right')}><FiChevronRight size={18} /></button>
             </div>
           </div>
 
@@ -1101,6 +1143,145 @@ export default function ProfileDashboard() {
           border-color: #10b981;
         }
       `}</style>
+      {/* ─── Share Profile Modal ─── */}
+      {showShareModal && (
+        <div className="cm-modal-overlay" onClick={() => setShowShareModal(false)}>
+          <div className="cm-modal-box" style={{ maxWidth: 520, padding: 0 }} onClick={e => e.stopPropagation()}>
+            <div className="cm-modal-header" style={{ borderBottom: 'none', padding: '24px 32px 16px' }}>
+              <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a' }}>Share</h3>
+              <button className="cm-modal-close" style={{ background: 'rgba(0,0,0,0.05)', borderRadius: '50%', width: 36, height: 36, justifyContent: 'center' }} onClick={() => setShowShareModal(false)}>
+                <FiX size={20} />
+              </button>
+            </div>
+            
+            <div className="cm-modal-body" style={{ padding: '0 32px 32px', overflowY: 'visible' }}>
+              <div style={{ display: 'flex', gap: '20px', marginBottom: '32px', overflowX: 'auto', paddingBottom: '10px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                {/* Social Icons similar to YouTube */}
+                {[
+                  { name: 'WhatsApp', color: '#25D366', icon: <span style={{fontWeight: 800, fontSize: 24}}>W</span> },
+                  { name: 'LinkedIn', color: '#0A66C2', icon: <FiLinkedin size={24} /> },
+                  { name: 'X', color: '#000000', icon: <FiTwitter size={24} /> },
+                  { name: 'Facebook', color: '#1877F2', icon: <FiFacebook size={24} /> },
+                  { name: 'Email', color: '#EA4335', icon: <FiMail size={24} /> }
+                ].map(social => (
+                  <div key={social.name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                    <div style={{ 
+                      width: 64, height: 64, borderRadius: '50%', background: '#f8fafc', 
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      color: social.color, transition: 'all 0.2s', border: '1px solid #e2e8f0'
+                    }} onMouseEnter={e => { e.currentTarget.style.background = '#e2e8f0'; e.currentTarget.style.transform = 'scale(1.05)'; }}
+                       onMouseLeave={e => { e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.transform = 'scale(1)'; }}>
+                      {social.icon}
+                    </div>
+                    <span style={{ fontSize: '13px', fontWeight: 600, color: '#475569' }}>{social.name}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ 
+                display: 'flex', alignItems: 'center', border: '1.5px solid #cbd5e1', 
+                borderRadius: '12px', padding: '6px', background: '#f8fafc' 
+              }}>
+                <input 
+                  type="text" 
+                  readOnly 
+                  value={profileLink} 
+                  style={{ 
+                    flex: 1, background: 'transparent', border: 'none', 
+                    padding: '10px 14px', outline: 'none', color: '#0f172a',
+                    fontSize: '15px', fontWeight: 600, fontFamily: 'var(--font)'
+                  }} 
+                />
+                <button 
+                  style={{ 
+                    background: linkCopied ? '#10b981' : '#1e5eff', color: '#fff', border: 'none', 
+                    padding: '10px 24px', borderRadius: '8px', fontWeight: 700, 
+                    cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px',
+                    fontSize: '14px'
+                  }}
+                  onClick={() => {
+                    navigator.clipboard.writeText(`https://${profileLink}`);
+                    setLinkCopied(true);
+                    setTimeout(() => setLinkCopied(false), 2000);
+                  }}
+                >
+                  {linkCopied ? 'Copied' : 'Copy'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── Work Status Modal ─── */}
+      {showWorkStatusModal && (
+        <div className="cm-modal-overlay" onClick={() => setShowWorkStatusModal(false)}>
+          <div className="cm-modal-box" style={{ maxWidth: 420 }} onClick={e => e.stopPropagation()}>
+            <div className="cm-modal-header">
+              <h3>Professional Status</h3>
+              <button className="cm-modal-close" onClick={() => setShowWorkStatusModal(false)}><FiX size={20} /></button>
+            </div>
+            
+            <div className="cm-modal-body" style={{ padding: '24px 32px' }}>
+              <p className="cm-helper-text" style={{ marginBottom: 24, fontSize: '13.5px' }}>
+                Let recruiters know your current availability to help them match you with the right opportunities.
+              </p>
+              
+              <div 
+                style={{ 
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', 
+                  padding: '16px 20px', border: `1.5px solid ${workStatus === 'Open to Work' ? '#10b981' : '#e2e8f0'}`, 
+                  borderRadius: '14px', marginBottom: '16px', cursor: 'pointer',
+                  background: workStatus === 'Open to Work' ? '#ecfdf5' : '#fff',
+                  transition: 'all 0.2s', boxShadow: workStatus === 'Open to Work' ? '0 4px 12px rgba(16,185,129,0.1)' : 'none'
+                }}
+                onClick={() => setWorkStatus('Open to Work')}
+              >
+                <div>
+                  <div style={{ fontWeight: 800, color: '#0f172a', fontSize: '15px', marginBottom: '4px' }}>Open to Work</div>
+                  <div style={{ fontSize: '13px', color: '#64748b', fontWeight: 500 }}>Actively looking for new roles</div>
+                </div>
+                <div className="cm-checkbox-box" style={{ 
+                  borderColor: workStatus === 'Open to Work' ? '#10b981' : '#cbd5e1', 
+                  background: workStatus === 'Open to Work' ? '#10b981' : '#fff',
+                  width: 20, height: 20
+                }}>
+                  {workStatus === 'Open to Work' && <FiCheckCircle size={12} color="#fff" />}
+                </div>
+              </div>
+
+              <div 
+                style={{ 
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', 
+                  padding: '16px 20px', border: `1.5px solid ${workStatus === 'Working' ? '#1e5eff' : '#e2e8f0'}`, 
+                  borderRadius: '14px', cursor: 'pointer',
+                  background: workStatus === 'Working' ? '#eef4ff' : '#fff',
+                  transition: 'all 0.2s', boxShadow: workStatus === 'Working' ? '0 4px 12px rgba(30,94,255,0.1)' : 'none'
+                }}
+                onClick={() => setWorkStatus('Working')}
+              >
+                <div>
+                  <div style={{ fontWeight: 800, color: '#0f172a', fontSize: '15px', marginBottom: '4px' }}>Working</div>
+                  <div style={{ fontSize: '13px', color: '#64748b', fontWeight: 500 }}>Currently employed, not actively looking</div>
+                </div>
+                <div className="cm-checkbox-box" style={{ 
+                  borderColor: workStatus === 'Working' ? '#1e5eff' : '#cbd5e1', 
+                  background: workStatus === 'Working' ? '#1e5eff' : '#fff',
+                  width: 20, height: 20
+                }}>
+                  {workStatus === 'Working' && <FiCheckCircle size={12} color="#fff" />}
+                </div>
+              </div>
+            </div>
+
+            <div className="cm-modal-footer">
+              <button className="cm-btn-cancel" onClick={() => setShowWorkStatusModal(false)}>Cancel</button>
+              <button className="cm-btn-save" onClick={() => setShowWorkStatusModal(false)}>Save Status</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ─── Profile Completion Modal ─── */}
       {activeTip && (
         <div className="cm-modal-overlay" onClick={() => setActiveTip(null)}>
