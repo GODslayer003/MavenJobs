@@ -128,7 +128,7 @@ const HIGHLIGHTS = [
 ];
 
 /* ── Sub-components ── */
-function PlanCard({ plan, index }) {
+function PlanCard({ plan, index, onBuy }) {
   const [ref, visible] = useInView(0.08);
   const [hovered, setHovered] = useState(false);
 
@@ -229,6 +229,7 @@ function PlanCard({ plan, index }) {
         onMouseLeave={e => {
           if (!plan.hot) e.currentTarget.style.background = 'transparent';
         }}
+        onClick={() => onBuy(plan)}
       >
         {plan.isFree ? 'Post a free job' : 'Buy now →'}
       </button>
@@ -286,6 +287,7 @@ function FaqItem({ faq, isOpen, onToggle }) {
 /* ── Main ── */
 export default function Buyonline() {
   const [activeFaq, setActiveFaq] = useState(null);
+  const [activeModalPlan, setActiveModalPlan] = useState(null);
   const scrollY = useScrollY();
   const [heroRef, heroVisible] = useInView(0.05);
   const navScrolled = scrollY > 50;
@@ -319,6 +321,85 @@ export default function Buyonline() {
         @media(max-width:600px){
           .plans-grid{grid-template-columns:1fr!important}
           .assist-grid{grid-template-columns:1fr!important}
+        }
+
+        /* Purchase Modal Styles */
+        .pm-overlay {
+          position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7);
+          backdrop-filter: blur(12px); z-index: 10000;
+          display: flex; align-items: center; justify-content: center;
+          padding: 24px; animation: kmFadeIn 0.3s ease;
+        }
+        .pm-box {
+          background: #ffffff; width: 100%; max-width: 860px;
+          border-radius: 28px; position: relative; overflow: hidden;
+          box-shadow: 0 40px 100px rgba(0,0,0,0.3);
+          animation: kmSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .pm-close {
+          position: absolute; top: 24px; right: 24px;
+          background: #f1f5f9; border: none; color: #64748b;
+          width: 36px; height: 36px; border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer; transition: all 0.2s; z-index: 10;
+        }
+        .pm-close:hover { background: #e2e8f0; color: #0f172a; transform: rotate(90deg); }
+
+        .pm-container { display: flex; min-height: 520px; }
+        
+        .pm-left {
+          flex: 0.9; background: #001540; padding: 48px;
+          color: #fff; position: relative; display: flex; flex-direction: column;
+        }
+        .pm-tag { font-size: 10px; font-weight: 800; color: #10b981; letter-spacing: .2em; margin-bottom: 12px; display: block; }
+        .pm-left h3 { font-family: 'Bricolage Grotesque', sans-serif; fontSize: 28px; margin-bottom: 16px; }
+        .pm-price-block { display: flex; align-items: baseline; gap: 6px; margin-bottom: 8px; }
+        .pm-amt { font-size: 32px; font-weight: 800; font-family: 'Bricolage Grotesque', sans-serif; }
+        .pm-gst { font-size: 13px; color: rgba(255,255,255,0.4); }
+        .pm-validity { color: rgba(255,255,255,0.5); font-size: 14px; margin-bottom: 40px; }
+
+        .pm-feat-list { flex: 1; }
+        .pm-feat-title { font-size: 12px; font-weight: 800; color: rgba(255,255,255,0.3); letter-spacing: .1em; margin-bottom: 16px; }
+        .pm-feat-item { display: flex; gap: 12px; margin-bottom: 14px; font-size: 14px; color: rgba(255,255,255,0.8); }
+
+        .pm-badge-trust {
+          margin-top: auto; display: flex; gap: 10px; align-items: center;
+          background: rgba(255,255,255,0.05); padding: 12px 16px; border-radius: 12px;
+          font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6);
+        }
+
+        .pm-right { flex: 1.1; padding: 48px; background: #fff; }
+        .pm-right h4 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 20px; color: #0f172a; margin-bottom: 8px; }
+        .pm-right p { font-size: 14px; color: #64748b; margin-bottom: 32px; }
+
+        .pm-bill-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-bottom: 24px; }
+        .pm-bill-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 10px; color: #475569; }
+        .pm-bill-divider { height: 1px; background: #e2e8f0; margin: 12px 0; }
+        .pm-bill-row.pm-total { font-size: 18px; font-weight: 800; color: #002366; margin-bottom: 0; }
+
+        .pm-promo-apply { display: flex; gap: 12px; margin-bottom: 32px; }
+        .pm-promo-apply input { flex: 1; padding: 12px 16px; border: 1.5px solid #e2e8f0; border-radius: 12px; outline: none; font-size: 14px; }
+        .pm-promo-apply input:focus { border-color: #002366; }
+        .pm-promo-apply button { background: #EEF2FF; color: #002366; border: 1px solid #c7d2fe; padding: 0 20px; border-radius: 12px; font-weight: 700; cursor: pointer; }
+
+        .pm-main-btn {
+          width: 100%; background: #002366; color: #fff; border: none;
+          padding: 16px; border-radius: 14px; font-size: 15px; font-weight: 800;
+          cursor: pointer; transition: all 0.2s; font-family: 'Bricolage Grotesque', sans-serif;
+        }
+        .pm-main-btn:hover { background: #001540; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,35,102,0.2); }
+        .pm-secure-note { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 16px; font-size: 11px; color: #94a3b8; font-weight: 600; }
+
+        .pm-input-group { margin-bottom: 18px; }
+        .pm-input-group label { display: block; font-size: 13px; font-weight: 700; color: #475569; margin-bottom: 8px; }
+        .pm-input-group input { width: 100%; padding: 12px 16px; border: 1.5px solid #e2e8f0; border-radius: 12px; font-size: 14px; outline: none; }
+        .pm-input-group input:focus { border-color: #10b981; }
+
+        @media(max-width: 800px) {
+          .pm-container { flex-direction: column; }
+          .pm-left { padding: 32px; }
+          .pm-right { padding: 32px; }
+          .pm-box { max-height: 90vh; overflow-y: auto; }
         }
       `}</style>
 
@@ -532,7 +613,7 @@ export default function Buyonline() {
         </div>
 
         <div className="plans-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 20 }}>
-          {JOB_PLANS.map((plan, i) => <PlanCard key={i} plan={plan} index={i} />)}
+          {JOB_PLANS.map((plan, i) => <PlanCard key={i} plan={plan} index={i} onBuy={setActiveModalPlan} />)}
         </div>
         <p style={{ textAlign: 'center', fontSize: 12, color: '#94a3b8', marginTop: 20 }}>* All prices are exclusive of GST as applicable</p>
       </section>
@@ -576,7 +657,9 @@ export default function Buyonline() {
                 </ul>
                 <button style={{ width: '100%', padding: '14px 0', borderRadius: 13, border: 'none', background: 'linear-gradient(135deg, #002366, #003db5)', color: '#fff', fontSize: 14, fontWeight: 800, cursor: 'pointer', boxShadow: '0 6px 20px rgba(0,35,102,0.4)', fontFamily: "'Bricolage Grotesque',sans-serif", transition: 'all 0.2s' }}
                   onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 10px 28px rgba(0,35,102,0.5)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,35,102,0.4)'; }}>
+                  onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,35,102,0.4)'; }}
+                  onClick={() => setActiveModalPlan({ name: 'Resdex Lite', price: '₹4,000', validity: '30 days', type: 'resdex', features: ['100 CV views', '500 search results', 'Single user access'] })}
+                >
                   Buy now →
                 </button>
               </div>
@@ -604,7 +687,9 @@ export default function Buyonline() {
                 </ul>
                 <button style={{ width: '100%', padding: '14px 0', borderRadius: 13, border: '2px solid #002366', background: 'transparent', color: '#002366', fontSize: 14, fontWeight: 800, cursor: 'pointer', fontFamily: "'Bricolage Grotesque',sans-serif", transition: 'all 0.2s' }}
                   onMouseEnter={e => { e.currentTarget.style.background = '#EEF2FF'; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}>
+                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+                  onClick={() => setActiveModalPlan({ name: 'Resdex Pro', price: 'Custom', type: 'enterprise', features: ['Unlimited searches', 'Multi-user access', 'Dedicated Support'] })}
+                >
                   Contact Sales →
                 </button>
               </div>
@@ -654,7 +739,9 @@ export default function Buyonline() {
 
                 <button style={{ width: '100%', padding: '14px 0', borderRadius: 13, border: 'none', background: 'linear-gradient(135deg, #002366, #003db5)', color: '#fff', fontSize: 14, fontWeight: 800, cursor: 'pointer', boxShadow: '0 6px 18px rgba(0,35,102,0.22)', fontFamily: "'Bricolage Grotesque',sans-serif", transition: 'all 0.2s' }}
                   onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 10px 26px rgba(0,35,102,0.32)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 6px 18px rgba(0,35,102,0.22)'; }}>
+                  onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 6px 18px rgba(0,35,102,0.22)'; }}
+                  onClick={() => setActiveModalPlan({ ...item, type: 'expert' })}
+                >
                   Request Assistance →
                 </button>
               </div>
@@ -753,36 +840,98 @@ export default function Buyonline() {
         </div>
       </section>
 
-      {/* ── CTA BANNER ── */}
-      <section style={{ padding: '0 40px 88px', maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ background: 'linear-gradient(135deg, #001540 0%, #002366 45%, #003db5 100%)', borderRadius: 28, padding: '72px 60px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', inset: 0, opacity: 0.04, backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '28px 28px', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', top: -60, left: '50%', transform: 'translateX(-50%)', width: 500, height: 260, background: 'rgba(16,185,129,0.08)', borderRadius: '50%', filter: 'blur(60px)', pointerEvents: 'none' }} />
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(16,185,129,0.14)', border: '1px solid rgba(16,185,129,0.28)', color: '#6ee7b7', fontSize: 11, fontWeight: 800, letterSpacing: '.12em', textTransform: 'uppercase', padding: '6px 18px', borderRadius: 100, marginBottom: 24, fontFamily: "'Bricolage Grotesque',sans-serif" }}>
-              <FiStar size={11} fill="#6ee7b7" /> 1.5 Lakh+ Companies Trust MavenJobs
-            </div>
-            <h2 style={{ fontFamily: "'Bricolage Grotesque',sans-serif", fontSize: 'clamp(28px,4.5vw,50px)', fontWeight: 800, color: '#fff', marginBottom: 16, lineHeight: 1.08, letterSpacing: '-0.03em' }}>
-              Ready to Build Your<br /><span style={{ color: '#6ee7b7' }}>Dream Team?</span>
-            </h2>
-            <p style={{ fontSize: 16.5, color: 'rgba(255,255,255,0.65)', marginBottom: 40, maxWidth: 500, margin: '0 auto 40px' }}>
-              Join India's most trusted hiring platform. Post your first job free and reach 8 crore+ active candidates today.
-            </p>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 14, flexWrap: 'wrap' }}>
-              <button style={{ background: '#10b981', color: '#fff', border: 'none', padding: '16px 36px', borderRadius: 13, fontSize: 15, fontWeight: 800, cursor: 'pointer', boxShadow: '0 8px 28px rgba(16,185,129,0.35)', display: 'inline-flex', alignItems: 'center', gap: 8, transition: 'all 0.2s', fontFamily: "'Bricolage Grotesque',sans-serif" }}
-                onMouseEnter={e => { e.currentTarget.style.background = '#0da371'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 12px 36px rgba(16,185,129,0.45)'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = '#10b981'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 28px rgba(16,185,129,0.35)'; }}>
-                Get Started — It's Free <FiArrowRight size={16} />
-              </button>
-              <button style={{ background: 'rgba(255,255,255,0.07)', color: '#fff', border: '1.5px solid rgba(255,255,255,0.2)', padding: '16px 36px', borderRadius: 13, fontSize: 15, fontWeight: 700, cursor: 'pointer', backdropFilter: 'blur(8px)', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: 8 }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.13)'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; }}>
-                <FiPhoneCall size={15} /> Talk to Sales
-              </button>
+      {/* ── PURCHASE MODAL ── */}
+      {activeModalPlan && (
+        <div className="pm-overlay" onClick={() => setActiveModalPlan(null)}>
+          <div className="pm-box" onClick={e => e.stopPropagation()}>
+            <button className="pm-close" onClick={() => setActiveModalPlan(null)}><FiX size={20} /></button>
+            
+            <div className="pm-container">
+              {/* Left Column: Summary */}
+              <div className="pm-left">
+                <div className="pm-summary-header">
+                  <span className="pm-tag">{activeModalPlan.type === 'resdex' ? 'RESDEX' : activeModalPlan.type === 'expert' ? 'EXPERT ASSIST' : 'JOB POSTING'}</span>
+                  <h3>{activeModalPlan.name}</h3>
+                  <div className="pm-price-block">
+                    <span className="pm-amt">{activeModalPlan.price}</span>
+                    {activeModalPlan.price !== 'Free' && activeModalPlan.price !== 'Custom' && <span className="pm-gst">+GST</span>}
+                  </div>
+                  <p className="pm-validity">Valid for {activeModalPlan.validity || 'as per agreement'}</p>
+                </div>
+
+                <div className="pm-feat-list">
+                  <p className="pm-feat-title">Plan Highlights</p>
+                  {(activeModalPlan.features || []).slice(0, 4).map((f, i) => (
+                    <div className="pm-feat-item" key={i}>
+                      <FiCheck size={14} color="#10b981" />
+                      <span>{typeof f === 'string' ? f : f.text}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pm-badge-trust">
+                  <FiAward size={18} />
+                  <span>Trusted by 1.5L+ Indian Businesses</span>
+                </div>
+              </div>
+
+              {/* Right Column: Form/Action */}
+              <div className="pm-right">
+                {activeModalPlan.type === 'enterprise' || activeModalPlan.type === 'expert' ? (
+                  <div className="pm-form-mode">
+                    <h4>Request Details</h4>
+                    <p>Enter your details and our expert will contact you within 2 hours.</p>
+                    <div className="pm-input-group">
+                      <label>Full Name</label>
+                      <input type="text" placeholder="e.g. Rahul Sharma" />
+                    </div>
+                    <div className="pm-input-group">
+                      <label>Company Name</label>
+                      <input type="text" placeholder="e.g. Acme Corp" />
+                    </div>
+                    <div className="pm-input-group">
+                      <label>Phone Number</label>
+                      <input type="tel" placeholder="e.g. +91 98765 43210" />
+                    </div>
+                    <button className="pm-main-btn">Send Request</button>
+                  </div>
+                ) : (
+                  <div className="pm-checkout-mode">
+                    <h4>Checkout Summary</h4>
+                    <div className="pm-bill-card">
+                      <div className="pm-bill-row">
+                        <span>Base Price</span>
+                        <span>{activeModalPlan.price}</span>
+                      </div>
+                      <div className="pm-bill-row">
+                        <span>GST (18%)</span>
+                        <span>{activeModalPlan.price === 'Free' ? '₹0' : '₹' + (parseInt(activeModalPlan.price.replace(/[^\d]/g, '')) * 0.18).toFixed(0)}</span>
+                      </div>
+                      <div className="pm-bill-divider" />
+                      <div className="pm-bill-row pm-total">
+                        <span>Total Payable</span>
+                        <span>{activeModalPlan.price === 'Free' ? 'Free' : '₹' + (parseInt(activeModalPlan.price.replace(/[^\d]/g, '')) * 1.18).toFixed(0)}</span>
+                      </div>
+                    </div>
+
+                    <div className="pm-promo-apply">
+                      <input type="text" placeholder="Enter Coupon Code" />
+                      <button>Apply</button>
+                    </div>
+
+                    <button className="pm-main-btn">
+                      {activeModalPlan.price === 'Free' ? 'Post Free Job Now' : 'Proceed to Payment'}
+                    </button>
+                    <p className="pm-secure-note"><FiShield size={12} /> Secure 256-bit SSL encrypted payment</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </section>
+      )}
+
+      {/* ── FOOTER ── */}
 
       {/* ── FOOTER ── */}
       <footer style={{ background: '#001540', padding: '60px 40px 32px' }}>

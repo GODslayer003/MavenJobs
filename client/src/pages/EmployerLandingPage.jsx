@@ -106,7 +106,7 @@ const EmployerLandingPage = () => {
       <section className="elp-hero">
         <div className="elp-hero-spline">
           <iframe
-            src="https://my.spline.design/robotfollowcursorforlandingpage-hS0YvCWqGXh7qtQLoI7hRBJR/"
+            src="https://my.spline.design/3drobotheadtrackingmouse-NHtRtyr7t11PThDyraVaeDCW/"
             frameBorder="0"
             width="100%"
             height="100%"

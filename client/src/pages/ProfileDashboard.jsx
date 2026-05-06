@@ -35,6 +35,7 @@ export default function ProfileDashboard() {
   const [isAddingSkill, setIsAddingSkill] = useState(false);
   const [newSkillValue, setNewSkillValue] = useState('');
   const [activeTip, setActiveTip] = useState(null); // 'experience', 'summary', 'skills'
+  const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(false);
 
   const recommendedJobs = {
     'Profile (18)': [
@@ -1058,6 +1059,37 @@ export default function ProfileDashboard() {
         .cm-btn-cancel { background: transparent; border: none; color: #64748b; font-weight: 700; cursor: pointer; padding: 10px 20px; }
         .cm-btn-save { background: #10b981; color: #fff; border: none; padding: 10px 24px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
         .cm-btn-save:hover { background: #059669; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+
+        /* Strictly Professional Circular Checkbox */
+        .cm-checkbox-group { margin: 12px 0 24px; }
+        .cm-checkbox-label {
+          display: inline-flex; align-items: center; gap: 10px;
+          cursor: pointer; font-size: 14px; color: #475569; font-weight: 700;
+          user-select: none; white-space: nowrap; transition: all 0.2s;
+        }
+        .cm-checkbox-label input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+        .cm-checkbox-box {
+          width: 16px; height: 16px; border: 2px solid #cbd5e1;
+          border-radius: 50%; background: #fff; position: relative;
+          flex-shrink: 0; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          display: flex; align-items: center; justify-content: center;
+        }
+        .cm-checkbox-label input:checked ~ .cm-checkbox-box {
+          background: #10b981; border-color: #10b981;
+          box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        .cm-checkbox-box::after {
+          content: ""; position: absolute; display: none;
+          width: 3px; height: 6.5px;
+          border: solid white; border-width: 0 1.8px 1.8px 0;
+          transform: rotate(45deg); margin-top: -1px;
+        }
+        .cm-checkbox-label input:checked ~ .cm-checkbox-box::after {
+          display: block;
+        }
+        .cm-checkbox-label:hover .cm-checkbox-box {
+          border-color: #10b981;
+        }
       `}</style>
       {/* ─── Profile Completion Modal ─── */}
       {activeTip && (
@@ -1083,14 +1115,30 @@ export default function ProfileDashboard() {
                     <label>Company Name</label>
                     <input type="text" placeholder="e.g. Google India" />
                   </div>
+                  <div className="cm-checkbox-group">
+                    <label className="cm-checkbox-label">
+                      <input 
+                        type="checkbox" 
+                        checked={isCurrentlyWorking} 
+                        onChange={e => setIsCurrentlyWorking(e.target.checked)} 
+                      />
+                      <span className="cm-checkbox-box" />
+                      I am currently working in this role
+                    </label>
+                  </div>
                   <div className="cm-form-row">
                     <div className="cm-form-group">
                       <label>Start Date</label>
                       <input type="month" />
                     </div>
-                    <div className="cm-form-group">
+                    <div className="cm-form-group" style={{ 
+                      opacity: isCurrentlyWorking ? 0.4 : 1, 
+                      filter: isCurrentlyWorking ? 'blur(1.5px)' : 'none',
+                      pointerEvents: isCurrentlyWorking ? 'none' : 'auto',
+                      transition: 'all 0.3s'
+                    }}>
                       <label>End Date</label>
-                      <input type="month" />
+                      <input type="month" disabled={isCurrentlyWorking} />
                     </div>
                   </div>
                   <div className="cm-form-group">
