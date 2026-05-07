@@ -5,7 +5,9 @@ import {
   FiDownload, FiPlus, FiUsers, FiEye, FiTrendingUp, FiAward,
   FiBell, FiSettings, FiLogOut, FiPhone, FiMail, FiX,
   FiCalendar, FiClock, FiChevronLeft, FiInfo, FiSend, FiChevronDown,
-  FiStar, FiBookmark, FiGlobe, FiTwitter, FiFacebook, FiLinkedin, FiCopy, FiShare
+  FiStar, FiBookmark, FiGlobe, FiTwitter, FiFacebook, FiLinkedin, FiCopy, FiShare,
+  FiHelpCircle, FiShield, FiLock, FiTrash2, FiSearch,
+  FiLayers, FiBookOpen, FiArrowRight
 } from 'react-icons/fi';
 import { FaWhatsapp, FaLinkedinIn, FaTwitter as FaXTwitter, FaFacebookF } from 'react-icons/fa';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
@@ -18,6 +20,20 @@ import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import ResumeTemplate from '../components/ResumeTemplate';
+
+const FaqItem = ({ index, question, answer }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className={`faq-acc-item ${isOpen ? 'open' : ''}`}>
+      <button className="faq-acc-header" onClick={() => setIsOpen(!isOpen)}>
+        <div className="faq-acc-num">{index < 10 ? `0${index}` : index}</div>
+        <div className="faq-acc-q">{question}</div>
+        <div className="faq-acc-chevron"><FiChevronDown size={16} /></div>
+      </button>
+      {isOpen && <div className="faq-acc-body">{answer}</div>}
+    </div>
+  );
+};
 
 export default function ProfileDashboard() {
   const { user, updateUser, logout } = useAuth();
@@ -42,19 +58,23 @@ export default function ProfileDashboard() {
   const [isAddingSkill, setIsAddingSkill] = useState(false);
   const [newSkillValue, setNewSkillValue] = useState('');
   const [activeTip, setActiveTip] = useState(null); // 'experience', 'summary', 'skills'
+  const [activeEditSection, setActiveEditSection] = useState(null);
   const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(false);
   const [workStatus, setWorkStatus] = useState('Open to Work');
   const [showWorkStatusModal, setShowWorkStatusModal] = useState(false);
+  const [showFAQModal, setShowFAQModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showQuickAnswer, setShowQuickAnswer] = useState(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
-  
+
   const resumeRef = useRef(null);
   const [isDownloading, setIsDownloading] = useState(false);
 
   const handleDownloadResume = async () => {
     setIsDownloading(true);
     const element = resumeRef.current;
-    
+
     if (element) {
       try {
         const canvas = await html2canvas(element, { scale: 2, useCORS: true });
@@ -62,7 +82,7 @@ export default function ProfileDashboard() {
         const pdf = new jsPDF('p', 'pt', 'a4');
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-        
+
         pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
         pdf.save('Pranjal_Kundliya_Resume.pdf');
       } catch (error) {
@@ -71,7 +91,7 @@ export default function ProfileDashboard() {
     }
     setIsDownloading(false);
   };
-  
+
   const profileLink = `mavenjobs.com/in/${user?.name?.toLowerCase().replace(/\s+/g, '-') || 'user'}-7a8b9c`;
 
   const recommendedJobs = {
@@ -322,7 +342,8 @@ export default function ProfileDashboard() {
             <button className="pd-sidenav-item" onClick={() => setShowJobsModal(true)}><FiBriefcase size={17} /><span>Jobs</span></button>
             <Link to="#" className="pd-sidenav-item"><FiMonitor size={17} /><span>Companies</span></Link>
             <Link to="/blogs" className="pd-sidenav-item"><FiFileText size={17} /><span>Blogs</span></Link>
-            <Link to="#" className="pd-sidenav-item"><FiSettings size={17} /><span>Settings</span></Link>
+            <button className="pd-sidenav-item" onClick={() => setShowFAQModal(true)}><FiHelpCircle size={17} /><span>FAQ</span></button>
+            <button className="pd-sidenav-item" onClick={() => setShowSettingsModal(true)}><FiSettings size={17} /><span>Settings</span></button>
           </div>
 
           <div className="pd-card pd-perf-card">
@@ -595,9 +616,9 @@ export default function ProfileDashboard() {
             </div>
             {isAddingSkill && (
               <div className="pd-skill-add-row">
-                <input 
-                  type="text" 
-                  placeholder="Type skill..." 
+                <input
+                  type="text"
+                  placeholder="Type skill..."
                   value={newSkillValue}
                   onChange={e => setNewSkillValue(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && addSkill()}
@@ -654,12 +675,30 @@ export default function ProfileDashboard() {
                 <div className="ppm-left-col">
                   <div className="ppm-card ppm-links-card">
                     <h3>Quick links</h3>
-                    {['Resume', 'Resume headline', 'Key skills', 'Employment', 'Education', 'IT skills', 'Projects', 'Profile summary', 'Career profile'].map(link => (
-                      <div className="ppm-link-row" key={link}>
-                        <span>{link}</span>
-                        <FiChevronRight size={13} />
-                      </div>
-                    ))}
+                    {['Resume', 'Resume headline', 'Key skills', 'Employment', 'Education', 'IT skills', 'Projects', 'Profile summary', 'Career profile'].map(link => {
+                      const isFilled = (
+                        (link === 'Resume' && true) ||
+                        (link === 'Resume headline' && user.headline) ||
+                        (link === 'Key skills' && skills.length > 0) ||
+                        (link === 'Employment' && true) ||
+                        (link === 'Education' && true) ||
+                        (link === 'Projects' && true)
+                      );
+
+                      return (
+                        <div
+                          className={`ppm-link-row ${isFilled ? 'filled' : ''} ${activeEditSection === link ? 'active' : ''}`}
+                          key={link}
+                          onClick={() => setActiveEditSection(link)}
+                        >
+                          <div className="ppm-link-label-wrap">
+                            {isFilled && <FiCheckCircle className="ppm-link-check" size={14} />}
+                            <span>{link}</span>
+                          </div>
+                          <FiChevronRight size={13} />
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
                 <div className="ppm-right-col">
@@ -674,18 +713,18 @@ export default function ProfileDashboard() {
                         <div>
                           <div className="ppm-resume-row">
                             <FiFileText size={20} color="#64748b" />
-                            <div><div className="ppm-fname">PranjalKundliyaResume.pdf</div><div className="ppm-fdate">Uploaded Apr 28, 2026</div></div>
+                            <div><div className="ppm-fname">Pranjal_Resume.pdf</div><div className="ppm-fdate">Uploaded May 07, 2026</div></div>
                             <div className="ppm-file-actions"><FiDownload size={16} /><FiSettings size={16} /></div>
                           </div>
                           <div className="ppm-upload-zone"><button className="ppm-upload-btn">Update resume</button><p>doc, docx, rtf, pdf — max 2MB</p></div>
                         </div>
                       )
                     },
-                    { title: 'Resume headline', content: <p className="ppm-body-text">Hi, I'm Pranjal Kundliya, a MERN stack developer at DR Design Pvt. Ltd., building scalable apps including projects for Indian Railways. I specialize in React, Node.js, and MongoDB.</p> },
+                    { title: 'Resume headline', content: <p className="ppm-body-text">{user.headline || "MERN Stack Developer building scalable apps..."}</p> },
                     {
                       title: 'Key skills', content: (
                         <div className="ppm-skills-wrap">
-                          {['Ui/Ux', 'Redux', 'NoSQL', 'Figma', 'MongoDB', 'API', 'Express', 'Mern Stack', 'Node.js', 'React.js', 'JavaScript'].map(s => (
+                          {skills.map(s => (
                             <span key={s} className="ppm-skill-chip">{s}</span>
                           ))}
                         </div>
@@ -697,25 +736,7 @@ export default function ProfileDashboard() {
                           <div className="ppm-exp-title">MERN Stack Developer <FiEdit2 size={13} /></div>
                           <div className="ppm-exp-co">Dr Design Private Limited</div>
                           <div className="ppm-exp-meta">Full-time · Oct 2025 – Present · 7 months</div>
-                          <p className="ppm-body-text">Results-driven MERN Stack Developer with 8 months of experience building scalable, production-grade web applications. Proficient in React.js, Node.js, Express.js, and MongoDB. <span className="ppm-readmore">Read More</span></p>
-                        </div>
-                      )
-                    },
-                    {
-                      title: 'Education', content: (
-                        <div>
-                          <div className="ppm-edu-item"><div className="ppm-edu-deg">B.Tech Computer Science & Engineering <FiEdit2 size={13} /></div><div className="ppm-edu-school">Graphic Era University, Dehradun</div><div className="ppm-exp-meta">2021–2025 · Full Time</div></div>
-                          <div className="ppm-edu-item mt"><div className="ppm-edu-deg">Class XII <FiEdit2 size={13} /></div><div className="ppm-edu-school">CBSE · 2020</div></div>
-                          <div className="ppm-edu-item mt"><div className="ppm-edu-deg">Class X <FiEdit2 size={13} /></div><div className="ppm-edu-school">CBSE · 2018</div></div>
-                        </div>
-                      )
-                    },
-                    {
-                      title: 'Projects', content: (
-                        <div className="ppm-project-item">
-                          <div className="ppm-exp-title">MyQuoteMate <FiEdit2 size={13} /></div>
-                          <div className="ppm-exp-meta">Jan 2026 – Mar 2026 · Full Time</div>
-                          <p className="ppm-body-text">Scalable backend with Node.js, Express, and MongoDB. AI orchestration layer integrating OpenAI models with deterministic prompt engineering. <span className="ppm-readmore">Read More</span></p>
+                          <p className="ppm-body-text">Results-driven MERN Stack Developer building scalable, production-grade web applications. <span className="ppm-readmore">Read More</span></p>
                         </div>
                       )
                     },
@@ -725,6 +746,112 @@ export default function ProfileDashboard() {
                       {sec.content}
                     </div>
                   ))}
+                </div>
+              </div>
+
+              {/* ─── SIDE MODAL ─── */}
+              <div className={`ppm-side-modal ${activeEditSection ? 'show' : ''}`}>
+                <div className="psm-head">
+                  <h3>Edit {activeEditSection}</h3>
+                  <button className="psm-close" onClick={() => setActiveEditSection(null)}><FiX size={20} /></button>
+                </div>
+                <div className="psm-body">
+                  {activeEditSection === 'Resume headline' && (
+                    <div className="psm-form">
+                      <label>Headline</label>
+                      <textarea
+                        value={user.headline}
+                        onChange={(e) => updateUser({ headline: e.target.value })}
+                        placeholder="Enter your professional headline..."
+                        rows={5}
+                      />
+                      <p className="psm-hint">Summarize your professional identity in 1-2 sentences. This is the first thing recruiters see.</p>
+                      <button className="psm-save-btn" onClick={() => setActiveEditSection(null)}>Save Headline</button>
+                    </div>
+                  )}
+                  {activeEditSection === 'Key skills' && (
+                    <div className="psm-form">
+                      <label>Skills</label>
+                      <div className="psm-skills-edit">
+                        {skills.map(s => (
+                          <span key={s} className="psm-skill-pill">
+                            {s} <FiX size={12} onClick={() => removeSkill(s)} />
+                          </span>
+                        ))}
+                      </div>
+                      <div className="psm-input-row">
+                        <input
+                          type="text"
+                          placeholder="Add new skill..."
+                          value={newSkillValue}
+                          onChange={(e) => setNewSkillValue(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && addSkill()}
+                        />
+                        <button onClick={addSkill}>Add</button>
+                      </div>
+                      <button className="psm-save-btn" onClick={() => setActiveEditSection(null)}>Done</button>
+                    </div>
+                  )}
+                  {activeEditSection === 'Employment' && (
+                    <div className="psm-form">
+                      <label>Designation</label>
+                      <input type="text" placeholder="e.g. Frontend Developer" />
+                      <label>Organization</label>
+                      <input type="text" placeholder="e.g. Google India" />
+                      <div className="psm-row">
+                        <div className="psm-col">
+                          <label>Started</label>
+                          <input type="month" />
+                        </div>
+                        <div className="psm-col">
+                          <label>Ended</label>
+                          <input type="month" />
+                        </div>
+                      </div>
+                      <button className="psm-save-btn" onClick={() => setActiveEditSection(null)}>Save Experience</button>
+                    </div>
+                  )}
+                  {activeEditSection === 'Education' && (
+                    <div className="psm-form">
+                      <label>Course</label>
+                      <input type="text" placeholder="e.g. B.Tech Computer Science" />
+                      <label>University/Institute</label>
+                      <input type="text" placeholder="e.g. IIT Delhi" />
+                      <label>Year of Graduation</label>
+                      <input type="number" placeholder="2025" />
+                      <button className="psm-save-btn" onClick={() => setActiveEditSection(null)}>Save Education</button>
+                    </div>
+                  )}
+                  {activeEditSection === 'Projects' && (
+                    <div className="psm-form">
+                      <label>Project Title</label>
+                      <input type="text" placeholder="e.g. AI Talent Agent" />
+                      <label>Project Link</label>
+                      <input type="url" placeholder="https://github.com/..." />
+                      <label>Description</label>
+                      <textarea placeholder="What did you build? What technologies did you use?" rows={5} />
+                      <button className="psm-save-btn" onClick={() => setActiveEditSection(null)}>Save Project</button>
+                    </div>
+                  )}
+                  {activeEditSection === 'Profile summary' && (
+                    <div className="psm-form">
+                      <label>About You</label>
+                      <textarea
+                        placeholder="Tell recruiters about your career path, goals, and achievements..."
+                        rows={8}
+                      />
+                      <p className="psm-hint">A well-written summary can increase your profile views by 40%.</p>
+                      <button className="psm-save-btn" onClick={() => setActiveEditSection(null)}>Save Summary</button>
+                    </div>
+                  )}
+                  {!['Resume headline', 'Key skills', 'Employment', 'Education', 'Projects', 'Profile summary'].includes(activeEditSection) && activeEditSection && (
+                    <div className="psm-empty">
+                      <FiZap size={40} color="var(--blue)" />
+                      <h4>{activeEditSection}</h4>
+                      <p>This section is being synchronized with your MavenJobs Pro account. Please try again in a few moments.</p>
+                      <button className="psm-save-btn" onClick={() => setActiveEditSection(null)}>Dismiss</button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -774,9 +901,9 @@ export default function ProfileDashboard() {
         </div>
       )}
       {/* ─── Early Access Modal ─── */}
-      <EarlyAccessModal 
-        isOpen={showEarlyAccessModal} 
-        onClose={() => setShowEarlyAccessModal(false)} 
+      <EarlyAccessModal
+        isOpen={showEarlyAccessModal}
+        onClose={() => setShowEarlyAccessModal(false)}
       />
       {/* ─── Know More Modal ─── */}
       {showKnowMoreModal && (
@@ -821,7 +948,7 @@ export default function ProfileDashboard() {
               <div className="km-modal-right">
                 <div className="km-insights-scroll">
                   <div className="km-insight-header">PERFORMANCE INSIGHTS</div>
-                  
+
                   {/* Rohan Profile Card */}
                   <div className="km-visual-card">
                     <div className="km-user-mini">
@@ -867,7 +994,7 @@ export default function ProfileDashboard() {
                       <strong className="km-sc-val">14</strong>
                     </div>
                     <div className="km-shortlist-circles">
-                      {[1,2,3,4,5].map(i => <div key={i} className={`km-sc-dot ${i < 4 ? 'filled' : ''}`} />)}
+                      {[1, 2, 3, 4, 5].map(i => <div key={i} className={`km-sc-dot ${i < 4 ? 'filled' : ''}`} />)}
                       <span className="km-sc-pct">80% Success Rate</span>
                     </div>
                   </div>
@@ -1186,10 +1313,10 @@ export default function ProfileDashboard() {
                 <FiX size={20} color="#64748b" />
               </button>
             </div>
-            
+
             <div className="cm-modal-body" style={{ padding: '0 32px 36px' }}>
               <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '28px', fontWeight: 500 }}>Share your professional profile with your network or recruiters.</p>
-              
+
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px', marginBottom: '36px' }}>
                 {[
                   { name: 'WhatsApp', color: '#25D366', bg: '#ecfdf5', icon: <FaWhatsapp size={24} /> },
@@ -1199,21 +1326,21 @@ export default function ProfileDashboard() {
                   { name: 'Email', color: '#EA4335', bg: '#fff1f2', icon: <FiMail size={22} /> }
                 ].map(social => (
                   <div key={social.name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', cursor: 'pointer', group: 'true' }}>
-                    <div style={{ 
-                      width: 60, height: 60, borderRadius: '20px', background: social.bg, 
+                    <div style={{
+                      width: 60, height: 60, borderRadius: '20px', background: social.bg,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       color: social.color, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                       border: '1px solid transparent'
-                    }} onMouseEnter={e => { 
-                      e.currentTarget.style.transform = 'translateY(-5px) scale(1.05)'; 
+                    }} onMouseEnter={e => {
+                      e.currentTarget.style.transform = 'translateY(-5px) scale(1.05)';
                       e.currentTarget.style.boxShadow = `0 12px 20px -8px ${social.color}40`;
                       e.currentTarget.style.borderColor = `${social.color}20`;
                     }}
-                       onMouseLeave={e => { 
-                         e.currentTarget.style.transform = 'translateY(0) scale(1)'; 
-                         e.currentTarget.style.boxShadow = 'none';
-                         e.currentTarget.style.borderColor = 'transparent';
-                       }}>
+                      onMouseLeave={e => {
+                        e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                        e.currentTarget.style.boxShadow = 'none';
+                        e.currentTarget.style.borderColor = 'transparent';
+                      }}>
                       {social.icon}
                     </div>
                     <span style={{ fontSize: '12px', fontWeight: 700, color: '#475569', fontFamily: 'var(--fd)' }}>{social.name}</span>
@@ -1221,7 +1348,7 @@ export default function ProfileDashboard() {
                 ))}
               </div>
 
-              <div style={{ 
+              <div style={{
                 position: 'relative',
                 background: '#f8fafc',
                 border: '2px solid #e2e8f0',
@@ -1234,23 +1361,23 @@ export default function ProfileDashboard() {
                 <div style={{ padding: '0 16px', color: '#94a3b8' }}>
                   <FiGlobe size={18} />
                 </div>
-                <input 
-                  type="text" 
-                  readOnly 
-                  value={profileLink} 
-                  style={{ 
-                    flex: 1, background: 'transparent', border: 'none', 
+                <input
+                  type="text"
+                  readOnly
+                  value={profileLink}
+                  style={{
+                    flex: 1, background: 'transparent', border: 'none',
                     padding: '12px 0', outline: 'none', color: '#0f172a',
                     fontSize: '14px', fontWeight: 600, fontFamily: 'monospace'
-                  }} 
+                  }}
                 />
-                <button 
-                  style={{ 
-                    background: linkCopied ? '#10b981' : '#1e5eff', 
-                    color: '#fff', border: 'none', 
+                <button
+                  style={{
+                    background: linkCopied ? '#10b981' : '#1e5eff',
+                    color: '#fff', border: 'none',
                     height: '44px',
-                    padding: '0 24px', borderRadius: '12px', fontWeight: 800, 
-                    cursor: 'pointer', transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', 
+                    padding: '0 24px', borderRadius: '12px', fontWeight: 800,
+                    cursor: 'pointer', transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     display: 'flex', alignItems: 'center', gap: '8px',
                     fontSize: '14px', fontFamily: 'var(--fd)',
                     boxShadow: linkCopied ? '0 4px 12px rgba(16, 185, 129, 0.2)' : '0 4px 12px rgba(30, 94, 255, 0.2)'
@@ -1277,16 +1404,16 @@ export default function ProfileDashboard() {
               <h3>Professional Status</h3>
               <button className="cm-modal-close" onClick={() => setShowWorkStatusModal(false)}><FiX size={20} /></button>
             </div>
-            
+
             <div className="cm-modal-body" style={{ padding: '24px 32px' }}>
               <p className="cm-helper-text" style={{ marginBottom: 24, fontSize: '13.5px' }}>
                 Let recruiters know your current availability to help them match you with the right opportunities.
               </p>
-              
-              <div 
-                style={{ 
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', 
-                  padding: '16px 20px', border: `1.5px solid ${workStatus === 'Open to Work' ? '#10b981' : '#e2e8f0'}`, 
+
+              <div
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '16px 20px', border: `1.5px solid ${workStatus === 'Open to Work' ? '#10b981' : '#e2e8f0'}`,
                   borderRadius: '14px', marginBottom: '16px', cursor: 'pointer',
                   background: workStatus === 'Open to Work' ? '#ecfdf5' : '#fff',
                   transition: 'all 0.2s', boxShadow: workStatus === 'Open to Work' ? '0 4px 12px rgba(16,185,129,0.1)' : 'none'
@@ -1297,8 +1424,8 @@ export default function ProfileDashboard() {
                   <div style={{ fontWeight: 800, color: '#0f172a', fontSize: '15px', marginBottom: '4px' }}>Open to Work</div>
                   <div style={{ fontSize: '13px', color: '#64748b', fontWeight: 500 }}>Actively looking for new roles</div>
                 </div>
-                <div className="cm-checkbox-box" style={{ 
-                  borderColor: workStatus === 'Open to Work' ? '#10b981' : '#cbd5e1', 
+                <div className="cm-checkbox-box" style={{
+                  borderColor: workStatus === 'Open to Work' ? '#10b981' : '#cbd5e1',
                   background: workStatus === 'Open to Work' ? '#10b981' : '#fff',
                   width: 20, height: 20
                 }}>
@@ -1306,10 +1433,10 @@ export default function ProfileDashboard() {
                 </div>
               </div>
 
-              <div 
-                style={{ 
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', 
-                  padding: '16px 20px', border: `1.5px solid ${workStatus === 'Working' ? '#1e5eff' : '#e2e8f0'}`, 
+              <div
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '16px 20px', border: `1.5px solid ${workStatus === 'Working' ? '#1e5eff' : '#e2e8f0'}`,
                   borderRadius: '14px', cursor: 'pointer',
                   background: workStatus === 'Working' ? '#eef4ff' : '#fff',
                   transition: 'all 0.2s', boxShadow: workStatus === 'Working' ? '0 4px 12px rgba(30,94,255,0.1)' : 'none'
@@ -1320,8 +1447,8 @@ export default function ProfileDashboard() {
                   <div style={{ fontWeight: 800, color: '#0f172a', fontSize: '15px', marginBottom: '4px' }}>Working</div>
                   <div style={{ fontSize: '13px', color: '#64748b', fontWeight: 500 }}>Currently employed, not actively looking</div>
                 </div>
-                <div className="cm-checkbox-box" style={{ 
-                  borderColor: workStatus === 'Working' ? '#1e5eff' : '#cbd5e1', 
+                <div className="cm-checkbox-box" style={{
+                  borderColor: workStatus === 'Working' ? '#1e5eff' : '#cbd5e1',
                   background: workStatus === 'Working' ? '#1e5eff' : '#fff',
                   width: 20, height: 20
                 }}>
@@ -1350,7 +1477,7 @@ export default function ProfileDashboard() {
               </h3>
               <button className="cm-modal-close" onClick={() => setActiveTip(null)}><FiX size={20} /></button>
             </div>
-            
+
             <div className="cm-modal-body">
               {activeTip === 'experience' && (
                 <div className="cm-form">
@@ -1364,10 +1491,10 @@ export default function ProfileDashboard() {
                   </div>
                   <div className="cm-checkbox-group">
                     <label className="cm-checkbox-label">
-                      <input 
-                        type="checkbox" 
-                        checked={isCurrentlyWorking} 
-                        onChange={e => setIsCurrentlyWorking(e.target.checked)} 
+                      <input
+                        type="checkbox"
+                        checked={isCurrentlyWorking}
+                        onChange={e => setIsCurrentlyWorking(e.target.checked)}
                       />
                       <span className="cm-checkbox-box" />
                       I am currently working in this role
@@ -1378,8 +1505,8 @@ export default function ProfileDashboard() {
                       <label>Start Date</label>
                       <input type="month" />
                     </div>
-                    <div className="cm-form-group" style={{ 
-                      opacity: isCurrentlyWorking ? 0.4 : 1, 
+                    <div className="cm-form-group" style={{
+                      opacity: isCurrentlyWorking ? 0.4 : 1,
                       filter: isCurrentlyWorking ? 'blur(1.5px)' : 'none',
                       pointerEvents: isCurrentlyWorking ? 'none' : 'auto',
                       transition: 'all 0.3s'
@@ -1398,10 +1525,10 @@ export default function ProfileDashboard() {
               {activeTip === 'summary' && (
                 <div className="cm-form">
                   <p className="cm-helper-text">Briefly highlight your expertise and what you bring to the table.</p>
-                  <textarea 
+                  <textarea
                     className="cm-summary-area"
-                    placeholder="Results-driven professional with expertise in..." 
-                    rows={8} 
+                    placeholder="Results-driven professional with expertise in..."
+                    rows={8}
                     autoFocus
                   />
                 </div>
@@ -1411,9 +1538,9 @@ export default function ProfileDashboard() {
                 <div className="cm-skills-editor">
                   <p className="cm-helper-text">Add skills to get 40% better job recommendations.</p>
                   <div className="cm-skill-input-wrap">
-                    <input 
-                      type="text" 
-                      placeholder="Add a skill (e.g. Python, Figma)..." 
+                    <input
+                      type="text"
+                      placeholder="Add a skill (e.g. Python, Figma)..."
                       value={newSkillValue}
                       onChange={e => setNewSkillValue(e.target.value)}
                       onKeyDown={e => e.key === 'Enter' && addSkill()}
@@ -1434,6 +1561,688 @@ export default function ProfileDashboard() {
             <div className="cm-modal-footer">
               <button className="cm-btn-cancel" onClick={() => setActiveTip(null)}>Cancel</button>
               <button className="cm-btn-save" onClick={() => setActiveTip(null)}>Save Changes</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* ─── FAQ Modal ─── */}
+      {showFAQModal && (
+        <div className="pd-modal-overlay" onClick={() => setShowFAQModal(false)}>
+          <div
+            className="pd-modal-box faq-modal-v2"
+            onClick={e => e.stopPropagation()}
+          >
+            {/* ── internal styles ── */}
+            <style>{`
+        .faq-modal-v2 {
+          width: 820px !important;
+          max-width: 95vw;
+          max-height: 90vh;
+          border-radius: 24px !important;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          padding: 0 !important;
+          background: #f8fafc;
+          box-shadow: 0 32px 80px rgba(0,0,0,.22);
+          font-family: 'DM Sans', system-ui, sans-serif;
+        }
+
+        /* ── close btn ── */
+        .faq-close-btn {
+          position: absolute;
+          top: 18px; right: 18px;
+          width: 36px; height: 36px;
+          border-radius: 10px;
+          background: rgba(255,255,255,.15);
+          border: 1px solid rgba(255,255,255,.2);
+          color: #fff;
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer;
+          z-index: 10;
+          transition: all .2s;
+        }
+        .faq-close-btn:hover { background: rgba(255,255,255,.25); }
+
+        /* ── scroll container ── */
+        .faq-scroll-container {
+          overflow-y: auto;
+          flex: 1;
+          scrollbar-width: thin;
+          scrollbar-color: #cbd5e1 transparent;
+        }
+        .faq-scroll-container::-webkit-scrollbar { width: 5px; }
+        .faq-scroll-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        /* ── HERO ── */
+        .faq-hero {
+          background: linear-gradient(135deg, #050e24 0%, #002366 60%, #1a0a4a 100%);
+          padding: 44px 40px 36px;
+          position: relative;
+          overflow: hidden;
+        }
+        .faq-hero-dots {
+          position: absolute; inset: 0;
+          background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+          background-size: 22px 22px; pointer-events: none;
+        }
+        .faq-hero-glow {
+          position: absolute; top: -40%; right: -10%;
+          width: 360px; height: 360px; border-radius: 50%;
+          background: radial-gradient(circle, rgba(99,102,241,.3) 0%, transparent 65%);
+          pointer-events: none;
+        }
+        .faq-hero-tag {
+          display: inline-flex; align-items: center; gap: 6px;
+          background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.28);
+          color: #6ee7b7; font-size: 10px; font-weight: 800;
+          letter-spacing: .18em; text-transform: uppercase;
+          padding: 5px 14px; border-radius: 100px; margin-bottom: 14px;
+          font-family: 'Bricolage Grotesque', sans-serif;
+          position: relative; z-index: 1;
+        }
+        .faq-hero h1 {
+          font-family: 'Bricolage Grotesque', sans-serif;
+          font-size: 28px; font-weight: 800;
+          color: #fff; line-height: 1.1;
+          letter-spacing: -0.03em; margin-bottom: 6px;
+          position: relative; z-index: 1;
+        }
+        .faq-hero h1 span { color: #10b981; }
+        .faq-hero-sub {
+          font-size: 13px; color: rgba(255,255,255,.5);
+          margin-bottom: 24px; position: relative; z-index: 1;
+        }
+
+        /* search */
+        .faq-search-wrap {
+          display: flex; align-items: center;
+          background: rgba(15, 23, 42, 0.6);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 100px;
+          width: 100%;
+          max-width: 580px;
+          margin: 0 auto;
+          backdrop-filter: blur(20px);
+          position: relative; z-index: 1;
+          transition: all 0.3s ease;
+          padding: 5px 5px 5px 22px;
+          box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        }
+        .faq-search-wrap:focus-within {
+          border-color: #10b981;
+          background: rgba(15, 23, 42, 0.8);
+          box-shadow: 0 12px 40px -10px rgba(0,0,0,0.6), 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        .faq-search-icon {
+          color: rgba(255, 255, 255, 0.4);
+          display: flex; align-items: center;
+          flex-shrink: 0; margin-right: 14px;
+        }
+        .faq-search-wrap input {
+          flex: 1; min-width: 0; background: none; border: none; outline: none;
+          font-size: 15px; font-weight: 500;
+          color: #fff; padding: 12px 0;
+          font-family: 'DM Sans', sans-serif;
+        }
+        .faq-search-wrap input::placeholder { color: rgba(255,255,255,.35); }
+        .faq-search-btn {
+          height: 46px; padding: 0 28px;
+          background: #10b981; color: #fff;
+          border: none; border-radius: 100px;
+          font-size: 14px; font-weight: 800;
+          cursor: pointer; font-family: 'Bricolage Grotesque', sans-serif;
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+          white-space: nowrap;
+          flex-shrink: 0;
+          display: flex; align-items: center; justify-content: center;
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+        .faq-search-btn:hover {
+          background: #0da371;
+          transform: translateX(2px);
+          box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+        .faq-search-btn:active {
+          transform: translateX(0) scale(0.98);
+        }
+
+        /* ── BODY PADDING ── */
+        .faq-body { padding: 32px 40px 40px; }
+
+        /* ── QUICK SOLUTIONS ── */
+        .faq-section-label {
+          display: flex; align-items: center; gap: 10px;
+          font-family: 'Bricolage Grotesque', sans-serif;
+          font-size: 10px; font-weight: 800;
+          letter-spacing: .2em; text-transform: uppercase;
+          color: #002366; margin-bottom: 16px;
+        }
+        .faq-section-label::after {
+          content: ''; flex: 1; height: 2px;
+          background: linear-gradient(90deg, #002366, #10b981 40%, transparent);
+          border-radius: 2px;
+        }
+        .faq-section-icon {
+          width: 26px; height: 26px; border-radius: 8px;
+          background: #EEF2FF;
+          display: flex; align-items: center; justify-content: center;
+          color: #002366; flex-shrink: 0;
+        }
+        .faq-quick-grid {
+          display: grid; grid-template-columns: 1fr 1fr;
+          gap: 10px; margin-bottom: 32px;
+        }
+        .faq-quick-card {
+          display: flex; align-items: flex-start; gap: 10px;
+          padding: 14px 16px;
+          background: #fff; border: 1.5px solid #e2e8f0;
+          border-radius: 13px; cursor: pointer;
+          transition: all .2s;
+        }
+        .faq-quick-card:hover {
+          border-color: rgba(0,35,102,.2);
+          box-shadow: 0 6px 20px rgba(0,35,102,.07);
+          transform: translateY(-2px);
+        }
+        .faq-q-prefix {
+          font-family: 'Bricolage Grotesque', sans-serif;
+          font-size: 13px; font-weight: 800;
+          color: #10b981; flex-shrink: 0; line-height: 1.5;
+        }
+        .faq-quick-card p {
+          font-size: 12.5px; color: #334155;
+          line-height: 1.55; font-weight: 500; margin: 0;
+        }
+
+        /* ── FAQ ACCORDION ── */
+        .faq-accordion { margin-bottom: 32px; }
+        .faq-acc-item {
+          background: #fff; border: 1.5px solid #e2e8f0;
+          border-radius: 13px; margin-bottom: 8px;
+          overflow: hidden; transition: border-color .2s;
+        }
+        .faq-acc-item.open { border-color: rgba(0,35,102,.2); }
+        .faq-acc-header {
+          display: flex; align-items: center; gap: 12px;
+          padding: 15px 18px; cursor: pointer;
+          background: none; border: none; width: 100%;
+          text-align: left;
+        }
+        .faq-acc-header:hover .faq-acc-q { color: #002366; }
+        .faq-acc-num {
+          width: 24px; height: 24px; border-radius: 7px;
+          background: #f1f5f9;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 10px; font-weight: 800; color: #64748b;
+          flex-shrink: 0; transition: all .2s;
+          font-family: 'Bricolage Grotesque', sans-serif;
+        }
+        .faq-acc-item.open .faq-acc-num {
+          background: #002366; color: #fff;
+        }
+        .faq-acc-q {
+          flex: 1; font-size: 13.5px; font-weight: 700;
+          color: #0f172a; line-height: 1.4;
+          transition: color .2s;
+        }
+        .faq-acc-chevron {
+          color: #94a3b8; transition: transform .25s;
+          display: flex; align-items: center;
+          flex-shrink: 0;
+        }
+        .faq-acc-item.open .faq-acc-chevron { transform: rotate(180deg); color: #002366; }
+        .faq-acc-body {
+          padding: 0 18px 16px 54px;
+          font-size: 13px; color: #475569;
+          line-height: 1.75;
+          border-top: 1px solid #f1f5f9;
+          padding-top: 12px;
+        }
+
+        /* ── TOPICS ── */
+        .faq-topic-grid {
+          display: grid; grid-template-columns: repeat(3, 1fr);
+          gap: 10px; margin-bottom: 32px;
+        }
+        .faq-topic-card {
+          display: flex; flex-direction: column;
+          align-items: center; justify-content: center; gap: 10px;
+          padding: 20px 12px;
+          background: #fff; border: 1.5px solid #e2e8f0;
+          border-radius: 14px; cursor: pointer;
+          transition: all .25s; text-align: center;
+        }
+        .faq-topic-card:hover {
+          border-color: rgba(0,35,102,.2);
+          box-shadow: 0 8px 24px rgba(0,35,102,.07);
+          transform: translateY(-3px);
+        }
+        .faq-topic-icon {
+          width: 44px; height: 44px; border-radius: 13px;
+          display: flex; align-items: center; justify-content: center;
+          transition: all .25s;
+        }
+        .faq-topic-card:hover .faq-topic-icon { transform: scale(1.08); }
+        .faq-topic-label {
+          font-size: 12px; font-weight: 700; color: #334155;
+          font-family: 'Bricolage Grotesque', sans-serif;
+        }
+
+        /* ── BLOGS ── */
+        .faq-blog-grid {
+          display: grid; grid-template-columns: repeat(3, 1fr);
+          gap: 14px; margin-bottom: 32px;
+        }
+        .faq-blog-card {
+          background: #fff; border: 1px solid #e2e8f0;
+          border-radius: 14px; overflow: hidden;
+          cursor: pointer; transition: all .25s;
+        }
+        .faq-blog-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 32px rgba(0,35,102,.1);
+          border-color: rgba(0,35,102,.15);
+        }
+        .faq-blog-img {
+          width: 100%; height: 110px;
+          object-fit: cover; display: block;
+        }
+        .faq-blog-info { padding: 14px 16px; }
+        .faq-blog-tag {
+          display: inline-flex; align-items: center;
+          height: 18px; padding: 0 8px;
+          border-radius: 4px; font-size: 9px; font-weight: 800;
+          letter-spacing: .06em; text-transform: uppercase;
+          background: #ecfdf5; color: #10b981;
+          border: 1px solid rgba(16,185,129,.2);
+          margin-bottom: 7px;
+        }
+        .faq-blog-info h4 {
+          font-family: 'Bricolage Grotesque', sans-serif;
+          font-size: 13.5px; font-weight: 800;
+          color: #0f172a; margin-bottom: 6px; line-height: 1.3;
+        }
+        .faq-blog-info p {
+          font-size: 11.5px; color: #64748b; line-height: 1.6; margin: 0;
+        }
+        .faq-blog-read {
+          display: inline-flex; align-items: center; gap: 5px;
+          font-size: 11.5px; font-weight: 700; color: #002366;
+          margin-top: 10px;
+        }
+
+        /* ── SUPPORT ── */
+        .faq-support {
+          display: grid; grid-template-columns: 1fr 1.6fr;
+          gap: 24px; background: #fff;
+          border: 1.5px solid #e2e8f0; border-radius: 20px;
+          padding: 28px; overflow: hidden; position: relative;
+        }
+        .faq-support::before {
+          content: '';
+          position: absolute; top: 0; left: 0; right: 0; height: 3px;
+          background: linear-gradient(90deg, #002366, #10b981);
+        }
+        .support-left { padding-right: 16px; border-right: 1px solid #f1f5f9; }
+        .support-brand {
+          display: flex; align-items: center; gap: 8px;
+          font-family: 'Bricolage Grotesque', sans-serif;
+          font-size: 14px; font-weight: 800; color: #002366;
+          margin-bottom: 16px;
+        }
+        .support-brand-icon {
+          width: 34px; height: 34px; border-radius: 10px;
+          background: #EEF2FF;
+          display: flex; align-items: center; justify-content: center;
+          color: #002366;
+        }
+        .support-info-item {
+          display: flex; align-items: flex-start; gap: 10px;
+          margin-bottom: 12px;
+        }
+        .support-info-icon {
+          width: 28px; height: 28px; border-radius: 8px;
+          background: #f1f5f9;
+          display: flex; align-items: center; justify-content: center;
+          color: #64748b; flex-shrink: 0; margin-top: 1px;
+        }
+        .support-info-label {
+          font-size: 9.5px; font-weight: 800;
+          letter-spacing: .1em; text-transform: uppercase;
+          color: #94a3b8; display: block; margin-bottom: 2px;
+        }
+        .support-info-val {
+          font-size: 12.5px; font-weight: 600; color: #334155;
+        }
+        .support-hours {
+          margin-top: 20px; padding: 12px 14px;
+          background: #ecfdf5; border: 1px solid rgba(16,185,129,.2);
+          border-radius: 10px;
+        }
+        .support-hours-label {
+          font-size: 9px; font-weight: 800;
+          letter-spacing: .12em; text-transform: uppercase;
+          color: #10b981; margin-bottom: 4px; display: block;
+        }
+        .support-hours-val { font-size: 12px; font-weight: 700; color: #065f46; }
+
+        /* form */
+        .support-right h3 {
+          font-family: 'Bricolage Grotesque', sans-serif;
+          font-size: 15px; font-weight: 800; color: #0f172a;
+          margin-bottom: 14px; letter-spacing: -0.02em;
+        }
+        .support-form { display: flex; flex-direction: column; gap: 9px; }
+        .support-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+        .sf-field {
+          width: 100%; padding: 10px 13px;
+          background: #f8fafc; border: 1.5px solid #e2e8f0;
+          border-radius: 10px; outline: none;
+          font-size: 12.5px; font-weight: 500; color: #0f172a;
+          font-family: 'DM Sans', sans-serif;
+          transition: border-color .2s, background .2s;
+        }
+        .sf-field:focus { border-color: rgba(0,35,102,.3); background: #fff; }
+        .sf-field::placeholder { color: #94a3b8; }
+        .sf-select {
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 12px center;
+          cursor: pointer;
+        }
+        .sf-textarea { resize: none; line-height: 1.6; }
+        .support-submit {
+          padding: 11px 0;
+          background: linear-gradient(90deg, #002366, #003da8);
+          color: #fff; border: none; border-radius: 10px;
+          font-size: 13px; font-weight: 800;
+          cursor: pointer; font-family: 'Bricolage Grotesque', sans-serif;
+          letter-spacing: .04em; transition: all .2s;
+          display: flex; align-items: center; justify-content: center; gap: 7px;
+        }
+        .support-submit:hover {
+          background: linear-gradient(90deg, #001540, #002b7a);
+          transform: translateY(-1px);
+          box-shadow: 0 6px 18px rgba(0,35,102,.3);
+        }
+      `}</style>
+
+            {/* Close */}
+            <button className="faq-close-btn" onClick={() => setShowFAQModal(false)}>
+              <FiX size={18} />
+            </button>
+
+            <div className="faq-scroll-container">
+
+              {/* ── HERO ── */}
+              <div className="faq-hero">
+                <div className="faq-hero-dots" />
+                <div className="faq-hero-glow" />
+                <div className="faq-hero-tag">
+                  <FiZap size={10} fill="currentColor" /> Help Center
+                </div>
+                <h1>Hi, how can we <span>help you?</span></h1>
+                <p className="faq-hero-sub">Search our knowledge base or browse topics below</p>
+                <div className="faq-search-wrap">
+                  <div className="faq-search-icon"><FiSearch size={15} /></div>
+                  <input
+                    type="text"
+                    placeholder="Search for answers… e.g. 'update profile', 'apply to job'"
+                  />
+                  <button className="faq-search-btn">Search</button>
+                </div>
+              </div>
+
+              <div className="faq-body">
+
+                {/* ── QUICK SOLUTIONS ── */}
+                <div className="faq-section-label">
+                  <div className="faq-section-icon"><FiZap size={13} /></div>
+                  Quick Solutions
+                </div>
+                <div className="faq-quick-grid">
+                  {[
+                    { q: "How do I deactivate or delete my MavenJobs account?", a: "To deactivate your account, go to Settings → Account → Danger Zone and click 'Deactivate Account'. This will hide your profile from all recruiters instantly." },
+                    { q: "How can I update or edit my profile information?", a: "You can edit any section of your profile by clicking the 'Edit' icon in the Profile Dashboard or using the side-modal for specific sections like Headline, Skills, and Experience." },
+                    { q: "How do I hide my profile from my current employer?", a: "Go to Settings → Privacy. Under 'Visibility Settings', you can search for and block specific companies or use 'Invisible Mode' to hide from all employers." },
+                    { q: "Do I need to pay to apply for a job on MavenJobs?", a: "No, applying for jobs on MavenJobs is 100% free. We never charge candidates for applications. MavenPremiumX is an optional service for advanced career growth." },
+                    { q: "How do I upload or update my resume?", a: "In the Profile Dashboard, scroll to the Resume section. You can upload a PDF/Doc file or use our Resume Builder to generate a professional resume instantly." },
+                    { q: "Why am I not receiving job recommendations?", a: "Ensure your 'Key Skills' and 'Preferred Role' are up to date. Our AI matching engine uses these to recommend the most relevant opportunities to you." },
+                  ].map((sol, i) => (
+                    <div className="faq-quick-card" key={i} onClick={() => setShowQuickAnswer(sol)}>
+                      <span className="faq-q-prefix">Q.</span>
+                      <p>{sol.q}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* ── FAQ ACCORDION ── */}
+                <div className="faq-section-label" style={{ marginTop: 4 }}>
+                  <div className="faq-section-icon"><FiInfo size={13} /></div>
+                  Frequently Asked Questions
+                </div>
+                <div className="faq-accordion">
+                  {[
+                    {
+                      q: "How do I create a MavenJobs account?",
+                      a: "Visit mavenjobs.in and click 'Register'. Fill in your name, email, and password, then verify your email. Once verified, complete your profile with your experience, skills, and education to start receiving relevant job matches.",
+                    },
+                    {
+                      q: "Can recruiters see my profile without my permission?",
+                      a: "By default, your profile is visible to verified recruiters on MavenJobs. You can enable 'Privacy Mode' in Settings → Privacy to hide your profile from specific companies or all employers. Your current employer can be blocked individually.",
+                    },
+                    {
+                      q: "How does MavenPremiumX improve my hiring chances?",
+                      a: "MavenPremiumX positions your profile in front of India's top-tier recruiters hiring for roles above ₹30L CTC. Your profile gets priority placement, NChecked verification, and direct outreach via WhatsApp, email, and automated calls — giving you 3× more recruiter responses.",
+                    },
+                    {
+                      q: "How do I track the status of my job applications?",
+                      a: "Go to your dashboard and click 'Job Application Status'. You'll see all applications categorised by status: Applied, Application Sent, Resume Viewed, Recruiter Actions, and more. Each card shows recruiter activity and last-active timestamps.",
+                    },
+                    {
+                      q: "What is an NChecked Profile and how do I get one?",
+                      a: "An NChecked Profile means Maven's team has cross-verified 14+ critical details: your current CTC breakup, company duration, notice period, designation, location, and job-search intent. To get NChecked, go to Profile → Verification and submit your details for review. It typically takes 1–2 business days.",
+                    },
+                    {
+                      q: "How do I reset or change my account password?",
+                      a: "Go to Settings → Security → Change Password. Enter your current password, then set a new one. If you've forgotten your password, click 'Forgot Password' on the login page and follow the email link sent to your registered address.",
+                    },
+                  ].map((item, i) => (
+                    <FaqItem key={i} index={i + 1} question={item.q} answer={item.a} />
+                  ))}
+                </div>
+
+                {/* ── BROWSE BY TOPIC ── */}
+                <div className="faq-section-label">
+                  <div className="faq-section-icon"><FiLayers size={13} /></div>
+                  Browse by Topic
+                </div>
+                <div className="faq-topic-grid">
+                  {[
+                    { icon: <FiUsers size={20} />, label: 'Create Profile', bg: '#EEF2FF', color: '#6366f1' },
+                    { icon: <FiSearch size={20} />, label: 'Job Search', bg: '#ecfdf5', color: '#10b981' },
+                    { icon: <FiCheckCircle size={20} />, label: 'Apply for Jobs', bg: '#fffbeb', color: '#f59e0b' },
+                    { icon: <FiSettings size={20} />, label: 'Account Settings', bg: '#f0f9ff', color: '#0ea5e9' },
+                    { icon: <FiShield size={20} />, label: 'Privacy & Safety', bg: '#fef2f2', color: '#ef4444' },
+                    { icon: <FiAward size={20} />, label: 'PremiumX', bg: '#EEF2FF', color: '#002366' },
+                  ].map((t, i) => (
+                    <div className="faq-topic-card" key={i}>
+                      <div className="faq-topic-icon" style={{ background: t.bg, color: t.color }}>
+                        {t.icon}
+                      </div>
+                      <span className="faq-topic-label">{t.label}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* ── BLOGS ── */}
+                <div className="faq-section-label">
+                  <div className="faq-section-icon"><FiBookOpen size={13} /></div>
+                  Career Resources
+                </div>
+                <div className="faq-blog-grid">
+                  {[
+                    {
+                      img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400",
+                      tag: "Interview Tips",
+                      title: "Ace Your Next Interview",
+                      desc: "Proven strategies from top recruiters to help you stand out and land the offer.",
+                    },
+                    {
+                      img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400",
+                      tag: "Platform Guide",
+                      title: "Getting the Most from MavenJobs",
+                      desc: "A step-by-step walkthrough of every feature — from profile setup to PremiumX.",
+                    },
+                    {
+                      img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400",
+                      tag: "Career Growth",
+                      title: "Negotiating a ₹30L+ Offer",
+                      desc: "Expert advice on salary negotiation, counter-offers, and knowing your market worth.",
+                    },
+                  ].map((b, i) => (
+                    <div className="faq-blog-card" key={i}>
+                      <img className="faq-blog-img" src={b.img} alt={b.title} />
+                      <div className="faq-blog-info">
+                        <span className="faq-blog-tag">{b.tag}</span>
+                        <h4>{b.title}</h4>
+                        <p>{b.desc}</p>
+                        <div className="faq-blog-read">Read Article <FiArrowRight size={12} /></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* ── CONTACT SUPPORT ── */}
+                <div className="faq-section-label">
+                  <div className="faq-section-icon"><FiMail size={13} /></div>
+                  Contact Support
+                </div>
+                <div className="faq-support">
+                  {/* Left */}
+                  <div className="support-left">
+                    <div className="support-brand">
+                      <div className="support-brand-icon"><FiMail size={16} /></div>
+                      MavenJobs Support
+                    </div>
+                    {[
+                      { icon: <FiPhone size={13} />, label: 'Toll Free', val: '1800-102-5557' },
+                      { icon: <FiMail size={13} />, label: 'Email', val: 'support@mavenjobs.com' },
+                    ].map((s, i) => (
+                      <div className="support-info-item" key={i}>
+                        <div className="support-info-icon">{s.icon}</div>
+                        <div>
+                          <span className="support-info-label">{s.label}</span>
+                          <div className="support-info-val">{s.val}</div>
+                        </div>
+                      </div>
+                    ))}
+                    <div className="support-hours">
+                      <span className="support-hours-label">Working Hours</span>
+                      <div className="support-hours-val">Mon – Sat · 9:30 AM to 6:30 PM IST</div>
+                    </div>
+                  </div>
+
+                  {/* Right — form */}
+                  <div className="support-right">
+                    <h3>Report a Problem or Get Assistance</h3>
+                    <div className="support-form">
+                      <div className="support-form-row">
+                        <input className="sf-field" type="text" placeholder="Your Full Name" />
+                        <input className="sf-field" type="tel" placeholder="Contact Number" />
+                      </div>
+                      <input className="sf-field" type="email" placeholder="Registered Email Address" />
+                      <select className="sf-field sf-select">
+                        <option value="">Select Area of Concern</option>
+                        <option>Profile Update</option>
+                        <option>Subscription / PremiumX</option>
+                        <option>Job Applications</option>
+                        <option>Account & Login</option>
+                        <option>Resume Upload</option>
+                        <option>Recruiter Outreach</option>
+                        <option>Other</option>
+                      </select>
+                      <textarea
+                        className="sf-field sf-textarea"
+                        placeholder="Describe your issue in detail…"
+                        rows={3}
+                      />
+                      <button className="support-submit">
+                        <FiSend size={14} /> Submit Request
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>{/* /faq-body */}
+            </div>{/* /scroll */}
+          </div>
+        </div>
+      )}
+
+      {/* ─── Settings Modal ─── */}
+      {showSettingsModal && (
+        <div className="pd-modal-overlay">
+          <div className="pd-modal-box settings-modal">
+            <button className="pd-modal-close" onClick={() => setShowSettingsModal(false)}><FiX size={22} /></button>
+            <div className="settings-layout">
+              <div className="settings-sidebar">
+                <h3>Settings</h3>
+                <div className="settings-nav">
+                  <button className="settings-nav-item active"><FiUsers /> Account</button>
+                  <button className="settings-nav-item"><FiLock /> Privacy</button>
+                  <button className="settings-nav-item"><FiBell /> Notifications</button>
+                </div>
+              </div>
+              <div className="settings-main">
+                <div className="settings-section">
+                  <h4>Account Settings</h4>
+                  <div className="settings-field">
+                    <label>Email Address</label>
+                    <div className="settings-input-group">
+                      <input type="text" value={user.email} readOnly />
+                      <button className="settings-edit-btn">Change</button>
+                    </div>
+                  </div>
+                  <div className="settings-field">
+                    <label>Phone Number</label>
+                    <div className="settings-input-group">
+                      <input type="text" value="8126977256" readOnly />
+                      <button className="settings-edit-btn">Verify</button>
+                    </div>
+                  </div>
+                  <div className="settings-divider" />
+                  <div className="settings-danger-zone">
+                    <h5>Danger Zone</h5>
+                    <button className="settings-delete-btn"><FiTrash2 /> Deactivate Account</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── Quick Answer Modal ─── */}
+      {showQuickAnswer && (
+        <div className="pd-modal-overlay" onClick={() => setShowQuickAnswer(null)} style={{ zIndex: 3000 }}>
+          <div className="pd-modal-box" onClick={e => e.stopPropagation()} style={{ maxWidth: '440px', padding: '28px', borderRadius: '24px', background: '#fff', height: 'auto', minHeight: 'auto' }}>
+            <button className="pd-modal-close" onClick={() => setShowQuickAnswer(null)}><FiX size={20} /></button>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ width: '56px', height: '56px', background: '#ecfdf5', borderRadius: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', color: '#10b981' }}>
+                <FiZap size={28} />
+              </div>
+              <h3 style={{ fontFamily: 'var(--fd)', fontSize: '18px', fontWeight: 800, color: '#002366', marginBottom: '12px', lineHeight: 1.3 }}>{showQuickAnswer.q}</h3>
+              <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.6, marginBottom: '24px', fontWeight: 500 }}>{showQuickAnswer.a}</p>
+              <button 
+                className="cm-btn-save" 
+                style={{ width: '100%', padding: '12px', borderRadius: '12px', fontWeight: 800, fontSize: '14px' }}
+                onClick={() => setShowQuickAnswer(null)}
+              >
+                Got it, thanks!
+              </button>
             </div>
           </div>
         </div>
