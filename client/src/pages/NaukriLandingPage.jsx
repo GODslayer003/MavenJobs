@@ -276,26 +276,26 @@ export default function NaukriLandingPage() {
                 <div className="mega-menu">
                   <div className="mega-column">
                     <h4>Resume writing</h4>
-                    <a href="#">Text resume</a>
-                    <a href="#">Visual resume</a>
-                    <a href="#">Resume critique</a>
+                    <Link to="/services">Text resume</Link>
+                    <Link to="/services">Visual resume</Link>
+                    <Link to="/services">Resume critique</Link>
                     <h4 style={{ marginTop: "20px" }}>Find Jobs</h4>
-                    <a href="#">Jobs4u</a>
-                    <a href="#">Priority applicant</a>
-                    <a href="#">Contact us</a>
+                    <Link to="/jobs">Jobs4u</Link>
+                    <Link to="/premium">Priority applicant</Link>
+                    <Link to="/info">Contact us</Link>
                   </div>
                   <div className="mega-column">
                     <h4>Get recruiter's attention</h4>
-                    <a href="#">Resume display</a>
+                    <Link to="/services">Resume display</Link>
                     <h4 style={{ marginTop: "20px" }}>Monthly subscriptions</h4>
-                    <a href="#">Basic &amp; premium plans</a>
+                    <Link to="/buy-online">Basic &amp; premium plans</Link>
                   </div>
                   <div className="mega-column">
                     <h4>Free resume resources</h4>
-                    <a href="#">Resume maker</a>
-                    <a href="#">Resume quality score</a>
-                    <a href="#">Resume samples</a>
-                    <a href="#">Job letter samples</a>
+                    <Link to="/services">Resume maker</Link>
+                    <Link to="/services">Resume quality score</Link>
+                    <Link to="/services">Resume samples</Link>
+                    <Link to="/services">Job letter samples</Link>
                   </div>
                 </div>
               )}
@@ -324,11 +324,11 @@ export default function NaukriLandingPage() {
                   </div>
                   <div className="mega-column">
                     <h4>Career prep</h4>
-                    <a href="#">Resume building</a>
-                    <a href="#">Interview preparation</a>
-                    <a href="#">Communication skills</a>
-                    <a href="#">Leadership training</a>
-                    <a href="#">Aptitude &amp; reasoning</a>
+                    <Link to="/blogs">Resume building</Link>
+                    <Link to="/blogs">Interview preparation</Link>
+                    <Link to="/blogs">Communication skills</Link>
+                    <Link to="/blogs">Leadership training</Link>
+                    <Link to="/blogs">Aptitude &amp; reasoning</Link>
                   </div>
                 </div>
               )}
@@ -368,7 +368,7 @@ export default function NaukriLandingPage() {
                 <div className="employer-dropdown">
                   <div className="employer-dropdown-inner">
                     <Link to="/buy-online" className="employer-dropdown-item">Buy online</Link>
-                    <a href="#" className="employer-dropdown-item">Naukri Talent Cloud</a>
+                    <Link to="/premium" className="employer-dropdown-item">Naukri Talent Cloud</Link>
                     <div className="employer-dropdown-divider" />
                     <Link to="/employer-login" className="employer-dropdown-item employer-login-item">
                       Employer Login <FiArrowRight aria-hidden="true" />
@@ -735,28 +735,28 @@ export default function NaukriLandingPage() {
 
             <div className="footer-links-group">
               <h4>For Job Seekers</h4>
-              <a href="#">Browse jobs</a>
-              <a href="#">Companies</a>
-              <a href="#">Career advice</a>
-              <a href="#">Resume builder</a>
-              <a href="#">Salary insights</a>
+              <Link to="/jobs">Browse jobs</Link>
+              <Link to="/companies">Companies</Link>
+              <Link to="/blogs">Career advice</Link>
+              <Link to="/services">Resume builder</Link>
+              <Link to="/jobs">Salary insights</Link>
             </div>
 
             <div className="footer-links-group">
               <h4>For Employers</h4>
               <Link to="/buy-online">Post a job</Link>
-              <a href="#">Talent solutions</a>
-              <a href="#">Pricing</a>
+              <Link to="/premium">Talent solutions</Link>
+              <Link to="/buy-online">Pricing</Link>
               <Link to="/employer-login">Employer login</Link>
             </div>
 
             <div className="footer-links-group">
               <h4>Company</h4>
-              <a href="#">About us</a>
-              <a href="#">Blog</a>
-              <a href="#">Press</a>
-              <a href="#">Careers at Maven</a>
-              <a href="#">Contact</a>
+              <Link to="/info">About us</Link>
+              <Link to="/blogs">Blog</Link>
+              <Link to="/info">Press</Link>
+              <Link to="/info">Careers at Maven</Link>
+              <Link to="/info">Contact</Link>
             </div>
 
             <div className="footer-app-col">

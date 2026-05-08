@@ -193,8 +193,8 @@ export default function ProfileDashboard() {
                 </div>
               )}
             </div>
-            <a href="#" className="pd-nav-link">Services</a>
-            <a href="#" className="pd-nav-link">Courses</a>
+            <Link to="/services" className="pd-nav-link">Services</Link>
+            <Link to="/blogs" className="pd-nav-link">Blogs</Link>
           </nav>
 
           <div className="pd-navbar-actions">
@@ -340,7 +340,7 @@ export default function ProfileDashboard() {
           <div className="pd-card pd-sidenav-card">
             <Link to="#" className="pd-sidenav-item active"><FiHome size={17} /><span>My Home</span></Link>
             <button className="pd-sidenav-item" onClick={() => setShowJobsModal(true)}><FiBriefcase size={17} /><span>Jobs</span></button>
-            <Link to="#" className="pd-sidenav-item"><FiMonitor size={17} /><span>Companies</span></Link>
+            <Link to="/companies" className="pd-sidenav-item"><FiMonitor size={17} /><span>Companies</span></Link>
             <Link to="/blogs" className="pd-sidenav-item"><FiFileText size={17} /><span>Blogs</span></Link>
             <button className="pd-sidenav-item" onClick={() => setShowFAQModal(true)}><FiHelpCircle size={17} /><span>FAQ</span></button>
             <button className="pd-sidenav-item" onClick={() => setShowSettingsModal(true)}><FiSettings size={17} /><span>Settings</span></button>
@@ -431,14 +431,14 @@ export default function ProfileDashboard() {
                 { code: 'Z', title: 'Survey Developer', company: 'ZoomRx Healthcare', when: '22d ago', bg: '#1E293B', col: '#F8FAFC' },
                 { code: 'F', title: 'Figma Specialist', company: 'IT Services Co.', when: '8d ago', bg: '#FEF3C7', col: '#92400E' },
               ].map(inv => (
-                <div className="pd-nvite-row" key={inv.title}>
+                <Link to="/jobs" className="pd-nvite-row" key={inv.title} style={{ textDecoration: 'none', color: 'inherit' }}>
                   <div className="pd-nvite-logo" style={{ background: inv.bg, color: inv.col }}>{inv.code}</div>
                   <div className="pd-nvite-info">
                     <div className="pd-nvite-title">{inv.title}</div>
                     <div className="pd-nvite-meta"><strong>{inv.company}</strong> · {inv.when}</div>
                   </div>
                   <button className="pd-nvite-apply">Apply</button>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

@@ -49,8 +49,8 @@ export default function JobDetailsPage() {
           </Link>
           <div className="jdp-nav-links">
             <Link to="/jobs" className="jdp-nav-link active">Jobs</Link>
-            <Link to="#" className="jdp-nav-link">Companies</Link>
-            <Link to="#" className="jdp-nav-link">Services</Link>
+            <Link to="/companies" className="jdp-nav-link">Companies</Link>
+            <Link to="/services" className="jdp-nav-link">Services</Link>
           </div>
           <div className="jdp-search-mock">
             <FiSearch className="jdp-search-icon" size={16} />
@@ -423,7 +423,7 @@ export default function JobDetailsPage() {
       </div>
 
       <div className="jdp-footer-links">
-        <a href="#">About Us</a> | <a href="#">Help Center</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a>
+        <Link to="/info">About Us</Link> | <Link to="/info">Help Center</Link> | <Link to="/info">Privacy Policy</Link> | <Link to="/info">Terms & Conditions</Link>
         <p className="mt-4">© 2026 MavenJobs. All rights reserved.</p>
       </div>
 

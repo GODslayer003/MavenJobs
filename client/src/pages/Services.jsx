@@ -728,13 +728,18 @@ const Services = () => {
         <div className="sw2">
           <img src={mavenLogo} alt="MavenJobs" style={{ height: 26, margin: '0 auto 36px', display: 'block', opacity: .28, filter: 'brightness(0) invert(1)' }} />
           <div className="fts">
-            {[FaFacebookF, FaLinkedinIn, FaXTwitter, FaInstagram].map((Icon, i) => (
-              <a key={i} href="#" className="ftsl"><Icon size={15} /></a>
+            {[
+              { Icon: FaFacebookF, to: "#" },
+              { Icon: FaLinkedinIn, to: "#" },
+              { Icon: FaXTwitter, to: "#" },
+              { Icon: FaInstagram, to: "#" }
+            ].map(({ Icon, to }, i) => (
+              <Link key={i} to={to} className="ftsl"><Icon size={15} /></Link>
             ))}
           </div>
           <div className="ftl">
             {['Privacy Policy', 'Terms of Use', 'Sitemap', 'Careers', 'Blog'].map(l => (
-              <a key={l} href="#" className="ftla">{l}</a>
+              <Link key={l} to={l === 'Blog' ? "/blogs" : "/info"} className="ftla">{l}</Link>
             ))}
           </div>
           <p className="ftc">© 2026 MavenJobs Private Limited · All Rights Reserved</p>

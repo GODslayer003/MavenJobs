@@ -5,7 +5,10 @@ import SignUp from './auth/SignUp';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem("user");
+    return saved ? JSON.parse(saved) : null;
+  });
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
@@ -25,16 +28,22 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = (userData) => {
-    setUser({
+    const fullUser = {
       ...userData,
       profilePic: "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg",
       headline: "Software Engineer",
-    });
+    };
+    setUser(fullUser);
+    localStorage.setItem("user", JSON.stringify(fullUser));
+    localStorage.setItem("token", "mock-token-" + Date.now()); // For compatibility with other parts of the app
     closeModals();
   };
 
   const logout = () => {
     setUser(null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("dailyQuizShown");
   };
 
   const updateUser = (updates) => {

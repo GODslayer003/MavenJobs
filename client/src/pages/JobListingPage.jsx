@@ -490,7 +490,7 @@ export default function JobListingPage() {
                 { label: "X", icon: FaXTwitter },
                 { label: "Instagram", icon: FaInstagram },
               ].map(({ label, icon: Icon }) => (
-                <a key={label} href="#" aria-label={label}><Icon /></a>
+                <Link key={label} to="#" aria-label={label}><Icon /></Link>
               ))}
             </div>
           </div>
@@ -499,7 +499,7 @@ export default function JobListingPage() {
             <h4>Company</h4>
             <ul>
               {["About Us", "Careers", "Press", "Blog", "Sitemap"].map(link => (
-                <li key={link}><a href="#">{link}</a></li>
+                <li key={link}><Link to={link === "Blog" ? "/blogs" : "/info"}>{link}</Link></li>
               ))}
             </ul>
           </div>
@@ -508,7 +508,7 @@ export default function JobListingPage() {
             <h4>Support</h4>
             <ul>
               {["Help Center", "Grievances", "Fraud Alert", "Trust & Safety", "Report Issue"].map(link => (
-                <li key={link}><a href="#">{link}</a></li>
+                <li key={link}><Link to="/info">{link}</Link></li>
               ))}
             </ul>
           </div>
@@ -517,7 +517,7 @@ export default function JobListingPage() {
             <h4>Legal</h4>
             <ul>
               {["Privacy Policy", "Terms & Conditions", "Cookie Policy", "GDPR", "Credits"].map(link => (
-                <li key={link}><a href="#">{link}</a></li>
+                <li key={link}><Link to="/info">{link}</Link></li>
               ))}
             </ul>
           </div>
