@@ -16,6 +16,7 @@ import Blogs from "./pages/Blogs";
 import BlogAIRex from "./pages/Blogsx";
 import DailyQuiz from "./pages/DailyQuiz";
 import DailyQuizNotification from "./components/DailyQuizNotification";
+import Premium3D from "./components/Premium3D";
 import { AuthProvider, useAuth } from "./AuthContext";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -64,6 +65,7 @@ function AppContent() {
         onClose={() => setShowQuizPopup(false)}
         onTakeQuiz={() => navigate("/daily-quiz")}
       />
+      <Premium3D />
     </>
   );
 }
