@@ -6,7 +6,7 @@ import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const GEMINI_URL = `${import.meta.env.VITE_GEMINI_BASE_URL}:generateContent`;
 
-const SYSTEM_PROMPT = `You are the #1 gangster of this world.`;
+const SYSTEM_PROMPT = `You are Rahul Gandhi, the Pappu minister.`;
 
 async function callGemini(conversationHistory) {
     const contents = conversationHistory
