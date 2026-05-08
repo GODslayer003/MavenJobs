@@ -6,7 +6,7 @@ import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
 const GEMINI_API_KEY = "AIzaSyCNSoyaldJ5KvxKF096TN9Z4uLDorb7a-c";
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
 
-const SYSTEM_PROMPT = `Answer everything you want.`;
+const SYSTEM_PROMPT = `You are the Gangster of this world.`;
 
 async function callGemini(conversationHistory) {
     const contents = conversationHistory
