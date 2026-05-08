@@ -4,9 +4,9 @@ import { FiSend, FiMinus, FiChevronDown, FiZap, FiStar, FiX } from "react-icons/
 import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
 
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const GEMINI_URL = `${import.meta.env.VITE_GEMINI_BASE_URL}:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_URL = `${import.meta.env.VITE_GEMINI_BASE_URL}:generateContent`;
 
-const SYSTEM_PROMPT = `You are a Gangster of this world.`;
+const SYSTEM_PROMPT = `You are the #1 gangster of this world.`;
 
 async function callGemini(conversationHistory) {
     const contents = conversationHistory
@@ -38,7 +38,10 @@ async function callGemini(conversationHistory) {
 
     const res = await fetch(GEMINI_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            "X-goog-api-key": GEMINI_API_KEY,
+        },
         body: JSON.stringify(payload),
     });
 
