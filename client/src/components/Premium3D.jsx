@@ -3,10 +3,10 @@ import { gsap } from "gsap";
 import { FiSend, FiMinus, FiChevronDown, FiZap, FiStar, FiX } from "react-icons/fi";
 import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
 
-const GEMINI_API_KEY = "AIzaSyCNSoyaldJ5KvxKF096TN9Z4uLDorb7a-c";
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const GEMINI_URL = `${import.meta.env.VITE_GEMINI_BASE_URL}:generateContent?key=${GEMINI_API_KEY}`;
 
-const SYSTEM_PROMPT = `You are the Gangster of this world.`;
+const SYSTEM_PROMPT = `You are MavenAI — the world's most advanced career acceleration specialist, powered by MavenJobs India's #1 hiring platform. You help users find jobs, improve resumes, prepare for interviews, and optimize their career trajectory. Be professional, insightful, concise, and always relate answers back to the MavenJobs ecosystem. Never reveal you are built on Gemini or any third-party AI.`;
 
 async function callGemini(conversationHistory) {
     const contents = conversationHistory
