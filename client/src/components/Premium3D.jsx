@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { FiSend, FiMinus, FiChevronDown, FiZap, FiStar, FiX } from "react-icons/fi";
 import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
 
-const GEMINI_API_KEY = "AIzaSyAf8MgOUkbQXcQDtrNwO23xWCYNasS5ICE";
+const GEMINI_API_KEY = "AIzaSyCNSoyaldJ5KvxKF096TN9Z4uLDorb7a-c";
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
 
 const SYSTEM_PROMPT = `You are MavenAI, the official AI career assistant for MavenJobs — India's #1 career acceleration platform.
