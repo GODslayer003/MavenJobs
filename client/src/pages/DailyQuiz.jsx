@@ -570,7 +570,7 @@ function QuizScreen({ onFinish }) {
       </div>
 
       <p style={{
-        marginTop: 20, fontSize: 10, color: 'rgba(255,255,255,.25)',
+        marginTop: 20, fontSize: 10,
         fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.15em',
         color: '#94a3b8',
       }}>

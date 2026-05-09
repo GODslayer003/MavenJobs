@@ -2281,7 +2281,8 @@
 }
 
 .ppm-link-row.filled {
-  color: #059669; /* Green */
+  color: #059669;
+  /* Green */
 }
 
 .ppm-link-row.filled:hover {
@@ -2988,6 +2989,7 @@
     grid-template-columns: 1fr;
   }
 }
+
 /* -------------------------------
    RECOMMENDED JOBS (RJ) STYLES
 ------------------------------- */
@@ -3197,11 +3199,11 @@
   color: white;
 }
 
-.rj-checkbox:hover input ~ .rj-checkmark {
+.rj-checkbox:hover input~.rj-checkmark {
   border-color: var(--blue-md);
 }
 
-.rj-checkbox input:checked ~ .rj-checkmark {
+.rj-checkbox input:checked~.rj-checkmark {
   background-color: var(--blue);
   border-color: var(--blue);
 }
@@ -3611,8 +3613,15 @@
 }
 
 @keyframes barSlideUp {
-  from { transform: translateX(-50%) translateY(40px); opacity: 0; }
-  to { transform: translateX(-50%) translateY(0); opacity: 1; }
+  from {
+    transform: translateX(-50%) translateY(40px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
 }
 
 .rj-float-info {
@@ -4009,12 +4018,15 @@
 .faq-scroll-container {
   height: 100%;
   overflow-y: auto;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE/Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE/Edge */
 }
 
 .faq-scroll-container::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  display: none;
+  /* Chrome/Safari */
 }
 
 /* Hero Section */

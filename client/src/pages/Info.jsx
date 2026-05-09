@@ -1,12 +1,108 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     FiCheckCircle, FiClock, FiEye, FiSend, FiBriefcase,
     FiTrendingUp, FiStar, FiChevronRight, FiFilter,
     FiMapPin, FiUsers, FiBarChart2, FiAward, FiZap,
     FiMail, FiPhone, FiCalendar, FiArrowUp, FiArrowRight,
-    FiXCircle, FiAlertCircle, FiRefreshCw
+    FiXCircle, FiAlertCircle, FiRefreshCw, FiBookmark, FiX
 } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { gsap } from 'gsap';
+
+const SAVED_JOBS = [
+    {
+        id: 101, title: 'Senior Product Designer', company: 'Google', location: 'Bengaluru',
+        logo: 'G', logoColor: '#4285F4', salary: '₹35L - ₹45L', type: 'Full-time', savedAgo: '2d ago',
+        match: 92
+    },
+    {
+        id: 102, title: 'Frontend Lead', company: 'Atlassian', location: 'Remote',
+        logo: 'A', logoColor: '#0052CC', salary: '₹40L - ₹50L', type: 'Remote', savedAgo: '5d ago',
+        match: 85
+    },
+    {
+        id: 103, title: 'UX Engineer', company: 'Microsoft', location: 'Hyderabad',
+        logo: 'M', logoColor: '#00A4EF', salary: '₹28L - ₹38L', type: 'Hybrid', savedAgo: '1w ago',
+        match: 78
+    }
+];
+
+function SavedJobsModal({ onClose }) {
+    const overlayRef = useRef(null);
+    const modalRef = useRef(null);
+    const listRef = useRef(null);
+
+    useEffect(() => {
+        gsap.fromTo(overlayRef.current, { opacity: 0, backdropFilter: 'blur(0px)' }, { opacity: 1, backdropFilter: 'blur(8px)', duration: 0.3, ease: 'power2.out' });
+        gsap.fromTo(modalRef.current, { y: 40, opacity: 0, scale: 0.95 }, { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(1.5)', delay: 0.1 });
+        if (listRef.current) {
+            gsap.fromTo(listRef.current.children, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, stagger: 0.08, ease: 'power2.out', delay: 0.3 });
+        }
+    }, []);
+
+    const handleClose = () => {
+        gsap.to(overlayRef.current, { opacity: 0, backdropFilter: 'blur(0px)', duration: 0.2 });
+        gsap.to(modalRef.current, { y: 20, opacity: 0, scale: 0.95, duration: 0.2, onComplete: onClose });
+    };
+
+    return (
+        <div ref={overlayRef} style={{ position: 'fixed', inset: 0, zIndex: 1000, background: 'rgba(15,23,42,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+            <div ref={modalRef} style={{ background: '#fff', borderRadius: 24, width: '100%', maxWidth: 640, maxHeight: '85vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0,35,102,0.25)', border: '1px solid rgba(255,255,255,0.2)' }}>
+                
+                <div style={{ padding: '24px 32px', borderBottom: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#f8fafc' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <div style={{ width: 44, height: 44, borderRadius: 12, background: '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#002366' }}>
+                            <FiBookmark size={20} fill="#002366" />
+                        </div>
+                        <div>
+                            <h2 style={{ fontFamily: 'var(--fd)', fontSize: 20, fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', lineHeight: 1.2 }}>Saved Jobs</h2>
+                            <p style={{ fontSize: 13, color: '#64748b', fontWeight: 500, marginTop: 2 }}>You have {SAVED_JOBS.length} jobs saved for later.</p>
+                        </div>
+                    </div>
+                    <button onClick={handleClose} style={{ background: '#fff', border: '1.5px solid #e2e8f0', width: 36, height: 36, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748b', transition: 'all .2s' }} onMouseEnter={e => { e.currentTarget.style.borderColor = '#002366'; e.currentTarget.style.color = '#002366'; }} onMouseLeave={e => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.color = '#64748b'; }}>
+                        <FiX size={18} />
+                    </button>
+                </div>
+
+                <div ref={listRef} style={{ padding: '24px 32px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 16 }}>
+                    {SAVED_JOBS.map(job => (
+                        <div key={job.id} style={{ padding: 20, borderRadius: 16, border: '1px solid #e2e8f0', display: 'flex', alignItems: 'flex-start', gap: 16, transition: 'all .2s', cursor: 'pointer', background: '#fff' }} onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(0,35,102,.15)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,35,102,.08)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={e => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)'; }}>
+                            <div style={{ width: 48, height: 48, borderRadius: 14, background: `${job.logoColor}15`, border: `2px solid ${job.logoColor}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--fd)', fontSize: 20, fontWeight: 800, color: job.logoColor, flexShrink: 0 }}>
+                                {job.logo}
+                            </div>
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+                                    <h3 style={{ fontFamily: 'var(--fd)', fontSize: 16, fontWeight: 800, color: '#0f172a' }}>{job.title}</h3>
+                                    <span style={{ fontSize: 12, fontWeight: 700, color: '#10b981', background: '#ecfdf5', padding: '4px 10px', borderRadius: 100 }}>{job.match}% Match</span>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#64748b', fontWeight: 600, marginBottom: 12 }}>
+                                    <span style={{ color: '#475569' }}>{job.company}</span>
+                                    <span>•</span>
+                                    <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><FiMapPin size={12} /> {job.location}</span>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <div style={{ display: 'flex', gap: 8 }}>
+                                        <span style={{ fontSize: 11.5, fontWeight: 700, color: '#475569', background: '#f1f5f9', padding: '4px 10px', borderRadius: 6 }}>{job.salary}</span>
+                                        <span style={{ fontSize: 11.5, fontWeight: 700, color: '#475569', background: '#f1f5f9', padding: '4px 10px', borderRadius: 6 }}>{job.type}</span>
+                                    </div>
+                                    <button style={{ background: '#002366', color: '#fff', border: 'none', padding: '6px 14px', borderRadius: 8, fontSize: 12, fontWeight: 700, fontFamily: 'var(--fd)', cursor: 'pointer', transition: 'background .2s' }} onMouseEnter={e => e.currentTarget.style.background = '#1a3a8f'} onMouseLeave={e => e.currentTarget.style.background = '#002366'}>
+                                        Apply Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                <div style={{ padding: '16px 32px', borderTop: '1px solid #f1f5f9', background: '#f8fafc', display: 'flex', justifyContent: 'center' }}>
+                    <Link to="/saved-jobs" onClick={handleClose} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13.5, fontWeight: 700, color: '#002366', textDecoration: 'none' }}>
+                        Browse more saved jobs <FiArrowRight size={14} />
+                    </Link>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 // ── Mock Data ──────────────────────────────────────────────
 const APPLICATIONS = [
@@ -187,8 +283,10 @@ function MatchBar({ label, value }) {
 }
 
 export default function Info() {
+    const navigate = useNavigate();
     const [activeFilter, setActiveFilter] = useState('all');
     const [selectedApp, setSelectedApp] = useState(APPLICATIONS[0]);
+    const [showSavedJobs, setShowSavedJobs] = useState(false);
 
     const matchScore = selectedApp ? Object.values(selectedApp.match).filter(Boolean).length : 0;
     const matchTotal = selectedApp ? Object.values(selectedApp.match).length : 6;
@@ -268,6 +366,15 @@ export default function Info() {
                     </p>
                 </div>
                 <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
+                    <button 
+                        onClick={() => setShowSavedJobs(true)}
+                        style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 18px', background: '#EEF2FF', color: '#002366', border: '1px solid rgba(0,35,102,.1)', borderRadius: 10, fontSize: 13, fontWeight: 800, cursor: 'pointer', fontFamily: 'var(--fd)', whiteSpace: 'nowrap', transition: 'all .2s' }}
+                        onMouseEnter={e => e.currentTarget.style.background = '#00236620'}
+                        onMouseLeave={e => e.currentTarget.style.background = '#EEF2FF'}
+                    >
+                        <FiBookmark size={14} /> Saved Jobs
+                    </button>
+                    <div style={{ width: 1, height: 40, background: '#e2e8f0' }} />
                     {[{ val: 118, label: 'Total applies' }, { val: 13, label: 'Application updates' }].map((s, i) => (
                         <div key={i} style={{ textAlign: 'center', padding: '0 16px', borderLeft: i > 0 ? '1px solid #e2e8f0' : 'none' }}>
                             <div style={{ fontFamily: 'var(--fd)', fontSize: 34, fontWeight: 800, color: '#0f172a', lineHeight: 1, letterSpacing: '-0.04em' }}>{s.val}</div>
@@ -627,6 +734,7 @@ export default function Info() {
                     })()}
                 </div>
             </div>
+            {showSavedJobs && <SavedJobsModal onClose={() => setShowSavedJobs(false)} />}
         </div>
     );
 }

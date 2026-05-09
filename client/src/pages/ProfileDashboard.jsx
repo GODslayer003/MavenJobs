@@ -2236,8 +2236,8 @@ export default function ProfileDashboard() {
               </div>
               <h3 style={{ fontFamily: 'var(--fd)', fontSize: '18px', fontWeight: 800, color: '#002366', marginBottom: '12px', lineHeight: 1.3 }}>{showQuickAnswer.q}</h3>
               <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.6, marginBottom: '24px', fontWeight: 500 }}>{showQuickAnswer.a}</p>
-              <button 
-                className="cm-btn-save" 
+              <button
+                className="cm-btn-save"
                 style={{ width: '100%', padding: '12px', borderRadius: '12px', fontWeight: 800, fontSize: '14px' }}
                 onClick={() => setShowQuickAnswer(null)}
               >
