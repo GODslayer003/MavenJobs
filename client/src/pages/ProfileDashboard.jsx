@@ -607,6 +607,29 @@ export default function ProfileDashboard() {
             </div>
           </Link>
 
+          <Link to="/leave" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+            <div className="pd-card" style={{ padding: 0, overflow: 'hidden', margin: 0, transition: 'transform 0.2s, box-shadow 0.2s' }}
+                 onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,30,80,0.08)'; }}
+                 onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,30,80,0.04)'; }}>
+              <img 
+                src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=400&h=200" 
+                alt="Leave Application" 
+                style={{ width: '100%', height: '130px', objectFit: 'cover', display: 'block', borderBottom: '1px solid #E2E8F0' }} 
+              />
+              <div style={{ padding: '18px 20px 22px' }}>
+                <h4 style={{ fontSize: '15px', fontWeight: 800, color: '#0F172A', marginBottom: '8px', lineHeight: 1.35, letterSpacing: '-0.01em' }}>
+                  One-Day Leave Application Samples & Templates
+                </h4>
+                <p style={{ fontSize: '13.5px', color: '#64748B', lineHeight: 1.55, marginBottom: '16px' }}>
+                  Worried about asking for a day off? Learn how to write a one-day leave application t...
+                </p>
+                <div style={{ fontSize: '14px', fontWeight: 700, color: '#2563EB', textDecoration: 'none' }}>
+                  Know more
+                </div>
+              </div>
+            </div>
+          </Link>
+
           <div className="pd-card pd-skills-card">
             <div className="pd-section-header">
               <h4>Top Skills</h4>

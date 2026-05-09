@@ -16,6 +16,7 @@ import Blogs from "./pages/Blogs";
 import BlogAIRex from "./pages/Blogsx";
 import DailyQuiz from "./pages/DailyQuiz";
 import SavedJobs from "./pages/SavedJobs";
+import Leave from "./pages/Leave";
 import DailyQuizNotification from "./components/DailyQuizNotification";
 import Premium3D from "./components/Premium3D";
 import { AuthProvider, useAuth } from "./AuthContext";
@@ -60,6 +61,7 @@ function AppContent() {
         <Route path="/blog-article" element={<BlogAIRex />} />
         <Route path="/daily-quiz" element={<DailyQuiz />} />
         <Route path="/saved-jobs" element={<SavedJobs />} />
+        <Route path="/leave" element={<Leave />} />
       </Routes>
       <DailyQuizNotification
         isOpen={showQuizPopup}
