@@ -1,24 +1,24 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
-import NaukriLandingPage from "./pages/NaukriLandingPage";
-import EmployerLandingPage from "./pages/EmployerLandingPage";
-import JobListingPage from "./pages/JobListingPage";
-import JobDetailsPage from "./pages/JobDetailsPage";
+import NaukriLandingPage from "./pages/candidates/NaukriLandingPage";
+import EmployerLandingPage from "./pages/candidates/EmployerLandingPage";
+import JobListingPage from "./pages/candidates/JobListingPage";
+import JobDetailsPage from "./pages/candidates/JobDetailsPage";
 import Buyonline from "./pages/Buyonline";
-import ProfileDashboard from "./pages/ProfileDashboard";
-import CompaniesPage from "./pages/CompaniesPage";
+import ProfileDashboard from "./pages/candidates/ProfileDashboard";
+import CompaniesPage from "./pages/candidates/CompaniesPage";
 import Jobprofile from "./pages/Jobprofile";
-import Services from "./pages/Services";
-import MavenPro from "./pages/MavenPro";
-import Premium from "./pages/Premium";
-import Info from "./pages/Info";
-import Blogs from "./pages/Blogs";
-import BlogAIRex from "./pages/Blogsx";
-import DailyQuiz from "./pages/DailyQuiz";
-import SavedJobs from "./pages/SavedJobs";
-import Leave from "./pages/Leave";
+import Services from "./pages/candidates/Services";
+import MavenPro from "./pages/candidates/MavenPro";
+import Premium from "./pages/candidates/Premium";
+import Info from "./pages/candidates/Info";
+import Blogs from "./pages/candidates/Blogs";
+import BlogAIRex from "./pages/candidates/Blogsx";
+import DailyQuiz from "./pages/candidates/DailyQuiz";
+import SavedJobs from "./pages/candidates/SavedJobs";
+import Leave from "./pages/candidates/Leave";
 import DailyQuizNotification from "./components/DailyQuizNotification";
-import PostJob from "./pages/PostJob";
+import PostJob from "./pages/employer/PostJob";
 
 import Premium3D from "./components/Premium3D";
 import { AuthProvider, useAuth } from "./AuthContext";
@@ -33,12 +33,12 @@ function AppContent() {
     // Trigger only once per login session
     const isLoggedIn = user || localStorage.getItem("user");
     const alreadyShown = sessionStorage.getItem("dailyQuizShown");
-    
+
     if (isLoggedIn && !alreadyShown) {
       const timer = setTimeout(() => {
         setShowQuizPopup(true);
         sessionStorage.setItem("dailyQuizShown", "true");
-      }, 1500); 
+      }, 1500);
       return () => clearTimeout(timer);
     }
   }, [user]);

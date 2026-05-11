@@ -10,7 +10,7 @@ import {
 import { FaLinkedinIn, FaFacebookF, FaInstagram, FaQuoteLeft } from 'react-icons/fa';
 import { FaXTwitter } from "react-icons/fa6";
 import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../../AuthContext";
 
 function useFadeIn(threshold = 0.12) {
   const ref = useRef(null);

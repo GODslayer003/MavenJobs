@@ -9,6 +9,7 @@ import {
 } from 'react-icons/fi';
 import { FaBuilding, FaQuoteLeft } from 'react-icons/fa';
 import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
+import promoImg from '../../assets/free-job-posting-promo.png';
 import './EmployerLandingPage.css';
 
 const EmployerLandingPage = () => {
@@ -18,6 +19,7 @@ const EmployerLandingPage = () => {
   const [hiringFor, setHiringFor] = useState('company');
   const [scrolled, setScrolled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showOfferings, setShowOfferings] = useState(false);
   const [rangeOpen, setRangeOpen] = useState(false);
   const [selectedRange, setSelectedRange] = useState('Select range');
   const [activeOfferingTab, setActiveOfferingTab] = useState(0);
@@ -93,7 +95,80 @@ const EmployerLandingPage = () => {
             <img src={mavenLogo} alt="MavenJobs" style={{ height: 36 }} />
           </Link>
           <div className="elp-nav-links">
-            <a href="#offerings" className="elp-nav-link">Our offerings</a>
+            <div 
+              className="elp-nav-item"
+              onMouseEnter={() => setShowOfferings(true)}
+              onMouseLeave={() => setShowOfferings(false)}
+            >
+              <a href="#offerings" className="elp-nav-link dropdown">
+                Our offerings <FiChevronDown size={14} className={`elp-chevron ${showOfferings ? 'rotated' : ''}`} />
+              </a>
+
+              {/* ─── Mega Menu ─── */}
+              <div className={`elp-mega-menu ${showOfferings ? 'visible' : ''}`}>
+                <div className="elp-mega-inner">
+                  <div className="elp-mega-grid">
+                    {/* Promo Section */}
+                    <div className="elp-mega-promo">
+                      <div className="elp-promo-card">
+                        <img src={promoImg} alt="Promo" className="elp-promo-img" />
+                        <div className="elp-promo-content">
+                          <h3>With Free Job Posting, hire local talent at zero cost</h3>
+                          <div className="elp-promo-bullets">
+                            <p>Unlimited free postings with <strong>one active job at a time</strong></p>
+                            <p>Get up to <strong>50 candidates/job</strong> while your post remains visible for 7 days</p>
+                          </div>
+                          <Link to="/post-job" className="elp-promo-link" onClick={() => setShowOfferings(false)}>
+                            Free Job Posting <FiArrowRight size={16} />
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* By Products */}
+                    <div className="elp-mega-section">
+                      <span className="elp-section-label">BY PRODUCTS</span>
+                      <div className="elp-section-links">
+                        <Link to="/post-job" className="elp-mega-link" onClick={() => setShowOfferings(false)}>
+                          <div className="elp-mega-link-title">Job Posting</div>
+                          <div className="elp-mega-link-desc">Find & attract relevant talent</div>
+                        </Link>
+                        <Link to="/resdex" className="elp-mega-link" onClick={() => setShowOfferings(false)}>
+                          <div className="elp-mega-link-title">Resdex</div>
+                          <div className="elp-mega-link-desc">Access India's largest database</div>
+                        </Link>
+                        <Link to="/expert-assist" className="elp-mega-link" onClick={() => setShowOfferings(false)}>
+                          <div className="elp-mega-link-title">Expert Assist</div>
+                          <div className="elp-mega-link-desc">Our Assisted hiring solution</div>
+                        </Link>
+                        <Link to="/branding" className="elp-mega-link" onClick={() => setShowOfferings(false)}>
+                          <div className="elp-mega-link-title">Employer Branding</div>
+                          <div className="elp-mega-link-desc">Showcase your brand presence</div>
+                        </Link>
+                        <Link to="/talent-pulse" className="elp-mega-link" onClick={() => setShowOfferings(false)}>
+                          <div className="elp-mega-link-title">Talent Pulse</div>
+                          <div className="elp-mega-link-desc">Make informed hiring decisions</div>
+                        </Link>
+                        <Link to="/ai-rex" className="elp-mega-link" onClick={() => setShowOfferings(false)}>
+                          <div className="elp-mega-link-title">AI REX</div>
+                          <div className="elp-mega-link-desc">Reduce time to hire from days to hours</div>
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* By Business Type */}
+                    <div className="elp-mega-section">
+                      <span className="elp-section-label">BY BUSINESS TYPE</span>
+                      <div className="elp-section-links">
+                        <Link to="/enterprises" className="elp-mega-link simple" onClick={() => setShowOfferings(false)}>Enterprises</Link>
+                        <Link to="/smb" className="elp-mega-link simple" onClick={() => setShowOfferings(false)}>Small & medium business</Link>
+                        <Link to="/agencies" className="elp-mega-link simple" onClick={() => setShowOfferings(false)}>Consultants & agency</Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <a href="#solutions" className="elp-nav-link">Solutions</a>
             <a href="#how-it-works" className="elp-nav-link">How it works</a>
             <a href="#resources" className="elp-nav-link">Resources</a>

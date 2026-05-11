@@ -7,37 +7,37 @@ import {
 } from "react-icons/fi";
 import { FaRupeeSign, FaStar, FaFacebookF, FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { useAuth } from "../AuthContext";
-import { EXTENDED_JOBS as JOBS, TOP_CATEGORIES } from "../data/jobs";
+import { useAuth } from "../../AuthContext";
+import { EXTENDED_JOBS as JOBS, TOP_CATEGORIES } from "../../data/jobs";
 import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
 import "./JobListingPage.css";
 
 // Data moved to data/jobs.js
 const FILTER_CATEGORIES = [
-  { 
-    id: "dept", 
-    label: "Department", 
-    options: ["Engineering", "Product", "Design", "Marketing", "Sales", "HR", "Finance", "Legal", "Operations", "Customer Success"] 
+  {
+    id: "dept",
+    label: "Department",
+    options: ["Engineering", "Product", "Design", "Marketing", "Sales", "HR", "Finance", "Legal", "Operations", "Customer Success"]
   },
-  { 
-    id: "mode", 
-    label: "Work Mode", 
-    options: ["Work from office", "Remote", "Hybrid"] 
+  {
+    id: "mode",
+    label: "Work Mode",
+    options: ["Work from office", "Remote", "Hybrid"]
   },
-  { 
-    id: "loc", 
-    label: "Location", 
-    options: ["Bengaluru", "Mumbai", "Pune", "Delhi / NCR", "Hyderabad", "Chennai", "Kolkata", "Ahmedabad", "Gurugram", "Noida"] 
+  {
+    id: "loc",
+    label: "Location",
+    options: ["Bengaluru", "Mumbai", "Pune", "Delhi / NCR", "Hyderabad", "Chennai", "Kolkata", "Ahmedabad", "Gurugram", "Noida"]
   },
-  { 
-    id: "salaryRange", 
-    label: "Salary", 
-    options: ["0–3 Lakhs", "3–6 Lakhs", "6–10 Lakhs", "10–15 Lakhs", "15+ Lakhs", "25+ Lakhs", "50+ Lakhs"] 
+  {
+    id: "salaryRange",
+    label: "Salary",
+    options: ["0–3 Lakhs", "3–6 Lakhs", "6–10 Lakhs", "10–15 Lakhs", "15+ Lakhs", "25+ Lakhs", "50+ Lakhs"]
   },
-  { 
-    id: "type", 
-    label: "Company Type", 
-    options: ["Corporate", "Foreign MNC", "Indian MNC", "Startup", "Govt / PSU"] 
+  {
+    id: "type",
+    label: "Company Type",
+    options: ["Corporate", "Foreign MNC", "Indian MNC", "Startup", "Govt / PSU"]
   },
 ];
 
@@ -200,7 +200,7 @@ export default function JobListingPage() {
           <button className="jlp-scroll-btn left" onClick={scrollLeft}>
             <FiChevronLeft size={20} />
           </button>
-          
+
           <div className="jlp-top-categories-container" ref={scrollRef}>
             {TOP_CATEGORIES.map((cat, idx) => (
               <div key={idx} className="jlp-top-category-chip">
@@ -240,11 +240,11 @@ export default function JobListingPage() {
                 <div className="jlp-exp-tooltip" style={{ left: `${(expRange / 30) * 100}%` }}>
                   {expRange}
                 </div>
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="30" 
-                  value={expRange} 
+                <input
+                  type="range"
+                  min="0"
+                  max="30"
+                  value={expRange}
                   onChange={(e) => {
                     setExpRange(parseInt(e.target.value));
                     setCurrentPage(1);
@@ -287,8 +287,8 @@ export default function JobListingPage() {
                     })}
                   </div>
                   {hasMore && (
-                    <button 
-                      className="jlp-view-more-btn" 
+                    <button
+                      className="jlp-view-more-btn"
                       onClick={() => openFilterModal(cat.id)}
                     >
                       View More
@@ -381,7 +381,7 @@ export default function JobListingPage() {
                   <button className="jlp-save-btn" aria-label="Save job">
                     <FiBookmark size={17} />
                   </button>
-                  <button 
+                  <button
                     className="jlp-apply-btn"
                     onClick={() => navigate(`/job/${job.id}`)}
                   >
@@ -544,7 +544,7 @@ export default function JobListingPage() {
               </h3>
               <button className="jlp-modal-close" onClick={() => setActiveModal(null)}>✕</button>
             </div>
-            
+
             <div className="jlp-modal-body">
               <div className="jlp-modal-grid">
                 {FILTER_CATEGORIES.find(c => c.id === activeModal)?.options.map(opt => {

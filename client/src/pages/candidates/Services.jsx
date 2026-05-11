@@ -8,7 +8,7 @@ import {
 import { FaLinkedinIn, FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { FaXTwitter } from "react-icons/fa6";
 import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../../AuthContext";
 
 function useFadeIn(threshold = 0.12) {
   const ref = useRef(null);
@@ -478,71 +478,71 @@ const Services = () => {
               </>
             ) : (
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <button 
-                  className="nav-icon-btn" 
-                  title="Notifications" 
-                  style={{ 
-                    position: 'relative', width: '40px', height: '40px', 
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', 
-                    background: isScrolled ? '#f8fafc' : 'rgba(255,255,255,0.1)', 
-                    border: isScrolled ? '1.5px solid #e2e8f0' : '1px solid rgba(255,255,255,0.2)', 
-                    borderRadius: '12px', 
-                    color: isScrolled ? '#002366' : 'white', 
-                    cursor: 'pointer', transition: 'all 0.2s' 
-                  }} 
+                <button
+                  className="nav-icon-btn"
+                  title="Notifications"
+                  style={{
+                    position: 'relative', width: '40px', height: '40px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: isScrolled ? '#f8fafc' : 'rgba(255,255,255,0.1)',
+                    border: isScrolled ? '1.5px solid #e2e8f0' : '1px solid rgba(255,255,255,0.2)',
+                    borderRadius: '12px',
+                    color: isScrolled ? '#002366' : 'white',
+                    cursor: 'pointer', transition: 'all 0.2s'
+                  }}
                   onMouseOver={(e) => {
                     e.currentTarget.style.background = isScrolled ? '#f1f5f9' : 'rgba(255,255,255,0.2)';
                     if (isScrolled) e.currentTarget.style.borderColor = '#002366';
-                  }} 
+                  }}
                   onMouseOut={(e) => {
                     e.currentTarget.style.background = isScrolled ? '#f8fafc' : 'rgba(255,255,255,0.1)';
                     if (isScrolled) e.currentTarget.style.borderColor = '#e2e8f0';
                   }}
                 >
                   <FiBell size={20} />
-                  <span style={{ 
-                    position: 'absolute', top: '8px', right: '8px', 
-                    width: '8px', height: '8px', background: '#0DBF7B', 
-                    borderRadius: '50%', 
-                    border: `2px solid ${isScrolled ? 'white' : '#002366'}`, 
-                    boxShadow: '0 0 10px rgba(13, 191, 123, 0.5)' 
+                  <span style={{
+                    position: 'absolute', top: '8px', right: '8px',
+                    width: '8px', height: '8px', background: '#0DBF7B',
+                    borderRadius: '50%',
+                    border: `2px solid ${isScrolled ? 'white' : '#002366'}`,
+                    boxShadow: '0 0 10px rgba(13, 191, 123, 0.5)'
                   }}></span>
                 </button>
-                
+
                 <Link to="/profile" className="nav-profile-link" style={{ textDecoration: 'none' }}>
                   <div style={{ width: '42px', height: '42px', borderRadius: '12px', padding: '2px', background: 'linear-gradient(135deg, #1E5EFF, #0DBF7B)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'transform 0.2s' }} onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'} onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}>
-                    <img 
-                      src={user.profilePic || "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg"} 
-                      alt="Profile" 
-                      style={{ 
-                        width: '100%', height: '100%', borderRadius: '10px', 
-                        objectFit: 'cover', 
-                        border: `2px solid ${isScrolled ? '#002366' : 'white'}` 
-                      }} 
+                    <img
+                      src={user.profilePic || "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg"}
+                      alt="Profile"
+                      style={{
+                        width: '100%', height: '100%', borderRadius: '10px',
+                        objectFit: 'cover',
+                        border: `2px solid ${isScrolled ? '#002366' : 'white'}`
+                      }}
                     />
                   </div>
                 </Link>
 
-                <button 
-                  onClick={logout} 
+                <button
+                  onClick={logout}
                   title="Logout"
-                  style={{ 
-                    width: '40px', height: '40px', display: 'flex', 
-                    alignItems: 'center', justifyContent: 'center', 
-                    background: isScrolled ? 'rgba(239, 68, 68, 0.08)' : 'rgba(255,255,255,0.08)', 
-                    border: isScrolled ? '1.5px solid rgba(239, 68, 68, 0.15)' : '1px solid rgba(255,255,255,0.15)', 
-                    borderRadius: '12px', 
-                    color: isScrolled ? '#EF4444' : 'rgba(255,255,255,0.9)', 
-                    cursor: 'pointer', transition: 'all 0.2s' 
+                  style={{
+                    width: '40px', height: '40px', display: 'flex',
+                    alignItems: 'center', justifyContent: 'center',
+                    background: isScrolled ? 'rgba(239, 68, 68, 0.08)' : 'rgba(255,255,255,0.08)',
+                    border: isScrolled ? '1.5px solid rgba(239, 68, 68, 0.15)' : '1px solid rgba(255,255,255,0.15)',
+                    borderRadius: '12px',
+                    color: isScrolled ? '#EF4444' : 'rgba(255,255,255,0.9)',
+                    cursor: 'pointer', transition: 'all 0.2s'
                   }}
-                  onMouseOver={(e) => { 
-                    e.currentTarget.style.background = '#EF4444'; 
-                    e.currentTarget.style.color = 'white'; 
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.background = '#EF4444';
+                    e.currentTarget.style.color = 'white';
                     e.currentTarget.style.borderColor = '#EF4444';
                   }}
-                  onMouseOut={(e) => { 
-                    e.currentTarget.style.background = isScrolled ? 'rgba(239, 68, 68, 0.08)' : 'rgba(255,255,255,0.08)'; 
-                    e.currentTarget.style.color = isScrolled ? '#EF4444' : 'rgba(255,255,255,0.9)'; 
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.background = isScrolled ? 'rgba(239, 68, 68, 0.08)' : 'rgba(255,255,255,0.08)';
+                    e.currentTarget.style.color = isScrolled ? '#EF4444' : 'rgba(255,255,255,0.9)';
                     e.currentTarget.style.borderColor = isScrolled ? 'rgba(239, 68, 68, 0.15)' : 'rgba(255,255,255,0.15)';
                   }}
                 >

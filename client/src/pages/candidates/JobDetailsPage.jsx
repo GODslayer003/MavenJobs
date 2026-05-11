@@ -8,8 +8,8 @@ import {
 } from "react-icons/fi";
 import { FaRupeeSign, FaStar, FaFacebookF, FaLinkedinIn, FaDumbbell } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { useAuth } from "../AuthContext";
-import { JOBS, EXTENDED_JOBS } from "../data/jobs";
+import { useAuth } from "../../AuthContext";
+import { JOBS, EXTENDED_JOBS } from "../../data/jobs";
 import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
 import "./JobDetailsPage.css";
 
@@ -65,12 +65,12 @@ export default function JobDetailsPage() {
                   <FiBell size={18} />
                   <span className="jdp-notif-dot"></span>
                 </button>
-                
+
                 <Link to="/profile" className="jdp-avatar-link">
                   <div className="jdp-avatar-wrap">
-                    <img 
-                      src={user.profilePic || "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg"} 
-                      alt="Profile" 
+                    <img
+                      src={user.profilePic || "https://i.pinimg.com/736x/26/89/19/268919fb14ab9fb609647d7011140ab7.jpg"}
+                      alt="Profile"
                     />
                   </div>
                 </Link>
@@ -92,7 +92,7 @@ export default function JobDetailsPage() {
       <div className="jdp-container">
         {/* ── Left Column ── */}
         <main className="jdp-main">
-          
+
           {/* 1. Job Header Card */}
           <section className="jdp-card jdp-job-header-card">
             <div className="jdp-job-header">
@@ -136,7 +136,7 @@ export default function JobDetailsPage() {
                       <FiCheckCircle size={18} /> Applied
                     </button>
                   ) : (
-                    <button 
+                    <button
                       onClick={() => setHasApplied(true)}
                       className="jdp-apply-btn hover:bg-blue-900 transition-all font-black shadow-lg shadow-blue-900/20"
                     >
@@ -148,7 +148,7 @@ export default function JobDetailsPage() {
                 )}
               </div>
             </div>
-            
+
             <div className="mt-4 flex items-center gap-2 text-xs text-gray-500">
               <input type="checkbox" checked readOnly className="rounded" />
               <span>Follow {job.company} as you apply to stay updated</span>
@@ -228,7 +228,7 @@ export default function JobDetailsPage() {
           {/* 3. Job Description */}
           <section className="jdp-card jdp-description">
             <h2 className="jdp-section-title">Job description</h2>
-            
+
             <h4>About the Role</h4>
             <p>{job.jobDescription?.aboutRole || "We are looking for a skilled professional to join our growing team. You will be responsible for building and maintaining critical business infrastructure."}</p>
 
@@ -326,7 +326,7 @@ export default function JobDetailsPage() {
 
         {/* ── Right Column Sidebar ── */}
         <aside className="jdp-sidebar">
-          
+
           <div className="jdp-sidebar-card">
             <div className="flex justify-between items-center mb-4">
               <h3 className="jdp-sidebar-title">Jobs you might be interested in</h3>
@@ -369,8 +369,8 @@ export default function JobDetailsPage() {
             <div className="jdp-review-box">
               <div className="jdp-review-header">
                 <div className="jdp-rating-stars">
-                  {[1,2,3].map(i => <FaStar key={i} size={12} className="text-[#facc15]" />)}
-                  {[1,2].map(i => <FaStar key={i} size={12} className="text-[#e2e8f0]" />)}
+                  {[1, 2, 3].map(i => <FaStar key={i} size={12} className="text-[#facc15]" />)}
+                  {[1, 2].map(i => <FaStar key={i} size={12} className="text-[#e2e8f0]" />)}
                 </div>
                 <span className="jdp-rating-num">3.0</span>
               </div>

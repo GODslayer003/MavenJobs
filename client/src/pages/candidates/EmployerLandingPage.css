@@ -171,6 +171,182 @@
   border-radius: 12px;
 }
 
+/* ─── Mega Menu ───────────────────────────────────────── */
+.elp-nav-item {
+  position: static; /* Let mega-menu expand relative to the navbar container if needed, but we'll use a fixed position approach for consistency */
+}
+
+.elp-nav-link.dropdown {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.elp-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.elp-nav-link svg {
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.elp-mega-menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 50%;
+  width: 980px;
+  max-width: 95vw;
+  background: white;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(15px);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 24px 60px rgba(0, 35, 102, 0.12);
+  border: 1px solid var(--ep-slate-3);
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.elp-mega-menu.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.elp-mega-inner {
+  padding: 32px 36px;
+}
+
+.elp-mega-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 0.8fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Promo Column */
+.elp-mega-promo {
+  border-right: 1px solid var(--ep-slate-3);
+  padding-right: 32px;
+}
+
+.elp-promo-card {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.elp-promo-img {
+  width: 120px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.elp-promo-content h3 {
+  font-family: var(--ep-font-d);
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.35;
+  margin-bottom: 12px;
+  color: var(--ep-text-1);
+}
+
+.elp-promo-bullets {
+  margin-bottom: 16px;
+}
+
+.elp-promo-bullets p {
+  font-size: 0.82rem;
+  color: var(--ep-text-3);
+  margin-bottom: 6px;
+  line-height: 1.45;
+}
+
+.elp-promo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ep-blue);
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: gap 0.2s;
+}
+
+.elp-promo-link:hover {
+  gap: 10px;
+}
+
+/* Sections Column */
+.elp-mega-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.elp-section-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--ep-text-4);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.elp-section-links {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.elp-mega-link {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  transition: transform 0.2s;
+}
+
+.elp-mega-link:hover {
+  transform: translateX(4px);
+}
+
+.elp-mega-link-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ep-text-1);
+}
+
+.elp-mega-link:hover .elp-mega-link-title {
+  color: var(--ep-blue);
+}
+
+.elp-mega-link-desc {
+  font-size: 0.8rem;
+  color: var(--ep-text-4);
+  font-weight: 500;
+}
+
+.elp-mega-link.simple {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ep-text-2);
+  padding: 2px 0;
+}
+
+.elp-mega-link.simple:hover {
+  color: var(--ep-blue);
+}
+
+/* Navbar color adjustments for mega menu */
+.elp-nav:not(.scrolled) .elp-mega-menu {
+  background: white; /* Always white for readability */
+}
+
 /* ─── Hero ────────────────────────────────────────────── */
 .elp-hero {
   position: relative;

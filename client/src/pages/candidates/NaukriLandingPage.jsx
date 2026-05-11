@@ -15,9 +15,9 @@ import { FaXTwitter } from "react-icons/fa6";
 import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
 import qrImage from "../../assets/QR.png";
 import "./NaukriLandingPage.css";
-import SignUp from "../auth/SignUp";
-import Login from "../auth/Login";
-import { useAuth } from "../AuthContext";
+import SignUp from "../../auth/SignUp";
+import Login from "../../auth/Login";
+import { useAuth } from "../../AuthContext";
 
 const topCategories = ["All", "MNCs", "Fintech", "FMCG & Retail", "Startups", "Edtech", "IT Services"];
 
@@ -513,69 +513,69 @@ export default function NaukriLandingPage() {
               </Link>
             </div>
 
-          <div className="top-cats-row">
-            {topCategories.map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                className={`top-cat${activeTopCat === cat ? " active" : ""}`}
-                onClick={() => setActiveTopCat(cat)}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+            <div className="top-cats-row">
+              {topCategories.map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  className={`top-cat${activeTopCat === cat ? " active" : ""}`}
+                  onClick={() => setActiveTopCat(cat)}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
 
-          <div className="companies-grid">
-            {visibleCompanies.slice(companyPage * 4, companyPage * 4 + 4).map((company) => (
-              <div key={company.name} className="company-card">
-                <div className="company-card-header">
-                  <div className="company-logo" style={{ background: company.color }}>
-                    {company.logo}
-                  </div>
-                  <div className="company-card-meta">
-                    <h3 className="company-name">{company.name}</h3>
-                    <div className="company-rating">
-                      <FaStar className="star-icon" />
-                      <span className="rating-val">{company.rating}</span>
-                      <span className="rating-reviews">({company.reviews} reviews)</span>
+            <div className="companies-grid">
+              {visibleCompanies.slice(companyPage * 4, companyPage * 4 + 4).map((company) => (
+                <div key={company.name} className="company-card">
+                  <div className="company-card-header">
+                    <div className="company-logo" style={{ background: company.color }}>
+                      {company.logo}
+                    </div>
+                    <div className="company-card-meta">
+                      <h3 className="company-name">{company.name}</h3>
+                      <div className="company-rating">
+                        <FaStar className="star-icon" />
+                        <span className="rating-val">{company.rating}</span>
+                        <span className="rating-reviews">({company.reviews} reviews)</span>
+                      </div>
                     </div>
                   </div>
+                  <p className="company-desc">{company.desc}</p>
+                  <div className="company-card-footer">
+                    <span className="company-jobs-badge">
+                      <FiBriefcase /> {company.jobs} open roles
+                    </span>
+                    <button type="button" className="company-btn">
+                      View Jobs <FiArrowRight />
+                    </button>
+                  </div>
                 </div>
-                <p className="company-desc">{company.desc}</p>
-                <div className="company-card-footer">
-                  <span className="company-jobs-badge">
-                    <FiBriefcase /> {company.jobs} open roles
-                  </span>
-                  <button type="button" className="company-btn">
-                    View Jobs <FiArrowRight />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {maxCompanyPage > 0 && (
-            <div className="pagination-row">
-              <button
-                type="button"
-                className="page-btn"
-                disabled={companyPage === 0}
-                onClick={() => setCompanyPage((p) => Math.max(0, p - 1))}
-              >
-                ← Prev
-              </button>
-              <span className="page-indicator">{companyPage + 1} / {maxCompanyPage + 1}</span>
-              <button
-                type="button"
-                className="page-btn"
-                disabled={companyPage === maxCompanyPage}
-                onClick={() => setCompanyPage((p) => Math.min(maxCompanyPage, p + 1))}
-              >
-                Next →
-              </button>
+              ))}
             </div>
-          )}
+
+            {maxCompanyPage > 0 && (
+              <div className="pagination-row">
+                <button
+                  type="button"
+                  className="page-btn"
+                  disabled={companyPage === 0}
+                  onClick={() => setCompanyPage((p) => Math.max(0, p - 1))}
+                >
+                  ← Prev
+                </button>
+                <span className="page-indicator">{companyPage + 1} / {maxCompanyPage + 1}</span>
+                <button
+                  type="button"
+                  className="page-btn"
+                  disabled={companyPage === maxCompanyPage}
+                  onClick={() => setCompanyPage((p) => Math.min(maxCompanyPage, p + 1))}
+                >
+                  Next →
+                </button>
+              </div>
+            )}
           </div>
         </section>
 
@@ -592,23 +592,23 @@ export default function NaukriLandingPage() {
               </Link>
             </div>
 
-          <div className="cat-grid">
-            {categories.map((cat) => {
-              const Icon = cat.icon;
-              return (
-                <div key={cat.label} className="cat-card">
-                  <div className="cat-icon-wrap">
-                    <Icon />
+            <div className="cat-grid">
+              {categories.map((cat) => {
+                const Icon = cat.icon;
+                return (
+                  <div key={cat.label} className="cat-card">
+                    <div className="cat-icon-wrap">
+                      <Icon />
+                    </div>
+                    <div className="cat-body">
+                      <h3 className="cat-label">{cat.label}</h3>
+                      <p className="cat-desc">{cat.description}</p>
+                    </div>
+                    <span className="cat-count">{cat.count}</span>
                   </div>
-                  <div className="cat-body">
-                    <h3 className="cat-label">{cat.label}</h3>
-                    <p className="cat-desc">{cat.description}</p>
-                  </div>
-                  <span className="cat-count">{cat.count}</span>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
           </div>
         </section>
 
@@ -622,15 +622,15 @@ export default function NaukriLandingPage() {
               </div>
             </div>
 
-          <div className="roles-grid">
-            {jobRoles.map((role) => (
-              <Link to="/jobs" key={role.name} className="role-chip">
-                <span className="role-name">{role.name}</span>
-                <span className="role-count">{role.count}</span>
-                <FiArrowRight className="role-arrow" />
-              </Link>
-            ))}
-          </div>
+            <div className="roles-grid">
+              {jobRoles.map((role) => (
+                <Link to="/jobs" key={role.name} className="role-chip">
+                  <span className="role-name">{role.name}</span>
+                  <span className="role-count">{role.count}</span>
+                  <FiArrowRight className="role-arrow" />
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -647,30 +647,30 @@ export default function NaukriLandingPage() {
               </button>
             </div>
 
-          <div className="events-grid">
-            {events.map((ev) => (
-              <div key={ev.title} className="event-card">
-                <div className="event-img-wrap">
-                  <img src={ev.image} alt={ev.title} className="event-img" />
-                  <span className={`event-badge badge-${ev.badge.toLowerCase()}`}>{ev.badge}</span>
-                  <span className="event-time-left">
-                    <FiClock size={11} /> {ev.timeLeft}
-                  </span>
-                </div>
-                <div className="event-body">
-                  <p className="event-provider">{ev.provider}</p>
-                  <h3 className="event-title">{ev.title}</h3>
-                  <div className="event-tags">
-                    {ev.tags.map((t) => <span key={t} className="event-tag">{t}</span>)}
+            <div className="events-grid">
+              {events.map((ev) => (
+                <div key={ev.title} className="event-card">
+                  <div className="event-img-wrap">
+                    <img src={ev.image} alt={ev.title} className="event-img" />
+                    <span className={`event-badge badge-${ev.badge.toLowerCase()}`}>{ev.badge}</span>
+                    <span className="event-time-left">
+                      <FiClock size={11} /> {ev.timeLeft}
+                    </span>
                   </div>
-                  <div className="event-footer">
-                    <span className="event-date"><FiClock size={12} /> {ev.date}</span>
-                    <span className="event-enrolled"><FiUsers size={12} /> {ev.enrolled} enrolled</span>
+                  <div className="event-body">
+                    <p className="event-provider">{ev.provider}</p>
+                    <h3 className="event-title">{ev.title}</h3>
+                    <div className="event-tags">
+                      {ev.tags.map((t) => <span key={t} className="event-tag">{t}</span>)}
+                    </div>
+                    <div className="event-footer">
+                      <span className="event-date"><FiClock size={12} /> {ev.date}</span>
+                      <span className="event-enrolled"><FiUsers size={12} /> {ev.enrolled} enrolled</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -684,39 +684,39 @@ export default function NaukriLandingPage() {
               </div>
             </div>
 
-          <div className="interview-grid">
-            <div className="interview-col">
-              <h3 className="interview-col-title">By Company</h3>
-              <div className="interview-company-list">
-                {interviewCompanies.map((ic) => (
-                  <div key={ic.name} className="interview-company-row">
-                    <div className="interview-logo" style={{ background: ic.color }}>{ic.logo}</div>
-                    <div className="interview-info">
-                      <span className="interview-name">{ic.name}</span>
-                      <span className="interview-count">{ic.count}</span>
+            <div className="interview-grid">
+              <div className="interview-col">
+                <h3 className="interview-col-title">By Company</h3>
+                <div className="interview-company-list">
+                  {interviewCompanies.map((ic) => (
+                    <div key={ic.name} className="interview-company-row">
+                      <div className="interview-logo" style={{ background: ic.color }}>{ic.logo}</div>
+                      <div className="interview-info">
+                        <span className="interview-name">{ic.name}</span>
+                        <span className="interview-count">{ic.count}</span>
+                      </div>
+                      <FiChevronRight className="interview-arrow" />
                     </div>
-                    <FiChevronRight className="interview-arrow" />
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <div className="interview-col">
-              <h3 className="interview-col-title">By Role</h3>
-              <div className="interview-role-list">
-                {interviewRoles.map((ir) => (
-                  <div key={ir.name} className="interview-role-row">
-                    <div className="interview-role-dot" />
-                    <div className="interview-info">
-                      <span className="interview-name">{ir.name}</span>
-                      <span className="interview-count">{ir.count}</span>
+              <div className="interview-col">
+                <h3 className="interview-col-title">By Role</h3>
+                <div className="interview-role-list">
+                  {interviewRoles.map((ir) => (
+                    <div key={ir.name} className="interview-role-row">
+                      <div className="interview-role-dot" />
+                      <div className="interview-info">
+                        <span className="interview-name">{ir.name}</span>
+                        <span className="interview-count">{ir.count}</span>
+                      </div>
+                      <FiChevronRight className="interview-arrow" />
                     </div>
-                    <FiChevronRight className="interview-arrow" />
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
           </div>
         </section>
 

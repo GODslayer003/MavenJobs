@@ -12,14 +12,14 @@ import {
 import { FaWhatsapp, FaLinkedinIn, FaTwitter as FaXTwitter, FaFacebookF } from 'react-icons/fa';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { GiCrown } from 'react-icons/gi';
-import { useAuth } from '../AuthContext';
-import RecommendedJobs from './RecommendedJobs';
-import EarlyAccessModal from '../components/EarlyAccessModal';
+import { useAuth } from '../../AuthContext';
+import RecommendedJobs from '../RecommendedJobs';
+import EarlyAccessModal from '../../components/EarlyAccessModal';
 import './ProfileDashboard.css';
 import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
-import ResumeTemplate from '../components/ResumeTemplate';
+import ResumeTemplate from '../../components/ResumeTemplate';
 
 const FaqItem = ({ index, question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -609,12 +609,12 @@ export default function ProfileDashboard() {
 
           <Link to="/leave" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
             <div className="pd-card" style={{ padding: 0, overflow: 'hidden', margin: 0, transition: 'transform 0.2s, box-shadow 0.2s' }}
-                 onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,30,80,0.08)'; }}
-                 onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,30,80,0.04)'; }}>
-              <img 
-                src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=400&h=200" 
-                alt="Leave Application" 
-                style={{ width: '100%', height: '130px', objectFit: 'cover', display: 'block', borderBottom: '1px solid #E2E8F0' }} 
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,30,80,0.08)'; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,30,80,0.04)'; }}>
+              <img
+                src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=400&h=200"
+                alt="Leave Application"
+                style={{ width: '100%', height: '130px', objectFit: 'cover', display: 'block', borderBottom: '1px solid #E2E8F0' }}
               />
               <div style={{ padding: '18px 20px 22px' }}>
                 <h4 style={{ fontSize: '15px', fontWeight: 800, color: '#0F172A', marginBottom: '8px', lineHeight: 1.35, letterSpacing: '-0.01em' }}>
