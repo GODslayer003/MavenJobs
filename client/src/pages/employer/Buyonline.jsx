@@ -3,11 +3,10 @@ import { Link } from 'react-router-dom';
 import {
   FiCheck, FiX, FiUsers, FiChevronDown, FiArrowRight,
   FiBriefcase, FiPhoneCall, FiSearch, FiZap, FiShield,
-  FiTrendingUp, FiStar, FiAward, FiBarChart2, FiMessageCircle,
+  FiTrendingUp, FiStar, FiAward, FiBarChart2, FiMessageCircle, FiHeart,
 } from 'react-icons/fi';
 import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
 import { useAuth } from '../../AuthContext';
-
 
 /* ── Helpers ── */
 function useScrollY() {
@@ -185,10 +184,10 @@ function PlanCard({ plan, index, onBuy }) {
 
       <div style={{ marginBottom: 4 }}>
         {plan.isFree
-          ? <span style={{ fontSize: 34, fontWeight: 800, color: '#10b981', fontFamily: "'Bricolage Grotesque', sans-serif" }}>Free</span>
+          ? <span style={{ fontSize: 30, fontWeight: 800, color: '#10b981', fontFamily: "'Bricolage Grotesque', sans-serif" }}>Free</span>
           : <>
-            <span style={{ fontSize: 34, fontWeight: 800, color: plan.hot ? '#FFFFFF' : '#002366', fontFamily: "'Bricolage Grotesque', sans-serif" }}>{plan.price}</span>
-            <span style={{ fontSize: 12.5, color: plan.hot ? '#64748b' : '#94a3b8', marginLeft: 5 }}>+GST</span>
+            <span style={{ fontSize: 30, fontWeight: 800, color: plan.hot ? '#FFFFFF' : '#002366', fontFamily: "'Bricolage Grotesque', sans-serif" }}>{plan.price}</span>
+            <span style={{ fontSize: 11.5, color: plan.hot ? '#64748b' : '#94a3b8', marginLeft: 5 }}>+GST</span>
           </>
         }
       </div>
@@ -246,11 +245,11 @@ function StatCard({ value, label, index }) {
       opacity: visible ? 1 : 0,
       transform: visible ? 'translateY(0)' : 'translateY(20px)',
       transition: `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`,
-      textAlign: 'center', padding: '36px 16px',
+      textAlign: 'center', padding: '28px 16px',
       borderRight: index < 3 ? '1px solid #e2e8f0' : 'none',
     }}>
-      <div style={{ fontSize: 40, fontWeight: 800, color: '#002366', lineHeight: 1, marginBottom: 7, fontFamily: "'Bricolage Grotesque', sans-serif", letterSpacing: '-0.03em' }}>{value}</div>
-      <div style={{ fontSize: 11, color: '#94a3b8', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{label}</div>
+      <div style={{ fontSize: 32, fontWeight: 800, color: '#002366', lineHeight: 1, marginBottom: 5, fontFamily: "'Bricolage Grotesque', sans-serif", letterSpacing: '-0.03em' }}>{value}</div>
+      <div style={{ fontSize: 10.5, color: '#94a3b8', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{label}</div>
     </div>
   );
 }
@@ -394,9 +393,9 @@ export default function Buyonline() {
         .pm-main-btn:hover { background: #001540; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,35,102,0.2); }
         .pm-secure-note { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 16px; font-size: 11px; color: #94a3b8; font-weight: 600; }
 
-        .pm-input-group { margin-bottom: 18px; }
-        .pm-input-group label { display: block; font-size: 13px; font-weight: 700; color: #475569; margin-bottom: 8px; }
-        .pm-input-group input { width: 100%; padding: 12px 16px; border: 1.5px solid #e2e8f0; border-radius: 12px; font-size: 14px; outline: none; }
+        .pm-input-group { margin-bottom: 15px; }
+        .pm-input-group label { display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 6px; }
+        .pm-input-group input { width: 100%; padding: 10px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 13px; outline: none; }
         .pm-input-group input:focus { border-color: #10b981; }
 
         @media(max-width: 800px) {
@@ -457,11 +456,11 @@ export default function Buyonline() {
               <FiZap size={11} /> India's #1 Employer Platform
             </div>
 
-            <h1 style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontSize: 'clamp(40px,5.2vw,64px)', fontWeight: 800, lineHeight: 1.04, color: '#0f172a', marginBottom: 22, letterSpacing: '-0.03em', opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(28px)', transition: 'opacity 0.55s ease 0.2s, transform 0.55s ease 0.2s' }}>
+            <h1 style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontSize: 'clamp(34px,4.5vw,54px)', fontWeight: 800, lineHeight: 1.08, color: '#0f172a', marginBottom: 18, letterSpacing: '-0.03em', opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(28px)', transition: 'opacity 0.55s ease 0.2s, transform 0.55s ease 0.2s' }}>
               Find, Attract &amp;<br /><span style={{ color: '#002366' }}>Hire</span> <span style={{ color: '#10b981' }}>Exceptional</span><br />Talent — Fast
             </h1>
 
-            <p style={{ fontSize: 16.5, color: '#64748b', lineHeight: 1.78, marginBottom: 38, maxWidth: 480, opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(20px)', transition: 'opacity 0.55s ease 0.3s, transform 0.55s ease 0.3s' }}>
+            <p style={{ fontSize: 15.5, color: '#64748b', lineHeight: 1.72, marginBottom: 34, maxWidth: 460, opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'translateY(0)' : 'translateY(20px)', transition: 'opacity 0.55s ease 0.3s, transform 0.55s ease 0.3s' }}>
               Connect with 8 crore+ active job seekers on MavenJobs. Post jobs, search resumes, and build your dream team — all in one platform built for Indian businesses.
             </p>
 
@@ -852,7 +851,7 @@ export default function Buyonline() {
         <div className="pm-overlay" onClick={() => setActiveModalPlan(null)}>
           <div className="pm-box" onClick={e => e.stopPropagation()}>
             <button className="pm-close" onClick={() => setActiveModalPlan(null)}><FiX size={20} /></button>
-            
+
             <div className="pm-container">
               {/* Left Column: Summary */}
               <div className="pm-left">
@@ -971,7 +970,7 @@ export default function Buyonline() {
           </div>
           <div style={{ borderTop: '1px solid #1e293b', paddingTop: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
             <p style={{ fontSize: 13, color: '#334155' }}>© 2026 MavenJobs Private Limited · All rights reserved · CIN: U74999KA2022PTC000001</p>
-            <p style={{ fontSize: 13, color: '#334155' }}>Made with ❤️ in India</p>
+            <p style={{ fontSize: 13, color: '#334155', display: 'flex', alignItems: 'center', gap: 5 }}>Made with <FiHeart size={12} style={{ color: '#ef4444' }} fill="#ef4444" /> in India</p>
           </div>
         </div>
       </footer>

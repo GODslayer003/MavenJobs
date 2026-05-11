@@ -2,6 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
+import {
+    FiZap, FiAward, FiTrendingUp, FiTruck, FiHome, FiMonitor,
+    FiPlusCircle, FiSend, FiLayers, FiShoppingCart, FiPlus,
+    FiPhone, FiMail, FiCheck, FiX, FiArrowRight, FiTarget, FiActivity, FiHeart
+} from 'react-icons/fi';
 import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -10,9 +15,9 @@ gsap.registerPlugin(ScrollTrigger);
 const CLIENTS = ['QVIA', 'J.P.Morgan', 'Labcorp', 'NatWest Group', 'Polaris', 'Publicis Sapient', 'Tech Mahindra', 'Adobe', 'Deloitte', 'Genpact'];
 
 const FEATURES = [
-    { icon: '⚡', title: 'Faster Time-to-Hire', desc: 'Reduces hiring time using multiple sourcing channels & AI-driven tools.', color: '#002366' },
-    { icon: '💎', title: 'Best ROI Guaranteed', desc: 'Fixed fee model with clear SLA & complete process visibility throughout.', color: '#10b981' },
-    { icon: '📈', title: 'Scalable Support', desc: 'Easily manage volume hiring with our expert on-demand hiring support.', color: '#6366f1' },
+    { icon: <FiZap size={20} />, title: 'Faster Time-to-Hire', desc: 'Reduces hiring time using multiple sourcing channels & AI-driven tools.', color: '#002366' },
+    { icon: <FiAward size={20} />, title: 'Best ROI Guaranteed', desc: 'Fixed fee model with clear SLA & complete process visibility throughout.', color: '#10b981' },
+    { icon: <FiTrendingUp size={20} />, title: 'Scalable Support', desc: 'Easily manage volume hiring with our expert on-demand hiring support.', color: '#6366f1' },
 ];
 
 const STEPS = [
@@ -29,14 +34,14 @@ const PLANS = [
 ];
 
 const DOMAINS = [
-    { icon: '🚗', name: 'Auto', sub: 'Design, Engineering, Quality' },
-    { icon: '🏦', name: 'BFSI', sub: 'Finance, Risk, Compliance' },
-    { icon: '💻', name: 'IT', sub: 'AI/ML, DevOps, Security' },
-    { icon: '🏥', name: 'Healthcare', sub: 'Medical, Pharma, Research' },
-    { icon: '✈️', name: 'Tourism', sub: 'Travel, F&B, Events' },
-    { icon: '🏭', name: 'Manufacturing', sub: 'Engineering, Production, Quality' },
-    { icon: '🛒', name: 'Consumer & Retail', sub: 'Operations, Marketing, Sales' },
-    { icon: '➕', name: 'And many more', sub: 'Contact us for your domain' },
+    { icon: <FiTruck size={18} />, name: 'Auto', sub: 'Design, Engineering, Quality' },
+    { icon: <FiHome size={18} />, name: 'BFSI', sub: 'Finance, Risk, Compliance' },
+    { icon: <FiMonitor size={18} />, name: 'IT', sub: 'AI/ML, DevOps, Security' },
+    { icon: <FiPlusCircle size={18} />, name: 'Healthcare', sub: 'Medical, Pharma, Research' },
+    { icon: <FiTarget size={18} />, name: 'Tourism', sub: 'Travel, F&B, Events' },
+    { icon: <FiLayers size={18} />, name: 'Manufacturing', sub: 'Engineering, Production, Quality' },
+    { icon: <FiShoppingCart size={18} />, name: 'Consumer & Retail', sub: 'Operations, Marketing, Sales' },
+    { icon: <FiPlus size={18} />, name: 'And many more', sub: 'Contact us for your domain' },
 ];
 
 const TESTIMONIALS = [
@@ -86,8 +91,8 @@ function CounterStat({ val, label, delay }) {
     }, [delay]);
     return (
         <div ref={ref} style={{ opacity: 0, textAlign: 'center' }}>
-            <div style={{ fontFamily: "'Bricolage Grotesque',sans-serif", fontSize: 'clamp(32px,4vw,52px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.04em', lineHeight: 1 }}>{val}</div>
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,.5)', fontWeight: 600, marginTop: 6, textTransform: 'uppercase', letterSpacing: '.12em' }}>{label}</div>
+            <div style={{ fontFamily: "'Bricolage Grotesque',sans-serif", fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.04em', lineHeight: 1 }}>{val}</div>
+            <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,.5)', fontWeight: 600, marginTop: 5, textTransform: 'uppercase', letterSpacing: '.12em' }}>{label}</div>
         </div>
     );
 }
@@ -101,6 +106,8 @@ export default function ExpertAssist() {
     const vidRef = useRef(null);
     const [activeTestimonial, setActiveTestimonial] = useState(0);
     const [formData, setFormData] = useState({ name: '', phone: '', email: '' });
+    const [showVideo, setShowVideo] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
 
     /* ── Entrance GSAP ── */
     useEffect(() => {
@@ -125,6 +132,13 @@ export default function ExpertAssist() {
         return () => ctx.revert();
     }, []);
 
+    /* ── Scroll effect ── */
+    useEffect(() => {
+        const fn = () => setScrolled(window.scrollY > 20);
+        window.addEventListener('scroll', fn, { passive: true });
+        return () => window.removeEventListener('scroll', fn);
+    }, []);
+
     /* ── Scroll reveals ── */
     useEffect(() => {
         const triggers = [];
@@ -147,7 +161,7 @@ export default function ExpertAssist() {
     }, []);
 
     return (
-        <div style={{ background: '#f8fafc', fontFamily: "'DM Sans',system-ui,sans-serif", color: '#1e293b', overflowX: 'hidden' }}>
+        <div style={{ background: '#f8fafc', fontFamily: "'DM Sans',system-ui,sans-serif", color: '#1e293b', overflowX: 'clip' }}>
             <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -166,7 +180,7 @@ export default function ExpertAssist() {
         .cta-btn:hover{background:#0da371;transform:translateY(-2px);box-shadow:0 12px 32px rgba(16,185,129,.45)}
         .cta-btn-outline{padding:13px 30px;background:transparent;color:var(--navy);font-weight:800;font-size:14px;border-radius:100px;border:2px solid var(--navy);cursor:pointer;font-family:var(--fd);letter-spacing:.02em;display:inline-flex;align-items:center;gap:8px;transition:all .25s;text-decoration:none}
         .cta-btn-outline:hover{background:var(--navy);color:#fff}
-        .sf-field{width:100%;padding:12px 16px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;outline:none;font-size:14px;font-weight:500;color:#0f172a;font-family:'DM Sans',sans-serif;transition:border-color .2s,background .2s}
+        .sf-field{width:100%;padding:10px 14px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;outline:none;font-size:13px;font-weight:500;color:#0f172a;font-family:'DM Sans',sans-serif;transition:border-color .2s,background .2s}
         .sf-field:focus{border-color:rgba(0,35,102,.3);background:#fff}
         .sf-field::placeholder{color:#94a3b8}
         ::-webkit-scrollbar{width:5px}
@@ -174,9 +188,16 @@ export default function ExpertAssist() {
       `}</style>
 
             {/* ── NAV ── */}
-            <header style={{ background: 'rgba(255,255,255,.96)', borderBottom: '1px solid #e2e8f0', position: 'sticky', top: 0, zIndex: 1000, backdropFilter: 'blur(20px)' }}>
+            <header style={{
+                background: scrolled ? 'rgba(255,255,255,.98)' : 'rgba(255,255,255,.96)',
+                borderBottom: scrolled ? '1px solid #e2e8f0' : '1px solid transparent',
+                position: 'sticky', top: 0, zIndex: 1000,
+                backdropFilter: 'blur(20px)',
+                boxShadow: scrolled ? '0 10px 30px rgba(0,0,0,.06)' : 'none',
+                transition: 'all .4s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}>
                 <div style={{ background: 'linear-gradient(90deg,#001540,#002b7a,#001540)', backgroundSize: '200% 100%', animation: 'shimmer 5s linear infinite', padding: '9px 0', textAlign: 'center', fontSize: 11, fontWeight: 800, letterSpacing: '.15em', color: '#fff', textTransform: 'uppercase', fontFamily: 'var(--fd)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
-                    ⚡ India's Most Trusted Expert Hiring Service — 30,000+ Companies Served
+                    <FiZap size={11} fill="currentColor" /> India's Most Trusted Expert Hiring Service — 30,000+ Companies Served
                 </div>
                 <nav style={{ maxWidth: 1280, margin: '0 auto', padding: '0 44px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Link to="/" style={{ textDecoration: 'none' }}>
@@ -199,15 +220,15 @@ export default function ExpertAssist() {
 
                 <div style={{ maxWidth: 1280, margin: '0 auto', padding: '80px 44px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center', position: 'relative', zIndex: 2, width: '100%' }}>
                     <div>
-                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(16,185,129,.12)', border: '1px solid rgba(16,185,129,.28)', color: '#6ee7b7', fontSize: 10.5, fontWeight: 800, letterSpacing: '.18em', textTransform: 'uppercase', padding: '6px 16px', borderRadius: 100, marginBottom: 28, fontFamily: 'var(--fd)', backdropFilter: 'blur(8px)' }}>
-                            ✦ MavenJobs Expert Assist
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(16,185,129,.12)', border: '1px solid rgba(16,185,129,.28)', color: '#6ee7b7', fontSize: 9.5, fontWeight: 800, letterSpacing: '.16em', textTransform: 'uppercase', padding: '5px 14px', borderRadius: 100, marginBottom: 24, fontFamily: 'var(--fd)', backdropFilter: 'blur(8px)' }}>
+                            <FiActivity size={10} /> MavenJobs Expert Assist
                         </div>
-                        <h1 ref={headRef} style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(36px,5vw,62px)', fontWeight: 800, color: '#fff', lineHeight: 1.06, letterSpacing: '-0.04em', marginBottom: 20, opacity: 0 }}>
+                        <h1 ref={headRef} style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(32px,4.5vw,54px)', fontWeight: 800, color: '#fff', lineHeight: 1.08, letterSpacing: '-0.04em', marginBottom: 18, opacity: 0 }}>
                             Leave sourcing,<br />
                             <span style={{ color: '#10b981' }}>shortlisting</span> and<br />
                             scheduling to us.
                         </h1>
-                        <p ref={subRef} style={{ fontSize: 17, color: 'rgba(255,255,255,.58)', lineHeight: 1.78, marginBottom: 36, maxWidth: 460, opacity: 0 }}>
+                        <p ref={subRef} style={{ fontSize: 15.5, color: 'rgba(255,255,255,.54)', lineHeight: 1.72, marginBottom: 32, maxWidth: 440, opacity: 0 }}>
                             Our 200+ domain experts with 15+ years of experience act as an extension of your recruitment team — so you focus only on interviewing the best.
                         </p>
                         <div ref={btnRef} style={{ display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'center', opacity: 0 }}>
@@ -216,11 +237,11 @@ export default function ExpertAssist() {
                         </div>
 
                         {/* mini stats */}
-                        <div style={{ display: 'flex', gap: 32, marginTop: 48, paddingTop: 36, borderTop: '1px solid rgba(255,255,255,.08)' }}>
+                        <div style={{ display: 'flex', gap: 32, marginTop: 44, paddingTop: 32, borderTop: '1px solid rgba(255,255,255,.08)' }}>
                             {[{ v: '30K+', l: 'Clients' }, { v: '1L+', l: 'Roles Filled' }, { v: '6L+', l: 'Interviews' }].map((s, i) => (
                                 <div key={i}>
-                                    <div style={{ fontFamily: 'var(--fd)', fontSize: 26, fontWeight: 800, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1 }}>{s.v}</div>
-                                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,.4)', fontWeight: 700, marginTop: 3, textTransform: 'uppercase', letterSpacing: '.1em' }}>{s.l}</div>
+                                    <div style={{ fontFamily: 'var(--fd)', fontSize: 22, fontWeight: 800, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1 }}>{s.v}</div>
+                                    <div style={{ fontSize: 10.5, color: 'rgba(255,255,255,.35)', fontWeight: 700, marginTop: 3, textTransform: 'uppercase', letterSpacing: '.1em' }}>{s.l}</div>
                                 </div>
                             ))}
                         </div>
@@ -228,11 +249,21 @@ export default function ExpertAssist() {
 
                     {/* Video card */}
                     <div ref={vidRef} style={{ opacity: 0 }}>
-                        <div style={{ background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.1)', borderRadius: 24, overflow: 'hidden', backdropFilter: 'blur(16px)', boxShadow: '0 32px 80px rgba(0,0,0,.4)' }}>
+                        <div
+                            onClick={() => setShowVideo(true)}
+                            style={{
+                                background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.1)',
+                                borderRadius: 24, overflow: 'hidden', backdropFilter: 'blur(16px)',
+                                boxShadow: '0 32px 80px rgba(0,0,0,.4)', cursor: 'pointer',
+                                transition: 'transform .3s ease, border-color .3s ease',
+                            }}
+                            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)'; e.currentTarget.style.borderColor = 'rgba(16,185,129,.3)' }}
+                            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0) scale(1)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,.1)' }}
+                        >
                             <div style={{ height: 3, background: 'linear-gradient(90deg,#002366,#10b981)' }} />
                             <div style={{ padding: 6 }}>
                                 <div style={{ background: '#000', borderRadius: 18, overflow: 'hidden', position: 'relative', aspectRatio: '16/9' }}>
-                                    <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=700&q=80" alt="Expert Assist" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: .7 }} />
+                                    <img src="https://img.youtube.com/vi/1qw5ITr3k9E/maxresdefault.jpg" alt="Expert Assist" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: .8 }} />
                                     <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                         <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(16,185,129,.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(8px)', boxShadow: '0 0 0 12px rgba(16,185,129,.2)', animation: 'float 3s ease-in-out infinite' }}>
                                             <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3" /></svg>
@@ -244,13 +275,13 @@ export default function ExpertAssist() {
                                     </div>
                                 </div>
                             </div>
-                            <div style={{ padding: '18px 22px 22px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div style={{ padding: '16px 20px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <div>
-                                    <div style={{ fontFamily: 'var(--fd)', fontSize: 15, fontWeight: 800, color: '#fff' }}>Watch how it works</div>
-                                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,.45)', marginTop: 2 }}>1:01 · Product overview</div>
+                                    <div style={{ fontFamily: 'var(--fd)', fontSize: 14, fontWeight: 800, color: '#fff' }}>Watch how it works</div>
+                                    <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,.4)', marginTop: 2 }}>1:01 · Product overview</div>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#10b981' }}>
-                                    <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#10b981', animation: 'float 1.5s ease-in-out infinite' }} />
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, fontWeight: 700, color: '#10b981' }}>
+                                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#10b981', animation: 'float 1.5s ease-in-out infinite' }} />
                                     Live Demo Available
                                 </div>
                             </div>
@@ -271,7 +302,7 @@ export default function ExpertAssist() {
             <section style={{ background: '#fff', padding: '96px 0' }}>
                 <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 44px' }}>
                     <div className="reveal" style={{ textAlign: 'center', marginBottom: 60 }}>
-                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 10, fontWeight: 800, letterSpacing: '.2em', textTransform: 'uppercase', color: '#10b981', marginBottom: 12, fontFamily: 'var(--fd)' }}>✦ Why Choose Us</div>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 10, fontWeight: 800, letterSpacing: '.2em', textTransform: 'uppercase', color: '#10b981', marginBottom: 12, fontFamily: 'var(--fd)' }}><FiActivity size={10} /> Why Choose Us</div>
                         <h2 style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em', marginBottom: 14 }}>What makes Expert Assist different?</h2>
                         <div style={{ width: 44, height: 3, background: 'linear-gradient(90deg,#002366,#10b981)', borderRadius: 3, margin: '0 auto 20px' }} />
                         <p style={{ fontSize: 16, color: '#64748b', maxWidth: 560, margin: '0 auto', lineHeight: 1.75 }}>Our 200+ domain recruitment experts with 15+ years of experience act as an extension of your recruitment team.</p>
@@ -406,7 +437,7 @@ export default function ExpertAssist() {
             <section style={{ background: '#fff', padding: '96px 0' }}>
                 <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 44px' }}>
                     <div className="reveal" style={{ textAlign: 'center', marginBottom: 56 }}>
-                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 10, fontWeight: 800, letterSpacing: '.2em', textTransform: 'uppercase', color: '#10b981', marginBottom: 12, fontFamily: 'var(--fd)' }}>✦ Client Stories</div>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 10, fontWeight: 800, letterSpacing: '.2em', textTransform: 'uppercase', color: '#10b981', marginBottom: 12, fontFamily: 'var(--fd)' }}><FiActivity size={10} /> Client Stories</div>
                         <h2 style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em', marginBottom: 12 }}>What our clients say</h2>
                         <div style={{ width: 44, height: 3, background: 'linear-gradient(90deg,#002366,#10b981)', borderRadius: 3, margin: '0 auto 16px' }} />
                         <p style={{ fontSize: 16, color: '#64748b', maxWidth: 520, margin: '0 auto', lineHeight: 1.75 }}>See how Expert Assist has helped companies solve their hiring needs</p>
@@ -455,7 +486,7 @@ export default function ExpertAssist() {
                     <div style={{ background: 'linear-gradient(135deg,#f0f4fb,#e8f0fe)', border: '1.5px solid #e2e8f0', borderRadius: 32, overflow: 'hidden', display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 480 }}>
                         {/* Left */}
                         <div className="reveal" style={{ padding: '60px 52px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 10, fontWeight: 800, letterSpacing: '.2em', textTransform: 'uppercase', color: '#10b981', marginBottom: 16, fontFamily: 'var(--fd)' }}>✦ Get Started Today</div>
+                            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 10, fontWeight: 800, letterSpacing: '.2em', textTransform: 'uppercase', color: '#10b981', marginBottom: 16, fontFamily: 'var(--fd)' }}><FiActivity size={10} /> Get Started Today</div>
                             <h2 style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(26px,3vw,38px)', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em', marginBottom: 16, lineHeight: 1.1 }}>Know more about<br /><span style={{ color: '#002366' }}>MavenJobs Expert Assist</span></h2>
                             <div style={{ width: 44, height: 3, background: 'linear-gradient(90deg,#002366,#10b981)', borderRadius: 3, marginBottom: 20 }} />
                             {[{ t: 'Get a personalized consultation', s: 'Our experts will understand your exact hiring needs.' }, { t: 'Learn how it will help you', s: 'See exactly how we save you time and cost in hiring.' }].map((b, i) => (
@@ -501,9 +532,9 @@ export default function ExpertAssist() {
                             <img src={mavenLogo} alt="MavenJobs" style={{ height: 28, marginBottom: 18, filter: 'invert(1) brightness(2)' }} />
                             <p style={{ fontSize: 14, color: 'rgba(255,255,255,.38)', lineHeight: 1.65 }}>India's most trusted expert hiring service — connecting companies with their best-fit talent.</p>
                             <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
-                                {['1800-102-5557', 'assist@mavenjobs.com'].map((c, i) => (
+                                {[{ icon: <FiPhone size={13} />, val: '1800-102-5557' }, { icon: <FiMail size={13} />, val: 'assist@mavenjobs.com' }].map((c, i) => (
                                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '7px 14px', background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.08)', borderRadius: 10, fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,.55)' }}>
-                                        {i === 0 ? '📞' : '✉️'} {c}
+                                        {c.icon} {c.val}
                                     </div>
                                 ))}
                             </div>
@@ -521,10 +552,52 @@ export default function ExpertAssist() {
                     </div>
                     <div style={{ borderTop: '1px solid rgba(255,255,255,.05)', paddingTop: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
                         <p style={{ fontSize: 13, color: 'rgba(255,255,255,.28)' }}>© 2026 MavenJobs Private Limited · All rights reserved</p>
-                        <p style={{ fontSize: 13, color: 'rgba(255,255,255,.28)' }}>Made with ❤️ in India</p>
+                        <p style={{ fontSize: 13, color: 'rgba(255,255,255,.28)', display: 'flex', alignItems: 'center', gap: 5 }}>Made with <FiHeart size={12} style={{ color: '#ef4444' }} fill="#ef4444" /> in India</p>
                     </div>
                 </div>
             </footer>
+
+            {/* ── VIDEO MODAL ── */}
+            {showVideo && (
+                <div style={{
+                    position: 'fixed', inset: 0, background: 'rgba(2,6,23,.94)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    zIndex: 2000, backdropFilter: 'blur(12px)', padding: 24,
+                }} onClick={() => setShowVideo(false)}>
+                    <div style={{
+                        width: '100%', maxWidth: 1000, position: 'relative',
+                        aspectRatio: '16/9', borderRadius: 24, overflow: 'hidden',
+                        boxShadow: '0 32px 100px rgba(0,0,0,.8)', background: '#000',
+                        border: '1px solid rgba(255,255,255,.1)',
+                    }} onClick={e => e.stopPropagation()}>
+                        <button
+                            onClick={() => setShowVideo(false)}
+                            style={{
+                                position: 'absolute', top: 20, right: 20, zIndex: 10,
+                                width: 44, height: 44, borderRadius: '50%',
+                                background: 'rgba(0,0,0,.5)', border: '1px solid rgba(255,255,255,.1)',
+                                color: '#fff', display: 'flex', alignItems: 'center',
+                                justifyContent: 'center', cursor: 'pointer', backdropFilter: 'blur(8px)',
+                                transition: 'all .2s',
+                            }}
+                            onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,.1)'}
+                            onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,0,0,.5)'}
+                        >
+                            <FiX size={24} />
+                        </button>
+                        <iframe
+                            width="100%"
+                            height="100%"
+                            src="https://www.youtube.com/embed/1qw5ITr3k9E?autoplay=1&rel=0"
+                            title="MavenJobs Expert Assist"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                            style={{ border: 'none' }}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

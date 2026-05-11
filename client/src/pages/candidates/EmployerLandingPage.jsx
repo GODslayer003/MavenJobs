@@ -5,7 +5,7 @@ import {
   FiArrowRight, FiUsers, FiZap, FiSearch, FiAward,
   FiMessageSquare, FiCheckCircle, FiTrendingUp, FiBriefcase,
   FiX, FiChevronDown, FiPlay, FiShield, FiBarChart2,
-  FiTarget, FiCpu, FiLayers
+  FiTarget, FiCpu, FiLayers, FiHelpCircle
 } from 'react-icons/fi';
 import { FaBuilding, FaQuoteLeft } from 'react-icons/fa';
 import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
@@ -173,10 +173,17 @@ const EmployerLandingPage = () => {
             <a href="#how-it-works" className="elp-nav-link">How it works</a>
             <a href="#resources" className="elp-nav-link">Resources</a>
           </div>
-          <div className="elp-nav-actions">
+          <div className="elp-nav-actions" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <Link to="/buy-online" className="elp-btn-outline">Buy online</Link>
             <button className="elp-btn-filled" onClick={() => navigate('/post-job')}>Post a job</button>
-
+            <Link to="/employer-help" className="elp-help-trigger" title="Help & Support" style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.1)', color: '#fff', textDecoration: 'none',
+              transition: 'all 0.2s ease', cursor: 'pointer'
+            }}>
+              <FiHelpCircle size={20} />
+            </Link>
           </div>
         </div>
       </nav>
