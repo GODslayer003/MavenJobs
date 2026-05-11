@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 import {
   FiArrowRight, FiUsers, FiZap, FiSearch, FiAward,
   FiMessageSquare, FiCheckCircle, FiTrendingUp, FiBriefcase,
@@ -11,7 +12,9 @@ import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
 import './EmployerLandingPage.css';
 
 const EmployerLandingPage = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('sales');
+
   const [hiringFor, setHiringFor] = useState('company');
   const [scrolled, setScrolled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -97,7 +100,8 @@ const EmployerLandingPage = () => {
           </div>
           <div className="elp-nav-actions">
             <Link to="/buy-online" className="elp-btn-outline">Buy online</Link>
-            <button className="elp-btn-filled" onClick={() => setIsModalOpen(true)}>Post a job</button>
+            <button className="elp-btn-filled" onClick={() => navigate('/post-job')}>Post a job</button>
+
           </div>
         </div>
       </nav>
@@ -140,9 +144,10 @@ const EmployerLandingPage = () => {
             </div>
 
             <div className="elp-hero-ctas">
-              <button className="elp-btn-filled elp-btn-lg" onClick={() => setIsModalOpen(true)}>
+              <button className="elp-btn-filled elp-btn-lg" onClick={() => navigate('/post-job')}>
                 Get started free <FiArrowRight size={18} />
               </button>
+
               <button className="elp-btn-ghost">
                 <span className="elp-play-btn"><FiPlay size={14} /></span>
                 Watch demo

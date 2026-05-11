@@ -18,6 +18,8 @@ import DailyQuiz from "./pages/DailyQuiz";
 import SavedJobs from "./pages/SavedJobs";
 import Leave from "./pages/Leave";
 import DailyQuizNotification from "./components/DailyQuizNotification";
+import PostJob from "./pages/PostJob";
+
 import Premium3D from "./components/Premium3D";
 import { AuthProvider, useAuth } from "./AuthContext";
 import ScrollToTop from "./components/ScrollToTop";
@@ -62,7 +64,9 @@ function AppContent() {
         <Route path="/daily-quiz" element={<DailyQuiz />} />
         <Route path="/saved-jobs" element={<SavedJobs />} />
         <Route path="/leave" element={<Leave />} />
+        <Route path="/post-job" element={<PostJob />} />
       </Routes>
+
       <DailyQuizNotification
         isOpen={showQuizPopup}
         duration={20}
