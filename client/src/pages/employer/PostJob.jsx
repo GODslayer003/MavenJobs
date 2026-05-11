@@ -8,7 +8,7 @@ import {
     FiDollarSign, FiMapPin, FiClock, FiZap,
     FiChevronDown, FiAlertCircle, FiStar, FiUpload
 } from 'react-icons/fi';
-import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
+import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
 
 /* ─────────────────────── CONSTANTS ─────────────────────── */
 const STEPS = [

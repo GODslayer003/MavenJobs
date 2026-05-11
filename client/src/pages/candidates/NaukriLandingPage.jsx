@@ -12,8 +12,8 @@ import {
   FaGraduationCap, FaBuilding, FaRupeeSign,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
-import qrImage from "../../assets/QR.png";
+import mavenLogo from "../../../assets/maven-logo-BdiSsfJk.svg";
+import qrImage from "../../../assets/QR.png";
 import "./NaukriLandingPage.css";
 import SignUp from "../../auth/SignUp";
 import Login from "../../auth/Login";

@@ -8,8 +8,8 @@ import {
 } from 'react-icons/fi';
 import { FaRupeeSign, FaStar, FaRegStar } from 'react-icons/fa';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../AuthContext';
-import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
+import { useAuth } from '../../AuthContext';
+import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
 
 const Jobprofile = () => {
   const { id } = useParams();

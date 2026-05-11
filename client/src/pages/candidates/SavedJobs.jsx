@@ -7,7 +7,7 @@ import {
 } from 'react-icons/fi';
 import { gsap } from 'gsap';
 import { useAuth } from '../../AuthContext';
-import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
+import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
 
 const INITIAL_SAVED_JOBS = [
   {

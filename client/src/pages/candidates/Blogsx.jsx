@@ -8,7 +8,7 @@ import {
     FiPhoneCall, FiInbox, FiPrinter, FiX
 } from 'react-icons/fi';
 import { FaWhatsapp, FaLinkedinIn, FaTwitter } from 'react-icons/fa';
-import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
+import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
 
 // ─── Section data ────────────────────────────────────────────
 const STAGES = [

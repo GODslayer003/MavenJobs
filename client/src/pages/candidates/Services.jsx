@@ -7,7 +7,7 @@ import {
 } from 'react-icons/fi';
 import { FaLinkedinIn, FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { FaXTwitter } from "react-icons/fa6";
-import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
+import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
 import { useAuth } from "../../AuthContext";
 
 function useFadeIn(threshold = 0.12) {

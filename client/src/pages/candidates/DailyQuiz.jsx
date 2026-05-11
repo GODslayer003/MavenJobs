@@ -6,7 +6,7 @@ import {
   FiChevronRight, FiShield, FiCheckCircle, FiTrendingUp,
   FiStar, FiUsers, FiBarChart2
 } from 'react-icons/fi';
-import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
+import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
 
 const QUESTIONS = [
   {

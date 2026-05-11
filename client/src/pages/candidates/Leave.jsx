@@ -7,7 +7,7 @@ import {
     FiUser, FiMail, FiX, FiZap
 } from 'react-icons/fi';
 import { gsap } from 'gsap';
-import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
+import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
 
 /* ─── DATA ─── */
 const CATEGORIES = [

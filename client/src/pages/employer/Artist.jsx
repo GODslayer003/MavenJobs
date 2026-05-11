@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
-import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
+import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
 
 gsap.registerPlugin(ScrollTrigger);
 

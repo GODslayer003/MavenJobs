@@ -9,7 +9,7 @@ import { FaRupeeSign, FaStar, FaFacebookF, FaLinkedinIn, FaInstagram } from "rea
 import { FaXTwitter } from "react-icons/fa6";
 import { useAuth } from "../../AuthContext";
 import { EXTENDED_JOBS as JOBS, TOP_CATEGORIES } from "../../data/jobs";
-import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
+import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
 import "./JobListingPage.css";
 
 // Data moved to data/jobs.js

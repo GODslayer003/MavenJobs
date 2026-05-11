@@ -5,7 +5,7 @@ import {
   FiTrendingUp, FiSettings, FiFileText, FiArrowRight, FiX, FiAward, FiZap, FiGlobe, FiLayers, FiBox
 } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
-import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
+import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
 import './CompaniesPage.css';
 
 const CompaniesPage = () => {

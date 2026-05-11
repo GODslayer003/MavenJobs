@@ -8,8 +8,8 @@ import {
   FiTarget, FiCpu, FiLayers
 } from 'react-icons/fi';
 import { FaBuilding, FaQuoteLeft } from 'react-icons/fa';
-import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
-import promoImg from '../../assets/free-job-posting-promo.png';
+import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
+import promoImg from '../../../assets/free-job-posting-promo.png';
 import './EmployerLandingPage.css';
 
 const EmployerLandingPage = () => {

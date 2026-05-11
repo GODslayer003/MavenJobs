@@ -13,10 +13,10 @@ import { FaWhatsapp, FaLinkedinIn, FaTwitter as FaXTwitter, FaFacebookF } from '
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { GiCrown } from 'react-icons/gi';
 import { useAuth } from '../../AuthContext';
-import RecommendedJobs from '../RecommendedJobs';
+import RecommendedJobs from './RecommendedJobs';
 import EarlyAccessModal from '../../components/EarlyAccessModal';
 import './ProfileDashboard.css';
-import mavenLogo from '../../assets/maven-logo-BdiSsfJk.svg';
+import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import ResumeTemplate from '../../components/ResumeTemplate';

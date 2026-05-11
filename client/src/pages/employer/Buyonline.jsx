@@ -5,8 +5,8 @@ import {
   FiBriefcase, FiPhoneCall, FiSearch, FiZap, FiShield,
   FiTrendingUp, FiStar, FiAward, FiBarChart2, FiMessageCircle,
 } from 'react-icons/fi';
-import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
-import { useAuth } from '../AuthContext';
+import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
+import { useAuth } from '../../AuthContext';
 
 
 /* ── Helpers ── */

@@ -6,7 +6,7 @@ import {
     FiFilter, FiTarget, FiPhoneCall, FiBell, FiInbox, FiMail
 } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
-import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
+import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
 
 function useInView(threshold = 0.12) {
     const ref = useRef(null);

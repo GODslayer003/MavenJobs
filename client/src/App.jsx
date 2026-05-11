@@ -4,10 +4,11 @@ import NaukriLandingPage from "./pages/candidates/NaukriLandingPage";
 import EmployerLandingPage from "./pages/candidates/EmployerLandingPage";
 import JobListingPage from "./pages/candidates/JobListingPage";
 import JobDetailsPage from "./pages/candidates/JobDetailsPage";
-import Buyonline from "./pages/Buyonline";
+import Buyonline from "./pages/employer/Buyonline";
 import ProfileDashboard from "./pages/candidates/ProfileDashboard";
 import CompaniesPage from "./pages/candidates/CompaniesPage";
-import Jobprofile from "./pages/Jobprofile";
+import Jobprofile from "./pages/candidates/Jobprofile";
+import ExpertAssist from "./pages/employer/Artist";
 import Services from "./pages/candidates/Services";
 import MavenPro from "./pages/candidates/MavenPro";
 import Premium from "./pages/candidates/Premium";
@@ -58,6 +59,7 @@ function AppContent() {
         <Route path="/services" element={<Services />} />
         <Route path="/pro" element={<MavenPro />} />
         <Route path="/premium" element={<Premium />} />
+        <Route path="/expert-assist" element={<ExpertAssist />} />
         <Route path="/info" element={<Info />} />
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/blog-article" element={<BlogAIRex />} />
