@@ -6,6 +6,8 @@ import {
   FiTrendingUp, FiStar, FiAward, FiBarChart2, FiMessageCircle,
 } from 'react-icons/fi';
 import mavenLogo from "../../assets/maven-logo-BdiSsfJk.svg";
+import { useAuth } from '../AuthContext';
+
 
 /* ── Helpers ── */
 function useScrollY() {
@@ -286,7 +288,9 @@ function FaqItem({ faq, isOpen, onToggle }) {
 
 /* ── Main ── */
 export default function Buyonline() {
+  const { user } = useAuth();
   const [activeFaq, setActiveFaq] = useState(null);
+
   const [activeModalPlan, setActiveModalPlan] = useState(null);
   const scrollY = useScrollY();
   const [heroRef, heroVisible] = useInView(0.05);
@@ -430,11 +434,14 @@ export default function Buyonline() {
             </div>
             <span style={{ display: window.innerWidth < 900 ? 'none' : 'inline' }}>1800-102-5557</span>
           </div>
-          <Link to="/employer-login" style={{ fontSize: 13.5, fontWeight: 800, color: '#002366', textDecoration: 'none', padding: '9px 20px', border: '1.5px solid #c7d2fe', borderRadius: 11, background: '#EEF2FF', transition: 'all 0.2s', fontFamily: "'Bricolage Grotesque',sans-serif" }}
-            onMouseEnter={e => { e.currentTarget.style.background = '#dbeafe'; e.currentTarget.style.borderColor = '#93c5fd'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = '#EEF2FF'; e.currentTarget.style.borderColor = '#c7d2fe'; }}>
-            Employer Login
-          </Link>
+          {!user && (
+            <Link to="/employer-login" style={{ fontSize: 13.5, fontWeight: 800, color: '#002366', textDecoration: 'none', padding: '9px 20px', border: '1.5px solid #c7d2fe', borderRadius: 11, background: '#EEF2FF', transition: 'all 0.2s', fontFamily: "'Bricolage Grotesque',sans-serif" }}
+              onMouseEnter={e => { e.currentTarget.style.background = '#dbeafe'; e.currentTarget.style.borderColor = '#93c5fd'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = '#EEF2FF'; e.currentTarget.style.borderColor = '#c7d2fe'; }}>
+              Employer Login
+            </Link>
+          )}
+
         </div>
       </nav>
 

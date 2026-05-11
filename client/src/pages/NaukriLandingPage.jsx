@@ -355,28 +355,30 @@ export default function NaukriLandingPage() {
               </>
             )}
 
-            <div
-              className="nav-employer-container"
-              onMouseEnter={() => setIsEmployerDropdownOpen(true)}
-              onMouseLeave={() => setIsEmployerDropdownOpen(false)}
-            >
-              <div className="nav-employer">
-                For employers
-                <FiChevronDown aria-hidden="true" style={{ transform: isEmployerDropdownOpen ? "rotate(180deg)" : "none", transition: "transform 0.3s" }} />
-              </div>
-              {isEmployerDropdownOpen && (
-                <div className="employer-dropdown">
-                  <div className="employer-dropdown-inner">
-                    <Link to="/buy-online" className="employer-dropdown-item">Buy online</Link>
-                    <Link to="/premium" className="employer-dropdown-item">Naukri Talent Cloud</Link>
-                    <div className="employer-dropdown-divider" />
-                    <Link to="/employer-login" className="employer-dropdown-item employer-login-item">
-                      Employer Login <FiArrowRight aria-hidden="true" />
-                    </Link>
-                  </div>
+            {!user && (
+              <div
+                className="nav-employer-container"
+                onMouseEnter={() => setIsEmployerDropdownOpen(true)}
+                onMouseLeave={() => setIsEmployerDropdownOpen(false)}
+              >
+                <div className="nav-employer">
+                  For employers
+                  <FiChevronDown aria-hidden="true" style={{ transform: isEmployerDropdownOpen ? "rotate(180deg)" : "none", transition: "transform 0.3s" }} />
                 </div>
-              )}
-            </div>
+                {isEmployerDropdownOpen && (
+                  <div className="employer-dropdown">
+                    <div className="employer-dropdown-inner">
+                      <Link to="/buy-online" className="employer-dropdown-item">Buy online</Link>
+                      <Link to="/premium" className="employer-dropdown-item">Naukri Talent Cloud</Link>
+                      <div className="employer-dropdown-divider" />
+                      <Link to="/employer-login" className="employer-dropdown-item employer-login-item">
+                        Employer Login <FiArrowRight aria-hidden="true" />
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </nav>
