@@ -137,62 +137,62 @@ function StickyPlatformsSection() {
                                         The complete<br /><span style={{ color: '#10b981' }}>talent ecosystem</span>
                                     </h3>
 
-                                {[
-                                    'Single sign-on across all platforms',
-                                    'Smart AI recommendations',
-                                    'Unified analytics dashboard',
-                                    'Seamless ATS integrations',
-                                ].map((p, i) => (
-                                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                                        <div style={{
-                                            width: 20, height: 20, borderRadius: '50%',
-                                            background: 'rgba(16,185,129,.18)', border: '1px solid rgba(16,185,129,.3)',
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
-                                        }}>
-                                            <FiCheck size={11} color="#10b981" strokeWidth={3} />
-                                        </div>
-                                        <span style={{ fontSize: 13.5, color: 'rgba(255,255,255,.72)', fontWeight: 500 }}>{p}</span>
-                                    </div>
-                                ))}
-
-                                <div style={{ height: 1, background: 'rgba(255,255,255,.08)', margin: '24px 0' }} />
-
-                                {/* Mini stats */}
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 24 }}>
                                     {[
-                                        { v: '9', l: 'Platforms' },
-                                        { v: '100%', l: 'Integrated' },
-                                        { v: '10Cr+', l: 'Candidates' },
-                                        { v: '30K+', l: 'Employers' },
-                                    ].map((s, i) => (
-                                        <div key={i} style={{
-                                            textAlign: 'center', padding: '12px 8px',
-                                            background: 'rgba(255,255,255,.06)',
-                                            border: '1px solid rgba(255,255,255,.08)', borderRadius: 12
-                                        }}>
-                                            <div style={{ fontFamily: "'Bricolage Grotesque',sans-serif", fontSize: 18, fontWeight: 800, color: '#fff', lineHeight: 1 }}>{s.v}</div>
-                                            <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,.38)', fontWeight: 700, marginTop: 3, textTransform: 'uppercase', letterSpacing: '.1em' }}>{s.l}</div>
+                                        'Single sign-on across all platforms',
+                                        'Smart AI recommendations',
+                                        'Unified analytics dashboard',
+                                        'Seamless ATS integrations',
+                                    ].map((p, i) => (
+                                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+                                            <div style={{
+                                                width: 20, height: 20, borderRadius: '50%',
+                                                background: 'rgba(16,185,129,.18)', border: '1px solid rgba(16,185,129,.3)',
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
+                                            }}>
+                                                <FiCheck size={11} color="#10b981" strokeWidth={3} />
+                                            </div>
+                                            <span style={{ fontSize: 13.5, color: 'rgba(255,255,255,.72)', fontWeight: 500 }}>{p}</span>
                                         </div>
                                     ))}
-                                </div>
 
-                                <button
-                                    style={{
-                                        width: '100%', padding: '13px', background: '#10b981', color: '#fff',
-                                        border: 'none', borderRadius: 14,
-                                        fontFamily: "'Bricolage Grotesque',sans-serif", fontSize: 13.5, fontWeight: 800,
-                                        cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
-                                        transition: 'all .2s', boxShadow: '0 6px 20px rgba(16,185,129,.35)'
-                                    }}
-                                    onMouseEnter={e => { e.currentTarget.style.background = '#0da371'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 28px rgba(16,185,129,.45)'; }}
-                                    onMouseLeave={e => { e.currentTarget.style.background = '#10b981'; e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 6px 20px rgba(16,185,129,.35)'; }}
-                                >
-                                    Request Demo <FiArrowRight size={14} />
-                                </button>
+                                    <div style={{ height: 1, background: 'rgba(255,255,255,.08)', margin: '24px 0' }} />
+
+                                    {/* Mini stats */}
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 24 }}>
+                                        {[
+                                            { v: '9', l: 'Platforms' },
+                                            { v: '100%', l: 'Integrated' },
+                                            { v: '10Cr+', l: 'Candidates' },
+                                            { v: '30K+', l: 'Employers' },
+                                        ].map((s, i) => (
+                                            <div key={i} style={{
+                                                textAlign: 'center', padding: '12px 8px',
+                                                background: 'rgba(255,255,255,.06)',
+                                                border: '1px solid rgba(255,255,255,.08)', borderRadius: 12
+                                            }}>
+                                                <div style={{ fontFamily: "'Bricolage Grotesque',sans-serif", fontSize: 18, fontWeight: 800, color: '#fff', lineHeight: 1 }}>{s.v}</div>
+                                                <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,.38)', fontWeight: 700, marginTop: 3, textTransform: 'uppercase', letterSpacing: '.1em' }}>{s.l}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <button
+                                        style={{
+                                            width: '100%', padding: '13px', background: '#10b981', color: '#fff',
+                                            border: 'none', borderRadius: 14,
+                                            fontFamily: "'Bricolage Grotesque',sans-serif", fontSize: 13.5, fontWeight: 800,
+                                            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
+                                            transition: 'all .2s', boxShadow: '0 6px 20px rgba(16,185,129,.35)'
+                                        }}
+                                        onMouseEnter={e => { e.currentTarget.style.background = '#0da371'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 28px rgba(16,185,129,.45)'; }}
+                                        onMouseLeave={e => { e.currentTarget.style.background = '#10b981'; e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 6px 20px rgba(16,185,129,.35)'; }}
+                                    >
+                                        Request Demo <FiArrowRight size={14} />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
                     {/* RIGHT — platform cards */}
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
@@ -479,7 +479,7 @@ export default function Branding() {
                 <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1600&q=55)', backgroundSize: 'cover', backgroundPosition: 'center', opacity: .08 }} />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(10,10,15,1) 0%, transparent 20%, transparent 80%, rgba(10,10,15,1) 100%)' }} />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(10,10,15,1) 0%, rgba(10,10,15,.8) 40%, transparent 100%)' }} />
-                
+
                 {/* Large Atmospheric Glows - matching the Spline aesthetic */}
                 <div style={{ position: 'absolute', top: '10%', right: '0%', width: '60vw', height: '60vw', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,35,102,.25) 0%, transparent 70%)', filter: 'blur(80px)', pointerEvents: 'none' }} />
                 <div style={{ position: 'absolute', bottom: '10%', right: '10%', width: '40vw', height: '40vw', borderRadius: '50%', background: 'radial-gradient(circle, rgba(16,185,129,.1) 0%, transparent 70%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
@@ -725,7 +725,7 @@ export default function Branding() {
                             style={{
                                 display: 'flex', gap: 8, marginBottom: 36,
                                 overflowX: 'auto', paddingBottom: 4,
-                                background: scrolled ? 'rgba(8,8,14,0.85)' : 'rgba(255,255,255,.03)', 
+                                background: scrolled ? 'rgba(8,8,14,0.85)' : 'rgba(255,255,255,.03)',
                                 backdropFilter: scrolled ? 'blur(16px)' : 'none',
                                 borderRadius: 18,
                                 padding: '8px 10px',
@@ -762,8 +762,8 @@ export default function Branding() {
                             }}
                         >
                             {currentSolutions.map((s, i) => (
-                                <div key={`${activeTab}-${i}`} className="sol-card" style={{ 
-                                    animation: 'scaleIn .35s ease both', 
+                                <div key={`${activeTab}-${i}`} className="sol-card" style={{
+                                    animation: 'scaleIn .35s ease both',
                                     animationDelay: `${i * 80}ms`,
                                     background: 'rgba(255,255,255,.04)',
                                     border: '1px solid rgba(255,255,255,0.06)',

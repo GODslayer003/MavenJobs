@@ -33,12 +33,12 @@ const EmployerLandingPage = () => {
   }, []);
 
   const offerings = [
-    { title: 'Job Posting', desc: 'Receive applications instantly and connect with high-quality, relevant candidates at scale.', icon: <FiBriefcase />, color: '#2563eb', bg: '#eff6ff' },
-    { title: 'Resume Database', desc: 'Access and attract from a real-time pool of 10 crore+ active jobseekers across India.', icon: <FiSearch />, color: '#7c3aed', bg: '#f5f3ff' },
-    { title: 'Expert Assist', desc: 'Leave sourcing and shortlisting to our hiring experts — you focus only on final interviews.', icon: <FiUsers />, color: '#0891b2', bg: '#ecfeff' },
-    { title: 'Employer Branding', desc: 'Stand out as a top workplace and attract passive talent through custom brand campaigns.', icon: <FiAward />, color: '#d97706', bg: '#fffbeb' },
-    { title: 'Hiring Automation', desc: 'Streamline your recruitment workflow with AI-powered ATS and smart screening tools.', icon: <FiCpu />, color: '#059669', bg: '#ecfdf5' },
-    { title: 'Talent Planning', desc: 'Get deep insights into market trends and salary benchmarks to plan hiring with precision.', icon: <FiBarChart2 />, color: '#e11d48', bg: '#fff1f2' },
+    { title: 'Job Posting', desc: 'Receive applications instantly and connect with high-quality, relevant candidates at scale.', icon: <FiBriefcase />, color: '#2563eb', bg: '#eff6ff', path: '/job-posting' },
+    { title: 'Resume Database', desc: 'Access and attract from a real-time pool of 10 crore+ active jobseekers across India.', icon: <FiSearch />, color: '#7c3aed', bg: '#f5f3ff', path: '/resume-database' },
+    { title: 'Expert Assist', desc: 'Leave sourcing and shortlisting to our hiring experts — you focus only on final interviews.', icon: <FiUsers />, color: '#0891b2', bg: '#ecfeff', path: '/expert-assist' },
+    { title: 'Employer Branding', desc: 'Stand out as a top workplace and attract passive talent through custom brand campaigns.', icon: <FiAward />, color: '#d97706', bg: '#fffbeb', path: '/branding' },
+    { title: 'Hiring Automation', desc: 'Streamline your recruitment workflow with AI-powered ATS and smart screening tools.', icon: <FiCpu />, color: '#059669', bg: '#ecfdf5', path: '/hiring-automation' },
+    { title: 'Talent Planning', desc: 'Get deep insights into market trends and salary benchmarks to plan hiring with precision.', icon: <FiBarChart2 />, color: '#e11d48', bg: '#fff1f2', path: '/talent-pulse' },
   ];
 
   const stats = [
@@ -119,7 +119,7 @@ const EmployerLandingPage = () => {
                             <p>Unlimited free postings with <strong>one active job at a time</strong></p>
                             <p>Get up to <strong>50 candidates/job</strong> while your post remains visible for 7 days</p>
                           </div>
-                          <Link to="/post-job" className="elp-promo-link" onClick={() => setShowOfferings(false)}>
+                          <Link to="/job-posting" className="elp-promo-link" onClick={() => setShowOfferings(false)}>
                             Free Job Posting <FiArrowRight size={16} />
                           </Link>
                         </div>
@@ -130,13 +130,17 @@ const EmployerLandingPage = () => {
                     <div className="elp-mega-section">
                       <span className="elp-section-label">BY PRODUCTS</span>
                       <div className="elp-section-links">
-                        <Link to="/post-job" className="elp-mega-link" onClick={() => setShowOfferings(false)}>
+                        <Link to="/job-posting" className="elp-mega-link" onClick={() => setShowOfferings(false)}>
                           <div className="elp-mega-link-title">Job Posting</div>
                           <div className="elp-mega-link-desc">Find & attract relevant talent</div>
                         </Link>
-                        <Link to="/resdex" className="elp-mega-link" onClick={() => setShowOfferings(false)}>
-                          <div className="elp-mega-link-title">Resdex</div>
+                        <Link to="/resume-database" className="elp-mega-link" onClick={() => setShowOfferings(false)}>
+                          <div className="elp-mega-link-title">Resume Database (Resdex)</div>
                           <div className="elp-mega-link-desc">Access India's largest database</div>
+                        </Link>
+                        <Link to="/hiring-automation" className="elp-mega-link" onClick={() => setShowOfferings(false)}>
+                          <div className="elp-mega-link-title">Hiring Automation</div>
+                          <div className="elp-mega-link-desc">Streamline your recruitment workflow</div>
                         </Link>
                         <Link to="/expert-assist" className="elp-mega-link" onClick={() => setShowOfferings(false)}>
                           <div className="elp-mega-link-title">Expert Assist</div>
@@ -147,12 +151,8 @@ const EmployerLandingPage = () => {
                           <div className="elp-mega-link-desc">Showcase your brand presence</div>
                         </Link>
                         <Link to="/talent-pulse" className="elp-mega-link" onClick={() => setShowOfferings(false)}>
-                          <div className="elp-mega-link-title">Talent Pulse</div>
+                          <div className="elp-mega-link-title">Talent Planning</div>
                           <div className="elp-mega-link-desc">Make informed hiring decisions</div>
-                        </Link>
-                        <Link to="/ai-rex" className="elp-mega-link" onClick={() => setShowOfferings(false)}>
-                          <div className="elp-mega-link-title">AI REX</div>
-                          <div className="elp-mega-link-desc">Reduce time to hire from days to hours</div>
                         </Link>
                       </div>
                     </div>
@@ -175,7 +175,6 @@ const EmployerLandingPage = () => {
             <a href="#resources" className="elp-nav-link">Resources</a>
           </div>
           <div className="elp-nav-actions" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <Link to="/buy-online" className="elp-btn-outline">Buy online</Link>
             <button className="elp-btn-filled" onClick={() => navigate('/post-job')}>Post a job</button>
             <Link to="/employer-help" className="elp-help-trigger" title="Help & Support" style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -376,9 +375,9 @@ const EmployerLandingPage = () => {
                 </div>
                 <h3 className="elp-offering-title">{item.title}</h3>
                 <p className="elp-offering-desc">{item.desc}</p>
-                <a href="#" className="elp-offering-link" style={{ color: item.color }}>
+                <Link to={item.path} className="elp-offering-link" style={{ color: item.color }}>
                   View plans <FiArrowRight size={14} />
-                </a>
+                </Link>
               </div>
             ))}
           </div>

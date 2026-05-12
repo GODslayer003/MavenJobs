@@ -275,11 +275,11 @@ function TalentIntelligenceCore() {
         if (!C) return;
         const ctx = C.getContext('2d');
         const W = C.width = 560, H = C.height = 560;
-        const CX = W/2, CY = H/2;
+        const CX = W / 2, CY = H / 2;
         let frame = 0;
-        
+
         const numNodes = 120;
-        const nodes = Array.from({length: numNodes}, (_, i) => ({
+        const nodes = Array.from({ length: numNodes }, (_, i) => ({
             angle: Math.random() * Math.PI * 2,
             radius: 80 + Math.random() * 120,
             y: (Math.random() - 0.5) * 280,
@@ -292,15 +292,15 @@ function TalentIntelligenceCore() {
         function draw() {
             frame++;
             ctx.clearRect(0, 0, W, H);
-            
+
             ctx.save();
             ctx.translate(CX, CY + 140);
             ctx.scale(1, 0.25);
             ctx.lineWidth = 1;
-            for(let r=40; r<=240; r+=40) {
+            for (let r = 40; r <= 240; r += 40) {
                 ctx.beginPath();
                 ctx.arc(0, 0, r, 0, Math.PI * 2);
-                ctx.strokeStyle = `rgba(16,185,129,${(240-r)/240 * 0.3})`;
+                ctx.strokeStyle = `rgba(16,185,129,${(240 - r) / 240 * 0.3})`;
                 ctx.stroke();
             }
             ctx.beginPath();
@@ -310,20 +310,20 @@ function TalentIntelligenceCore() {
             ctx.stroke();
             ctx.restore();
 
-            const coreGlow = ctx.createRadialGradient(CX, CY-20, 0, CX, CY-20, 100);
+            const coreGlow = ctx.createRadialGradient(CX, CY - 20, 0, CX, CY - 20, 100);
             coreGlow.addColorStop(0, 'rgba(16,185,129,0.15)');
             coreGlow.addColorStop(0.5, 'rgba(37,99,235,0.1)');
             coreGlow.addColorStop(1, 'rgba(0,0,0,0)');
             ctx.fillStyle = coreGlow;
-            ctx.beginPath(); ctx.arc(CX, CY-20, 100, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(CX, CY - 20, 100, 0, Math.PI * 2); ctx.fill();
 
             ctx.save();
-            ctx.translate(CX, CY - 20 + Math.sin(frame*0.03)*10);
-            ctx.rotate(frame*0.005);
+            ctx.translate(CX, CY - 20 + Math.sin(frame * 0.03) * 10);
+            ctx.rotate(frame * 0.005);
             ctx.beginPath();
-            for(let i=0; i<6; i++) {
-                const a = i * Math.PI/3;
-                ctx[i===0?'moveTo':'lineTo'](Math.cos(a)*45, Math.sin(a)*45);
+            for (let i = 0; i < 6; i++) {
+                const a = i * Math.PI / 3;
+                ctx[i === 0 ? 'moveTo' : 'lineTo'](Math.cos(a) * 45, Math.sin(a) * 45);
             }
             ctx.closePath();
             ctx.strokeStyle = 'rgba(16,185,129,0.8)';
@@ -331,19 +331,19 @@ function TalentIntelligenceCore() {
             ctx.stroke();
             ctx.fillStyle = 'rgba(5, 14, 36, 0.8)';
             ctx.fill();
-            
-            ctx.rotate(-frame*0.01);
+
+            ctx.rotate(-frame * 0.01);
             ctx.beginPath();
-            for(let i=0; i<6; i++) {
-                const a = i * Math.PI/3;
-                ctx[i===0?'moveTo':'lineTo'](Math.cos(a)*25, Math.sin(a)*25);
+            for (let i = 0; i < 6; i++) {
+                const a = i * Math.PI / 3;
+                ctx[i === 0 ? 'moveTo' : 'lineTo'](Math.cos(a) * 25, Math.sin(a) * 25);
             }
             ctx.closePath();
             ctx.strokeStyle = 'rgba(59,130,246,0.9)';
             ctx.lineWidth = 1.5;
             ctx.stroke();
-            
-            ctx.beginPath(); ctx.arc(0,0, 4, 0, Math.PI*2); 
+
+            ctx.beginPath(); ctx.arc(0, 0, 4, 0, Math.PI * 2);
             ctx.fillStyle = '#fff'; ctx.fill();
             ctx.restore();
 
@@ -353,38 +353,38 @@ function TalentIntelligenceCore() {
                 n.x = Math.cos(n.angle) * n.radius;
                 n.z = Math.sin(n.angle) * n.radius;
             });
-            nodes.sort((a,b) => a.z - b.z);
+            nodes.sort((a, b) => a.z - b.z);
 
             ctx.lineWidth = 0.5;
-            for(let i=Math.floor(nodes.length/2); i<nodes.length; i+=2) {
+            for (let i = Math.floor(nodes.length / 2); i < nodes.length; i += 2) {
                 const n1 = nodes[i];
                 const s1 = (n1.z + 300) / 600;
-                for(let j=i+1; j<nodes.length; j+=3) {
+                for (let j = i + 1; j < nodes.length; j += 3) {
                     const n2 = nodes[j];
-                    const dist = Math.hypot(n1.x-n2.x, n1.y-n2.y, n1.z-n2.z);
+                    const dist = Math.hypot(n1.x - n2.x, n1.y - n2.y, n1.z - n2.z);
                     if (dist < 60) {
                         ctx.beginPath();
-                        ctx.moveTo(CX+n1.x, CY+n1.y+Math.sin(n1.pulse)*10);
-                        ctx.lineTo(CX+n2.x, CY+n2.y+Math.sin(n2.pulse)*10);
-                        ctx.strokeStyle = `rgba(59,130,246,${(60-dist)/60 * 0.3 * s1})`;
+                        ctx.moveTo(CX + n1.x, CY + n1.y + Math.sin(n1.pulse) * 10);
+                        ctx.lineTo(CX + n2.x, CY + n2.y + Math.sin(n2.pulse) * 10);
+                        ctx.strokeStyle = `rgba(59,130,246,${(60 - dist) / 60 * 0.3 * s1})`;
                         ctx.stroke();
                     }
                 }
             }
 
             nodes.forEach(n => {
-                const scale = (n.z + 300) / 600; 
+                const scale = (n.z + 300) / 600;
                 const px = CX + n.x;
-                const py = CY + n.y + Math.sin(n.pulse)*10;
-                
+                const py = CY + n.y + Math.sin(n.pulse) * 10;
+
                 ctx.beginPath();
                 ctx.arc(px, py, n.size * scale * 2, 0, Math.PI * 2);
                 ctx.fillStyle = n.color;
                 ctx.globalAlpha = Math.max(0.1, scale * 0.9);
                 ctx.fill();
-                
+
                 if (n.y > 0 && Math.sin(n.pulse) > 0.8) {
-                    const dropY = CY + 140 + n.z*0.25; 
+                    const dropY = CY + 140 + n.z * 0.25;
                     if (py < dropY) {
                         ctx.beginPath();
                         ctx.moveTo(px, py);
@@ -460,15 +460,15 @@ export default function Talent() {
                 </div>
 
                 {/* ── NAV ── */}
-                <header style={{ 
-                    background: scrolled ? 'rgba(255,255,255,.98)' : 'rgba(5, 14, 36, 0.5)', 
-                    height: 66, 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    padding: '0 44px', 
-                    borderBottom: scrolled ? '1px solid #e2e8f0' : '1px solid rgba(255,255,255,0.1)', 
-                    backdropFilter: 'blur(20px)', 
-                    transition: 'all .4s cubic-bezier(0.4, 0, 0.2, 1)' 
+                <header style={{
+                    background: scrolled ? 'rgba(255,255,255,.98)' : 'rgba(5, 14, 36, 0.5)',
+                    height: 66,
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '0 44px',
+                    borderBottom: scrolled ? '1px solid #e2e8f0' : '1px solid rgba(255,255,255,0.1)',
+                    backdropFilter: 'blur(20px)',
+                    transition: 'all .4s cubic-bezier(0.4, 0, 0.2, 1)'
                 }}>
                     <div style={{ maxWidth: 1280, margin: '0 auto', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Link to="/" style={{ textDecoration: 'none' }}>
@@ -546,13 +546,13 @@ export default function Talent() {
                                 const radius = 210; // More compact orbit radius
                                 const left = `calc(50% + ${Math.cos(angle) * radius}px)`;
                                 const top = `calc(50% + ${Math.sin(angle) * radius}px)`;
-                                
+
                                 return (
-                                    <div key={i} style={{ 
-                                        position: 'absolute', top, left, 
-                                        background: 'rgba(20, 30, 50, 0.7)', backdropFilter: 'blur(12px)', 
-                                        border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '12px 16px', 
-                                        boxShadow: '0 12px 32px rgba(0,0,0,0.25)', 
+                                    <div key={i} style={{
+                                        position: 'absolute', top, left,
+                                        background: 'rgba(20, 30, 50, 0.7)', backdropFilter: 'blur(12px)',
+                                        border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '12px 16px',
+                                        boxShadow: '0 12px 32px rgba(0,0,0,0.25)',
                                         animation: `counterOrbit 45s linear infinite`,
                                         color: '#fff', minWidth: 150,
                                         pointerEvents: 'auto'

@@ -368,9 +368,6 @@ export default function NaukriLandingPage() {
                 {isEmployerDropdownOpen && (
                   <div className="employer-dropdown">
                     <div className="employer-dropdown-inner">
-                      <Link to="/buy-online" className="employer-dropdown-item">Buy online</Link>
-                      <Link to="/premium" className="employer-dropdown-item">Naukri Talent Cloud</Link>
-                      <div className="employer-dropdown-divider" />
                       <Link to="/employer-login" className="employer-dropdown-item employer-login-item">
                         Employer Login <FiArrowRight aria-hidden="true" />
                       </Link>
@@ -746,10 +743,8 @@ export default function NaukriLandingPage() {
 
             <div className="footer-links-group">
               <h4>For Employers</h4>
-              <Link to="/buy-online">Post a job</Link>
-              <Link to="/premium">Talent solutions</Link>
-              <Link to="/buy-online">Pricing</Link>
               <Link to="/employer-login">Employer login</Link>
+              <Link to="/post-job">Post a job</Link>
             </div>
 
             <div className="footer-links-group">

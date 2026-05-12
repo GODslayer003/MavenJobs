@@ -23,6 +23,9 @@ import PostJob from "./pages/employer/PostJob";
 import EmployerHelp from "./pages/employer/Help";
 import Talent from "./pages/employer/Talent";
 import Branding from "./pages/employer/Branding";
+import JobPosting from "./pages/employer/JobPosting";
+import ResumeDatabase from "./pages/employer/ResumeDatabase";
+import HiringAutomation from "./pages/employer/HiringAutomation";
 
 import Premium3D from "./components/Premium3D";
 import { AuthProvider, useAuth } from "./AuthContext";
@@ -73,6 +76,9 @@ function AppContent() {
         <Route path="/employer-help" element={<EmployerHelp />} />
         <Route path="/talent-pulse" element={<Talent />} />
         <Route path="/branding" element={<Branding />} />
+        <Route path="/job-posting" element={<JobPosting />} />
+        <Route path="/resume-database" element={<ResumeDatabase />} />
+        <Route path="/hiring-automation" element={<HiringAutomation />} />
       </Routes>
 
       <DailyQuizNotification
