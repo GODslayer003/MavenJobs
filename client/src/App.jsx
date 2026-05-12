@@ -21,6 +21,7 @@ import Leave from "./pages/candidates/Leave";
 import DailyQuizNotification from "./components/DailyQuizNotification";
 import PostJob from "./pages/employer/PostJob";
 import EmployerHelp from "./pages/employer/Help";
+import Talent from "./pages/employer/Talent";
 
 import Premium3D from "./components/Premium3D";
 import { AuthProvider, useAuth } from "./AuthContext";
@@ -69,6 +70,7 @@ function AppContent() {
         <Route path="/leave" element={<Leave />} />
         <Route path="/post-job" element={<PostJob />} />
         <Route path="/employer-help" element={<EmployerHelp />} />
+        <Route path="/talent-pulse" element={<Talent />} />
       </Routes>
 
       <DailyQuizNotification

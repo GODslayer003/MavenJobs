@@ -5,7 +5,7 @@ import {
   FiArrowRight, FiUsers, FiZap, FiSearch, FiAward,
   FiMessageSquare, FiCheckCircle, FiTrendingUp, FiBriefcase,
   FiX, FiChevronDown, FiPlay, FiShield, FiBarChart2,
-  FiTarget, FiCpu, FiLayers, FiHelpCircle
+  FiTarget, FiCpu, FiLayers, FiHelpCircle, FiEye, FiEyeOff, FiRefreshCcw
 } from 'react-icons/fi';
 import { FaBuilding, FaQuoteLeft } from 'react-icons/fa';
 import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
@@ -16,13 +16,14 @@ const EmployerLandingPage = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('sales');
 
-  const [hiringFor, setHiringFor] = useState('company');
+  const [hiringFor, setHiringFor] = useState('');
   const [scrolled, setScrolled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showOfferings, setShowOfferings] = useState(false);
   const [rangeOpen, setRangeOpen] = useState(false);
   const [selectedRange, setSelectedRange] = useState('Select range');
   const [activeOfferingTab, setActiveOfferingTab] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -254,43 +255,84 @@ const EmployerLandingPage = () => {
               </button>
             </div>
 
-            <form className="elp-callback-form" onSubmit={e => e.preventDefault()}>
-              <div className="elp-form-group">
-                <label>Full name</label>
-                <input type="text" placeholder="Enter your full name" />
-              </div>
-              <div className="elp-form-group">
-                <label>Mobile number</label>
-                <input type="tel" placeholder="Enter mobile number" />
-              </div>
-              <div className="elp-form-group">
-                <label>Work email</label>
-                <input type="email" placeholder="Enter your work email" />
-              </div>
-              <div className="elp-form-group">
-                <label>Hiring for</label>
-                <div className="elp-hiring-opts">
-                  <div
-                    className={`elp-hiring-opt ${hiringFor === 'company' ? 'active' : ''}`}
-                    onClick={() => setHiringFor('company')}
-                  >
-                    Your company
-                  </div>
-                  <div
-                    className={`elp-hiring-opt ${hiringFor === 'consultancy' ? 'active' : ''}`}
-                    onClick={() => setHiringFor('consultancy')}
-                  >
-                    Your consultancy
+            {activeTab === 'sales' ? (
+              <form className="elp-callback-form" onSubmit={e => e.preventDefault()}>
+                <div className="elp-form-group">
+                  <label>Full name</label>
+                  <input type="text" placeholder="Enter your full name" />
+                </div>
+                <div className="elp-form-group">
+                  <label>Mobile number</label>
+                  <input type="tel" placeholder="Enter mobile number" />
+                </div>
+                <div className="elp-form-group">
+                  <label>Work email</label>
+                  <input type="email" placeholder="Enter your work email" />
+                </div>
+                <div className="elp-form-group">
+                  <label>Hiring for</label>
+                  <div className="elp-hiring-opts">
+                    <div
+                      className={`elp-hiring-opt ${hiringFor === 'company' ? 'active' : ''}`}
+                      onClick={() => { setHiringFor('company'); setIsModalOpen(true); }}
+                    >
+                      Your company
+                    </div>
+                    <div
+                      className={`elp-hiring-opt ${hiringFor === 'consultancy' ? 'active' : ''}`}
+                      onClick={() => setHiringFor('consultancy')}
+                    >
+                      Your consultancy
+                    </div>
                   </div>
                 </div>
-              </div>
-              <button type="submit" className="elp-btn-callback">
-                Request callback <FiArrowRight size={16} />
-              </button>
-              <p className="elp-callback-note">
-                <FiShield size={12} /> Your data is safe. No spam, ever.
-              </p>
-            </form>
+                <button type="submit" className="elp-btn-callback">
+                  Request callback <FiArrowRight size={16} />
+                </button>
+                <p className="elp-callback-note">
+                  <FiShield size={12} /> Your data is safe. No spam, ever.
+                </p>
+              </form>
+            ) : (
+              <form className="elp-callback-form elp-login-form" onSubmit={e => e.preventDefault()}>
+                <div className="elp-form-group">
+                  <label>Work Email ID</label>
+                  <input type="email" placeholder="Enter registered email ID" />
+                </div>
+                <div className="elp-form-group" style={{ position: 'relative' }}>
+                  <label>Password</label>
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter password"
+                      style={{ paddingRight: '44px' }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{
+                        position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)',
+                        background: 'none', border: 'none', color: '#94A3B8', cursor: 'pointer',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center'
+                      }}
+                    >
+                      {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                    </button>
+                  </div>
+                  <div style={{ textAlign: 'right', marginTop: '8px' }}>
+                    <a href="#" className="elp-forgot-link">Forgot password?</a>
+                  </div>
+                </div>
+                
+                <button type="submit" className="elp-btn-callback" style={{ marginTop: '12px' }}>
+                  Log in
+                </button>
+                
+                <div className="elp-login-footer">
+                  Don't have a registered email? <a href="#" className="elp-signup-link">Create account</a>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </section>
@@ -464,73 +506,73 @@ const EmployerLandingPage = () => {
       {/* ─── Modal ─── */}
       {isModalOpen && (
         <div className="elp-modal-overlay" onClick={() => setIsModalOpen(false)}>
-          <div className="elp-modal" onClick={e => e.stopPropagation()}>
-            <div className="elp-modal-header">
+          <div className="elp-modal elp-callback-card" onClick={e => e.stopPropagation()} style={{ background: 'rgba(20, 30, 60, 0.4)', backdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.15)', boxShadow: '0 32px 80px rgba(0,0,0,0.5)' }}>
+            <div className="elp-modal-header" style={{ borderBottomColor: 'rgba(255,255,255,0.1)', marginBottom: '24px' }}>
               <div>
-                <h2 className="elp-modal-title">Request a Callback</h2>
-                <p className="elp-modal-subtitle">Our team will get back to you within 24 hours.</p>
+                <h2 className="elp-modal-title" style={{ color: '#fff', fontSize: '1.35rem' }}>Request a Callback</h2>
+                <p className="elp-modal-subtitle" style={{ color: 'rgba(255,255,255,0.6)', marginTop: '4px' }}>Our team will get back to you within 24 hours.</p>
               </div>
-              <button className="elp-modal-close" onClick={() => setIsModalOpen(false)}>
+              <button className="elp-modal-close" onClick={() => setIsModalOpen(false)} style={{ background: 'rgba(255,255,255,0.1)', color: '#fff' }}>
                 <FiX size={16} />
               </button>
             </div>
 
-            <form className="elp-modal-form" onSubmit={e => e.preventDefault()}>
-              <div className="elp-modal-grid">
-                <div className="elp-form-group elp-modal-field">
-                  <label>Mobile number</label>
-                  <input type="tel" placeholder="Enter mobile number" />
-                </div>
-                <div className="elp-form-group elp-modal-field">
-                  <label>Work email</label>
-                  <input type="email" placeholder="Enter your work email" />
-                </div>
-              </div>
-
-              <div className="elp-form-group elp-modal-field">
-                <label>Hiring for</label>
-                <div className="elp-hiring-opts elp-modal-hiring">
+            <form className="elp-callback-form" onSubmit={e => e.preventDefault()}>
+              <div className="elp-form-group" style={{ marginBottom: '8px' }}>
+                <div className="elp-hiring-opts">
                   <div className={`elp-hiring-opt ${hiringFor === 'company' ? 'active' : ''}`} onClick={() => setHiringFor('company')}>Your company</div>
                   <div className={`elp-hiring-opt ${hiringFor === 'consultancy' ? 'active' : ''}`} onClick={() => setHiringFor('consultancy')}>Your consultancy</div>
                 </div>
               </div>
 
-              <div className="elp-modal-grid">
-                <div className="elp-form-group elp-modal-field">
-                  <label>Designation</label>
-                  <input type="text" placeholder="e.g. Talent Acquisition Manager" />
-                </div>
-                <div className="elp-form-group elp-modal-field">
-                  <label>Company name</label>
-                  <input type="text" placeholder="Enter your company name" />
-                </div>
-              </div>
-
-              <div className="elp-form-group elp-modal-field">
-                <label>Team size</label>
-                <div className="elp-custom-dropdown" onClick={() => setRangeOpen(!rangeOpen)}>
-                  <span style={{ color: selectedRange === 'Select range' ? '#94A3B8' : '#1e293b' }}>{selectedRange}</span>
-                  <FiChevronDown size={15} style={{ transform: rangeOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', color: '#94A3B8' }} />
-                  {rangeOpen && (
-                    <div className="elp-dropdown-menu">
-                      {['1–14', '15–49', '50–100', '101–200', '201–500', '501 and above'].map(range => (
-                        <div key={range} className="elp-dropdown-item" onClick={e => { e.stopPropagation(); setSelectedRange(range); setRangeOpen(false); }}>
-                          {range}
+              {(hiringFor === 'company' || hiringFor === 'consultancy') && (
+                <>
+                  <div className="elp-form-group">
+                    <input type="text" placeholder="Designation name" style={{ padding: '14px 16px' }} />
+                  </div>
+                  <div className="elp-form-group">
+                    <input type="text" placeholder={hiringFor === 'company' ? 'Company name' : 'Consultancy name'} style={{ padding: '14px 16px' }} />
+                  </div>
+                  <div className="elp-form-group">
+                    <div className="elp-custom-dropdown" onClick={() => setRangeOpen(!rangeOpen)} style={{ background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.1)', color: '#fff', padding: '14px 16px' }}>
+                      <span style={{ color: selectedRange === 'Select range' ? 'rgba(255,255,255,0.4)' : '#fff', fontWeight: selectedRange === 'Select range' ? '500' : '600' }}>{selectedRange}</span>
+                      <FiChevronDown size={16} style={{ transform: rangeOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', color: 'rgba(255,255,255,0.5)' }} />
+                      {rangeOpen && (
+                        <div className="elp-dropdown-menu" style={{ background: '#1e293b', borderColor: 'rgba(255,255,255,0.1)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                          {['1–14', '15–49', '50–100', '101–200', '201–500', '501 and above'].map(range => (
+                            <div key={range} className="elp-dropdown-item" onClick={e => { e.stopPropagation(); setSelectedRange(range); setRangeOpen(false); }} style={{ color: '#f1f5f9', padding: '12px 16px' }} onMouseEnter={e => e.target.style.background = 'rgba(255,255,255,0.1)'} onMouseLeave={e => e.target.style.background = 'transparent'}>
+                              {range}
+                            </div>
+                          ))}
                         </div>
-                      ))}
+                      )}
                     </div>
-                  )}
-                </div>
-              </div>
+                  </div>
+                  <div className="elp-form-group">
+                    <input type="text" placeholder="City" style={{ padding: '14px 16px' }} />
+                  </div>
+                  
+                  {/* Mock reCAPTCHA */}
+                  <div className="elp-form-group" style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '4px', padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '6px', height: '74px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                      <div style={{ width: '28px', height: '28px', border: '2px solid #cbd5e1', borderRadius: '3px', background: '#fff', cursor: 'pointer' }} />
+                      <span style={{ fontSize: '0.9rem', fontWeight: '500', color: '#1e293b' }}>I'm not a robot</span>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <FiRefreshCcw size={26} color="#3b82f6" />
+                      <span style={{ fontSize: '0.5rem', fontWeight: '500', color: '#64748b', marginTop: '6px', letterSpacing: '0.02em' }}>reCAPTCHA</span>
+                    </div>
+                  </div>
+                </>
+              )}
 
-              <div className="elp-form-group elp-modal-field">
-                <label>City</label>
-                <input type="text" placeholder="Enter your city" />
-              </div>
-
-              <button type="submit" className="elp-btn-callback elp-modal-submit">
-                Request callback <FiArrowRight size={16} />
+              <button type="submit" className="elp-btn-callback elp-modal-submit" style={{ marginTop: '12px', padding: '14px', borderRadius: '8px' }}>
+                Request callback
               </button>
+              
+              <p className="elp-callback-note" style={{ marginTop: '12px', textAlign: 'center', fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)', lineHeight: '1.5', fontWeight: '500' }}>
+                By continuing, you agree to be contacted via email,<br />phone, or WhatsApp.
+              </p>
             </form>
           </div>
         </div>
