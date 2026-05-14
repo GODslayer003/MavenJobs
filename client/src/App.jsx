@@ -26,7 +26,7 @@ import Branding from "./pages/employer/Branding";
 import JobPosting from "./pages/employer/JobPosting";
 import ResumeDatabase from "./pages/employer/ResumeDatabase";
 import HiringAutomation from "./pages/employer/HiringAutomation";
-import EmployerDashboard from "./pages/employer/Dashboards";
+import EmployerDashboard from "./pages/employer/Dashboard";
 
 import Premium3D from "./components/Premium3D";
 import { AuthProvider, useAuth } from "./AuthContext";

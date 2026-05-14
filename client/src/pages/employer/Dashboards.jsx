@@ -426,6 +426,7 @@ export default function EmployerProfile() {
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
         @keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
         @keyframes ping{75%,100%{transform:scale(2.2);opacity:0}}
+        @keyframes popIn{from{opacity:0;transform:scale(0.9) translateY(5px)}to{opacity:1;transform:scale(1) translateY(0)}}
         input,textarea{outline:none;font-family:'DM Sans',sans-serif}
         button{outline:none;font-family:'DM Sans',sans-serif}
         .ep-nav-link{
