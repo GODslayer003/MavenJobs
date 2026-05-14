@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import {
     FiBriefcase, FiUsers, FiEye, FiTrendingUp, FiBarChart2,
     FiBell, FiSearch, FiPlus, FiChevronRight, FiArrowUp,
@@ -13,7 +14,7 @@ import {
     FiCpu, FiTool, FiFileText, FiLink, FiImage, FiVideo,
     FiMic, FiCamera, FiAtSign, FiHash, FiRefreshCw,
     FiArrowLeft, FiMaximize2, FiMinimize2, FiUser,
-    FiSliders, FiPercent, FiCreditCard
+    FiSliders, FiPercent, FiCreditCard, FiHeart
 } from "react-icons/fi";
 import mavenLogo from "../../../assets/maven-logo-BdiSsfJk.svg";
 
@@ -22,7 +23,7 @@ const C = {
     navy: "#002366", navyD: "#001540", navyM: "#1a3a6e",
     green: "#10b981", greenD: "#059669",
     indigo: "#6366f1", amber: "#f59e0b", sky: "#0ea5e9",
-    red: "#ef4444", purple: "#8b5cf6",
+    red: "#ef4444", purple: "#8b5cf6", emerald: "#10b981",
     white: "#fff",
     s50: "#f8fafc", s100: "#f1f5f9", s200: "#e2e8f0",
     s300: "#cbd5e1", s400: "#94a3b8", s500: "#64748b",
@@ -59,9 +60,14 @@ const TEAM = [
 ];
 
 const REVIEWS = [
-    { avatar: "JD", color: C.indigo, time: "2 days ago", text: "Incredible interview process! The team at TechCorp was extremely professional and transparent about the role.", likes: 124, comments: 12, type: "review" },
-    { avatar: "SP", color: C.emerald, time: "1 week ago", text: "Great work culture and exciting projects. The hiring managers were very welcoming and accommodating.", likes: 89, comments: 4, type: "review" },
-    { avatar: "AK", color: C.amber, time: "2 weeks ago", text: "The assessment was challenging but fair. Enjoyed the technical discussion and the detailed feedback provided.", likes: 231, comments: 45, type: "review" },
+    { id: 1, avatar: "JD", color: C.indigo, time: "2 days ago", text: "Incredible interview process! The team at TechCorp was extremely professional and transparent about the role.", likes: 124, type: "review" },
+    { id: 2, avatar: "SP", color: C.emerald, time: "1 week ago", text: "Great work culture and exciting projects. The hiring managers were very welcoming and accommodating.", likes: 89, type: "review" },
+    { id: 3, avatar: "AK", color: C.amber, time: "2 weeks ago", text: "The assessment was challenging but fair. Enjoyed the technical discussion and the detailed feedback provided.", likes: 231, type: "review" },
+    { id: 4, avatar: "RN", color: C.navy, time: "3 weeks ago", text: "Solid onboarding experience. The HR team was very supportive throughout the documentation process.", likes: 45, type: "review" },
+    { id: 5, avatar: "MK", color: C.purple, time: "1 month ago", text: "Loved the office vibe and the tech stack. Definitely one of the better interview experiences I've had.", likes: 67, type: "review" },
+    { id: 6, avatar: "SD", color: C.red, time: "1 month ago", text: "The rounds were comprehensive. I appreciated the quick turnaround time for the results.", likes: 32, type: "review" },
+    { id: 7, avatar: "VJ", color: C.sky, time: "2 months ago", text: "Very professional conduct. Even though I wasn't selected, the feedback was constructive and helpful.", likes: 156, type: "review" },
+    { id: 8, avatar: "AM", color: C.greenD, time: "2 months ago", text: "The team is doing some great work in AI. The vision for the product is very inspiring.", likes: 98, type: "review" },
 ];
 
 const MESSAGES_DATA = [
@@ -327,6 +333,7 @@ function SectionHead({ title, action }) {
    MAIN COMPONENT
 ══════════════════════════════════════════════════════════ */
 export default function EmployerProfile() {
+    const navigate = useNavigate();
     const [scrolled, setScrolled] = useState(false);
     const [activeTab, setActiveTab] = useState("overview");
     const [showMsg, setShowMsg] = useState(false);
@@ -340,6 +347,13 @@ export default function EmployerProfile() {
     const [following, setFollowing] = useState(false);
     const [jobFilter, setJobFilter] = useState("all");
     const [anaTab, setAnaTab] = useState("overview");
+    const [showNotifications, setShowNotifications] = useState(false);
+    const [showViewJob, setShowViewJob] = useState(false);
+    const [showEditJob, setShowEditJob] = useState(false);
+    const [selectedJob, setSelectedJob] = useState(null);
+    const [reviewPage, setReviewPage] = useState(0);
+    const [likedReviews, setLikedReviews] = useState({}); // Stores the selected reaction type
+    const [showReactionFor, setShowReactionFor] = useState(null);
     const chatEndRef = useRef(null);
 
     useEffect(() => {
@@ -387,6 +401,25 @@ export default function EmployerProfile() {
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
         html{scroll-behavior:smooth}
         body{background:#f0f4fb;font-family:'DM Sans',system-ui,sans-serif;color:${C.s800}}
+        .pd-notif-overlay { position: fixed; inset: 0; background: rgba(0, 35, 102, 0.35); backdrop-filter: blur(4px); z-index: 10000; opacity: 0; visibility: hidden; transition: all 0.3s; }
+        .pd-notif-overlay.show { opacity: 1; visibility: visible; }
+        .pd-notif-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100vh; background: white; z-index: 10001; box-shadow: -12px 0 40px rgba(0, 35, 102, 0.1); display: flex; flex-direction: column; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .pd-notif-sidebar.show { right: 0; }
+        .pd-notif-head { padding: 22px 24px; border-bottom: 1px solid ${C.s200}; display: flex; align-items: center; justify-content: space-between; }
+        .pd-notif-head h3 { font-family: ${C.fd}; font-size: 18px; font-weight: 800; color: ${C.navy}; margin:0;}
+        .pd-notif-close { background: ${C.s100}; border: none; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: ${C.s500}; cursor: pointer; transition: all 0.2s; }
+        .pd-notif-close:hover { background: #FEE2E2; color: #ef4444; transform: rotate(90deg); }
+        .pd-notif-body { flex: 1; overflow-y: auto; padding: 16px 0; }
+        .pd-notif-date { padding: 0 24px 10px; font-size: 11.5px; font-weight: 800; color: ${C.s400}; letter-spacing: 0.08em; text-transform: uppercase; }
+        .pd-notif-item { display: flex; gap: 14px; padding: 16px 24px; border-bottom: 1px solid ${C.s100}; cursor: pointer; transition: background 0.15s; }
+        .pd-notif-item:hover { background: ${C.s50}; }
+        .pd-notif-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+        .pd-notif-content { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+        .pd-notif-title { font-size: 14px; font-weight: 600; line-height: 1.4; color: ${C.s800}; }
+        .pd-notif-desc { font-size: 12.5px; color: ${C.s500}; }
+        .pd-notif-cta { align-self: flex-start; margin-top: 6px; background: white; color: ${C.indigo}; border: 1.5px solid ${C.indigo}; padding: 5px 14px; border-radius: 99px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: ${C.fd}; }
+        .pd-notif-cta:hover { background: ${C.indigo}; color: white; }
+        .pd-notif-time { font-size: 11.5px; color: ${C.s400}; margin-top: 2px; }
         ::-webkit-scrollbar{width:5px;height:5px}
         ::-webkit-scrollbar-track{background:transparent}
         ::-webkit-scrollbar-thumb{background:${C.s200};border-radius:8px}
@@ -505,6 +538,7 @@ export default function EmployerProfile() {
                             justifyContent: "center", cursor: "pointer", color: C.s500,
                             position: "relative", transition: "all .16s"
                         }}
+                            onClick={() => setShowNotifications(true)}
                             onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(0,35,102,.2)"; e.currentTarget.style.color = C.navy; }}
                             onMouseLeave={e => { e.currentTarget.style.borderColor = C.s200; e.currentTarget.style.color = C.s500; }}>
                             <FiBell size={16} />
@@ -530,7 +564,7 @@ export default function EmployerProfile() {
             <Card className="ep-card ep-cover">
                 {/* Cover */}
                 <div style={{
-                    height: 140, background: `url("https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80") center/cover no-repeat`,
+                    height: 140, background: `url("https://i.pinimg.com/736x/1d/5b/a0/1d5ba0f8288cd496cdb9714d6456b097.jpg") center/cover no-repeat`,
                     position: "relative", overflow: "hidden"
                 }}>
                     <div style={{
@@ -553,7 +587,7 @@ export default function EmployerProfile() {
                     {/* Logo bubble */}
                     <div style={{
                         width: 88, height: 88, borderRadius: 18,
-                        background: `url("https://ui-avatars.com/api/?name=TechCorp&background=002366&color=fff&size=200") center/cover no-repeat`,
+                        background: `url("https://i.pinimg.com/736x/59/d5/de/59d5deb71f0608503a43a356cffa81a7.jpg") center/cover no-repeat`,
                         border: "4px solid #fff", display: "flex", alignItems: "center",
                         justifyContent: "center", marginTop: -44, marginBottom: 12,
                         boxShadow: "0 4px 16px rgba(0,35,102,.2)"
@@ -583,10 +617,7 @@ export default function EmployerProfile() {
                         </div>
 
                         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                            <Btn variant="primary" onClick={() => setShowPost(true)}><FiPlus size={13} /> Post a Job</Btn>
-                            <Btn variant={following ? "ghost" : "green"} onClick={() => setFollowing(p => !p)}>
-                                {following ? "Following ✓" : "+ Follow"}
-                            </Btn>
+                            <Btn variant="primary" onClick={() => navigate("/post-job")}><FiPlus size={13} /> Post a Job</Btn>
                             <Btn variant="ghost"><FiShare2 size={13} /> Share</Btn>
                             <Btn variant="ghost" style={{ padding: "8px 10px" }}><FiMoreVertical size={14} /></Btn>
                         </div>
@@ -685,7 +716,7 @@ export default function EmployerProfile() {
                                     </button>
                                 ))}
                             </div>
-                            <Btn variant="primary" onClick={() => setShowPost(true)} style={{ padding: "7px 13px", fontSize: 12 }}>
+                            <Btn variant="primary" onClick={() => navigate("/post-job")} style={{ padding: "7px 13px", fontSize: 12 }}>
                                 <FiPlus size={12} /> Post
                             </Btn>
                         </div>
@@ -721,16 +752,16 @@ export default function EmployerProfile() {
                                     )}
                                 </div>
                                 <div style={{ display: "flex", gap: 16, flexWrap: "wrap", paddingLeft: 42 }}>
-                                    <span style={{ fontSize: 12, color: C.s500 }}>📅 Posted {j.posted}</span>
-                                    <span style={{ fontSize: 12, color: C.s500 }}>👥 {j.apps} applicants</span>
-                                    <span style={{ fontSize: 12, color: C.green, fontWeight: 700 }}>💰 {j.salary}</span>
+                                    <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 12, color: C.s500 }}><FiCalendar size={12} /> Posted {j.posted}</span>
+                                    <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 12, color: C.s500 }}><FiUsers size={12} /> {j.apps} applicants</span>
+                                    <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 12, color: C.green, fontWeight: 700 }}><FiDollarSign size={12} /> {j.salary}</span>
                                 </div>
                             </div>
-                            <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
-                                <Btn variant="ghost" style={{ padding: "6px 12px", fontSize: 12 }}>
+                             <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+                                <Btn variant="ghost" onClick={() => { setSelectedJob(j); setShowViewJob(true); }} style={{ padding: "6px 12px", fontSize: 12 }}>
                                     <FiEye size={12} /> View
                                 </Btn>
-                                <Btn variant="ghost" style={{ padding: "6px 10px", fontSize: 12 }}>
+                                <Btn variant="ghost" onClick={() => { setSelectedJob(j); setShowEditJob(true); }} style={{ padding: "6px 10px", fontSize: 12 }}>
                                     <FiEdit2 size={12} />
                                 </Btn>
                             </div>
@@ -742,62 +773,121 @@ export default function EmployerProfile() {
                     display: "flex", justifyContent: "space-between", alignItems: "center"
                 }}>
                     <span style={{ fontSize: 12, color: C.s400, fontWeight: 600 }}>Showing {filteredJobs.length} of {JOBS.length} open roles</span>
-                    <Btn variant="ghost" style={{ fontSize: 12, padding: "6px 13px" }}>View all jobs <FiChevronRight size={12} /></Btn>
+                    <Btn variant="ghost" onClick={() => navigate("/jobs")} style={{ fontSize: 12, padding: "6px 13px" }}>View all jobs <FiChevronRight size={12} /></Btn>
                 </div>
             </Card>
 
             {/* ─ Reviews ─ */}
             <Card className="ep-card">
                 <SectionHead title="Reviews by Candidates" />
-                {REVIEWS.map((u, i) => (
-                    <div key={i} className="ep-update">
-                        <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
-                            <Avatar initials={u.avatar} color={u.color} size={42} radius={12} />
-                            <div>
-                                <div style={{ fontFamily: C.fd, fontSize: 13.5, fontWeight: 800, color: C.s900 }}>Anonymous Candidate</div>
-                                <div style={{ fontSize: 12, color: C.s400 }}>{u.time}</div>
+                {REVIEWS.slice(reviewPage * 5, (reviewPage + 1) * 5).map((u, i) => {
+                    const isLiked = likedReviews[u.id];
+                    return (
+                        <div key={u.id} className="ep-update">
+                            <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
+                                <Avatar initials={u.avatar} color={u.color} size={42} radius={12} />
+                                <div>
+                                    <div style={{ fontFamily: C.fd, fontSize: 13.5, fontWeight: 800, color: C.s900 }}>Anonymous Candidate</div>
+                                    <div style={{ fontSize: 12, color: C.s400 }}>{u.time}</div>
+                                </div>
+                            </div>
+                            <p style={{ fontSize: 14, color: C.s700, lineHeight: 1.7, marginBottom: 14 }}>"{u.text}"</p>
+                            {/* Engagement bar */}
+                            <div style={{
+                                display: "flex", alignItems: "center", justifyContent: "space-between",
+                                paddingTop: 12, borderTop: `1px solid ${C.s100}`
+                            }}>
+                                <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+                                    {[{icon: FiSmile, color: C.amber}, {icon: FiHeart, color: C.red}, {icon: FiAward, color: C.indigo}, {icon: FiStar, color: C.purple}].map((e, ei) => (
+                                        <span key={ei} style={{ fontSize: 13, color: e.color, display: "flex", alignItems: "center" }}><e.icon size={13} /></span>
+                                    ))}
+                                    <span style={{ fontSize: 12.5, color: C.s400, marginLeft: 6 }}>{u.likes + (isLiked ? 1 : 0)} helpful</span>
+                                </div>
+                                <div style={{ display: "flex", gap: 8, position: "relative" }}>
+                                    {/* Reaction Picker Popover */}
+                                    {showReactionFor === u.id && (
+                                        <div className="reaction-picker" style={{
+                                            position: "absolute", bottom: "100%", left: 0, marginBottom: 8,
+                                            background: "#fff", borderRadius: 100, padding: "6px 12px",
+                                            boxShadow: "0 10px 25px rgba(0,0,0,.15)", display: "flex", gap: 10,
+                                            border: `1px solid ${C.s100}`, zIndex: 10, animation: "popIn .2s ease"
+                                        }}>
+                                            {[
+                                                { id: 'helpful', icon: FiSmile, color: C.amber, label: "Helpful" },
+                                                { id: 'love', icon: FiHeart, color: C.red, label: "Love" },
+                                                { id: 'great', icon: FiAward, color: C.indigo, label: "Great" },
+                                                { id: 'insight', icon: FiStar, color: C.purple, label: "Insight" }
+                                            ].map((re) => (
+                                                <button key={re.id} 
+                                                    onClick={() => {
+                                                        setLikedReviews(prev => ({ ...prev, [u.id]: re.id }));
+                                                        setShowReactionFor(null);
+                                                    }}
+                                                    title={re.label}
+                                                    style={{
+                                                        background: "none", border: "none", cursor: "pointer", 
+                                                        padding: 6, borderRadius: "50%", display: "flex",
+                                                        transition: "all .15s", color: re.color
+                                                    }}
+                                                    onMouseEnter={e => { e.currentTarget.style.background = C.s50; e.currentTarget.style.transform = "scale(1.2)"; }}
+                                                    onMouseLeave={e => { e.currentTarget.style.background = "none"; e.currentTarget.style.transform = "scale(1)"; }}>
+                                                    <re.icon size={18} />
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    <button onClick={() => setShowReactionFor(showReactionFor === u.id ? null : u.id)}
+                                        style={{
+                                            display: "flex", alignItems: "center", gap: 5, padding: "6px 12px",
+                                            borderRadius: 9, background: isLiked ? "#EEF2FF" : "transparent",
+                                            border: "none", cursor: "pointer", fontSize: 12.5, fontWeight: 600,
+                                            color: isLiked ? C.navy : C.s500, transition: "all .15s"
+                                        }}>
+                                        {(() => {
+                                            const active = [{ id: 'helpful', icon: FiSmile, color: C.amber }, { id: 'love', icon: FiHeart, color: C.red }, { id: 'great', icon: FiAward, color: C.indigo }, { id: 'insight', icon: FiStar, color: C.purple }].find(x => x.id === isLiked);
+                                            return active ? <active.icon size={13} color={active.color} /> : <FiSmile size={13} />;
+                                        })()}
+                                        {isLiked ? (isLiked.charAt(0).toUpperCase() + isLiked.slice(1)) : "Helpful"}
+                                    </button>
+                                    <button style={{
+                                        display: "flex", alignItems: "center", gap: 5, padding: "6px 12px",
+                                        borderRadius: 9, background: "transparent", border: "none",
+                                        cursor: "pointer", fontSize: 12.5, fontWeight: 600, color: C.s500
+                                    }}>
+                                        <FiShare2 size={13} /> Share
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <p style={{ fontSize: 14, color: C.s700, lineHeight: 1.7, marginBottom: 14 }}>"{u.text}"</p>
-                        {/* Engagement bar */}
-                        <div style={{
-                            display: "flex", alignItems: "center", justifyContent: "space-between",
-                            paddingTop: 12, borderTop: `1px solid ${C.s100}`
-                        }}>
-                            <div style={{ display: "flex", gap: 4 }}>
-                                {["👍", "❤️", "🎉"].map((e, ei) => (
-                                    <span key={ei} style={{ fontSize: 13 }}>{e}</span>
-                                ))}
-                                <span style={{ fontSize: 12.5, color: C.s400, marginLeft: 6 }}>{u.likes} helpful</span>
-                            </div>
-                            <div style={{ display: "flex", gap: 8 }}>
-                                <button onClick={() => setLiked(p => ({ ...p, [i]: !p[i] }))}
-                                    style={{
-                                        display: "flex", alignItems: "center", gap: 5, padding: "6px 12px",
-                                        borderRadius: 9, background: liked[i] ? "#EEF2FF" : "transparent",
-                                        border: "none", cursor: "pointer", fontSize: 12.5, fontWeight: 600,
-                                        color: liked[i] ? C.navy : C.s500, transition: "all .15s"
-                                    }}>
-                                    👍 {liked[i] ? "Helpful" : "Helpful"}
-                                </button>
-                                <button style={{
-                                    display: "flex", alignItems: "center", gap: 5, padding: "6px 12px",
-                                    borderRadius: 9, background: "transparent", border: "none",
-                                    cursor: "pointer", fontSize: 12.5, fontWeight: 600, color: C.s500
-                                }}>
-                                    💬 {u.comments} Replies
-                                </button>
-                                <button style={{
-                                    display: "flex", alignItems: "center", gap: 5, padding: "6px 12px",
-                                    borderRadius: 9, background: "transparent", border: "none",
-                                    cursor: "pointer", fontSize: 12.5, fontWeight: 600, color: C.s500
-                                }}>
-                                    <FiShare2 size={13} /> Share
-                                </button>
-                            </div>
+                    );
+                })}
+                
+                {/* Pagination & Footer */}
+                <div style={{ padding: "16px 20px", borderTop: `1px solid ${C.s100}`, background: C.s50 + "50" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                        <div style={{ fontSize: 12.5, color: C.s500, fontWeight: 600 }}>
+                            Showing page {reviewPage + 1} of {Math.ceil(REVIEWS.length / 5)}
+                        </div>
+                        <div style={{ display: "flex", gap: 8 }}>
+                            <Btn variant="ghost" onClick={() => setReviewPage(p => Math.max(0, p - 1))} disabled={reviewPage === 0} style={{ padding: "5px 10px", opacity: reviewPage === 0 ? 0.5 : 1 }}>
+                                <FiChevronDown style={{ transform: "rotate(90deg)" }} size={14} />
+                            </Btn>
+                            <Btn variant="ghost" onClick={() => setReviewPage(p => Math.min(Math.ceil(REVIEWS.length / 5) - 1, p + 1))} disabled={reviewPage >= Math.ceil(REVIEWS.length / 5) - 1} style={{ padding: "5px 10px", opacity: reviewPage >= Math.ceil(REVIEWS.length / 5) - 1 ? 0.5 : 1 }}>
+                                <FiChevronDown style={{ transform: "rotate(-90deg)" }} size={14} />
+                            </Btn>
                         </div>
                     </div>
-                ))}
+                    <div style={{ 
+                        padding: "10px 14px", borderRadius: 10, background: "#fff", border: `1px solid ${C.s200}`,
+                        display: "flex", alignItems: "center", gap: 8
+                    }}>
+                        <FiInfo size={14} color={C.navy} />
+                        <div style={{ fontSize: 12, color: C.s600, fontWeight: 500 }}>
+                            For more queries regarding comments or reviews, please contact us at <a href="mailto:rohan@mavenjobs.in" style={{ color: C.navy, fontWeight: 700, textDecoration: "none" }}>rohan@mavenjobs.in</a>
+                        </div>
+                    </div>
+                </div>
             </Card>
         </div>
 
@@ -1394,6 +1484,142 @@ export default function EmployerProfile() {
             </div>
         </div>
         </Modal >
+
+    {/* ─── View Job Modal ─── */}
+    <Modal open={showViewJob} onClose={() => setShowViewJob(false)} title="Job Details" width={550}>
+        {selectedJob && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "16px", background: C.s50, borderRadius: 12, border: `1px solid ${C.s100}` }}>
+                    <div style={{ width: 48, height: 48, borderRadius: 12, background: C.navy + "10", display: "flex", alignItems: "center", justifyContent: "center", color: C.navy }}>
+                        <FiBriefcase size={22} />
+                    </div>
+                    <div>
+                        <div style={{ fontFamily: C.fd, fontSize: 18, fontWeight: 800, color: C.s900 }}>{selectedJob.title}</div>
+                        <div style={{ fontSize: 13, color: C.s500 }}>{selectedJob.dept} · {selectedJob.loc}</div>
+                    </div>
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                    {[
+                        { icon: FiClock, label: "Posted", val: selectedJob.posted },
+                        { icon: FiUsers, label: "Applicants", val: selectedJob.apps },
+                        { icon: FiDollarSign, label: "Salary", val: selectedJob.salary },
+                        { icon: FiLayers, label: "Job Type", val: selectedJob.type },
+                    ].map((item, idx) => (
+                        <div key={idx} style={{ padding: "12px", borderRadius: 10, background: "#fff", border: `1px solid ${C.s200}` }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4, color: C.s400 }}>
+                                <item.icon size={13} />
+                                <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em" }}>{item.label}</span>
+                            </div>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: C.s800 }}>{item.val}</div>
+                        </div>
+                    ))}
+                </div>
+
+                <div>
+                    <div style={{ fontSize: 13, fontWeight: 800, color: C.s900, marginBottom: 8 }}>Role Description</div>
+                    <div style={{ fontSize: 13.5, color: C.s600, lineHeight: 1.6, background: C.s50, padding: 14, borderRadius: 10 }}>
+                        We are looking for a highly skilled {selectedJob.title} to join our {selectedJob.dept} team. 
+                        The ideal candidate will have strong experience in their field and a passion for building world-class products.
+                    </div>
+                </div>
+
+                <div style={{ display: "flex", gap: 10, paddingTop: 10 }}>
+                    <Btn variant="primary" style={{ flex: 1, justifyContent: "center" }} onClick={() => { setShowViewJob(false); setShowEditJob(true); }}><FiEdit2 size={14} /> Edit Listing</Btn>
+                    <Btn variant="ghost" style={{ flex: 1, justifyContent: "center" }} onClick={() => setShowViewJob(false)}>Close</Btn>
+                </div>
+            </div>
+        )}
+    </Modal>
+
+    {/* ─── Edit Job Modal ─── */}
+    <Modal open={showEditJob} onClose={() => setShowEditJob(false)} title="Edit Job Listing" width={620}>
+        {selectedJob && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {[
+                    { label: "Job Title", val: selectedJob.title, type: "text" },
+                    { label: "Department", val: selectedJob.dept, type: "text" },
+                    { label: "Location", val: selectedJob.loc, type: "text" },
+                    { label: "Salary Range", val: selectedJob.salary, type: "text" },
+                ].map((f, i) => (
+                    <div key={i}>
+                        <label style={{ display: "block", fontSize: 12.5, fontWeight: 700, color: C.s700, marginBottom: 6 }}>{f.label}</label>
+                        <input type={f.type} defaultValue={f.val}
+                            style={{
+                                width: "100%", padding: "10px 14px", borderRadius: 10, border: `1.5px solid ${C.s200}`,
+                                fontSize: 13.5, color: C.s900, background: "#fff", fontFamily: C.dm, transition: "border-color .16s"
+                            }}
+                            onFocus={e => e.target.style.borderColor = C.navy}
+                            onBlur={e => e.target.style.borderColor = C.s200} />
+                    </div>
+                ))}
+                <div>
+                    <label style={{ display: "block", fontSize: 12.5, fontWeight: 700, color: C.s700, marginBottom: 6 }}>Job Description</label>
+                    <textarea defaultValue={`We are looking for a highly skilled ${selectedJob.title} to join our ${selectedJob.dept} team. The ideal candidate will have strong experience in their field and a passion for building world-class products.`} rows={5}
+                        style={{
+                            width: "100%", padding: "10px 14px", borderRadius: 10, border: `1.5px solid ${C.s200}`,
+                            fontSize: 13.5, color: C.s900, background: "#fff", fontFamily: C.dm, resize: "vertical", transition: "border-color .16s"
+                        }}
+                        onFocus={e => e.target.style.borderColor = C.navy}
+                        onBlur={e => e.target.style.borderColor = C.s200} />
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                    <div>
+                        <label style={{ display: "block", fontSize: 12.5, fontWeight: 700, color: C.s700, marginBottom: 6 }}>Job Type</label>
+                        <select defaultValue={selectedJob.type} style={{
+                            width: "100%", padding: "10px 14px", borderRadius: 10, border: `1.5px solid ${C.s200}`,
+                            fontSize: 13.5, color: C.s700, background: "#fff", fontFamily: C.dm, cursor: "pointer"
+                        }}>
+                            <option>Full-time</option><option>Part-time</option><option>Contract</option><option>Internship</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style={{ display: "block", fontSize: 12.5, fontWeight: 700, color: C.s700, marginBottom: 6 }}>Status</label>
+                        <select style={{
+                            width: "100%", padding: "10px 14px", borderRadius: 10, border: `1.5px solid ${C.s200}`,
+                            fontSize: 13.5, color: C.s700, background: "#fff", fontFamily: C.dm, cursor: "pointer"
+                        }}>
+                            <option>Active</option><option>Paused</option><option>Closed</option>
+                        </select>
+                    </div>
+                </div>
+                <div style={{ display: "flex", gap: 10, paddingTop: 4 }}>
+                    <Btn variant="ghost" onClick={() => setShowEditJob(false)} style={{ flex: 1, justifyContent: "center" }}>Cancel</Btn>
+                    <Btn variant="primary" style={{ flex: 2, justifyContent: "center", fontSize: 14 }} onClick={() => setShowEditJob(false)}><FiCheckCircle size={14} /> Update Job</Btn>
+                </div>
+            </div>
+        )}
+    </Modal>
+
+      {/* ─── Notification Sidebar ─── */}
+      <div className={`pd-notif-overlay ${showNotifications ? 'show' : ''}`} onClick={() => setShowNotifications(false)} />
+      <div className={`pd-notif-sidebar ${showNotifications ? 'show' : ''}`}>
+        <div className="pd-notif-head">
+          <h3>Notifications</h3>
+          <button className="pd-notif-close" onClick={() => setShowNotifications(false)}><FiX size={18} /></button>
+        </div>
+        <div className="pd-notif-body">
+          <div className="pd-notif-date">Today</div>
+          {[
+            { icon: <FiAward />, color: '#7C3AED', bg: '#F5F3FF', title: <><FiTarget size={14} style={{ verticalAlign: 'text-bottom', marginRight: 4, color: '#7C3AED' }} /> Practice 4 interview questions for your Fortified Infotech application</>, desc: 'Get instant feedback to ace your interview', time: '2h ago', cta: 'Practice Now' },
+            { icon: <FiFileText />, color: '#D97706', bg: '#FFFBEB', title: 'Your resume was viewed by a recruiter', desc: 'Application History', time: '3h ago' },
+            { icon: <FiUsers />, color: '#2563EB', bg: '#EFF6FF', title: 'Let AI help you ace your next job interview', desc: 'Unlock Your Interview Success!', time: '3h ago', cta: 'Practice Now' },
+            { icon: <FiCheckCircle />, color: '#059669', bg: '#ECFDF5', title: 'Apply by 11:10 AM for a job posted by Infrrd', desc: 'Neo-AI Job Agent', time: '4h ago' },
+            { icon: <FiX />, color: '#DC2626', bg: '#FEF2F2', title: 'Your application was not shortlisted', desc: 'Application History', time: '5h ago' },
+            { icon: <FiZap />, color: '#7C3AED', bg: '#F5F3FF', title: 'AI wrote interview Q&A from your resume', desc: <><FiStar size={12} style={{ verticalAlign: 'text-bottom', marginRight: 4, color: '#7C3AED' }} /> Personalized for you</>, time: '6h ago' },
+          ].map((n, i) => (
+            <div className="pd-notif-item" key={i}>
+              <div className="pd-notif-icon" style={{ background: n.bg, color: n.color }}>{n.icon}</div>
+              <div className="pd-notif-content">
+                <div className="pd-notif-title">{n.title}</div>
+                <div className="pd-notif-desc">{n.desc}</div>
+                {n.cta && <button className="pd-notif-cta">{n.cta}</button>}
+                <div className="pd-notif-time">{n.time}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       </div >
     </>
