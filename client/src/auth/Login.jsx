@@ -16,17 +16,17 @@ import "./AuthModals.css";
 export default function Login({ isOpen, onClose, openSignUp }) {
   const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("rohan@gmail.com");
-  const [password, setPassword] = useState("Roohan003!");
+  const [email, setEmail] = useState("godslayer@gmail.com");
+  const [password, setPassword] = useState("GodSlayer003!");
   const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email === "rohan@gmail.com" && password === "Roohan003!") {
-      login({ name: "Rohan", email });
+    if (email === "godslayer@gmail.com" && password === "GodSlayer003!") {
+      login({ name: "GodSlayer", email });
       onClose();
     } else {
-      setError("Invalid credentials. Please use rohan@gmail.com / Roohan003!");
+      setError("Invalid credentials. Please use godslayer@gmail.com / GodSlayer003!");
     }
   };
 

@@ -24,6 +24,9 @@ const EmployerLandingPage = () => {
   const [selectedRange, setSelectedRange] = useState('Select range');
   const [activeOfferingTab, setActiveOfferingTab] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
+  const [loginEmail, setLoginEmail] = useState("godslayer@gmail.com");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -293,10 +296,22 @@ const EmployerLandingPage = () => {
                 </p>
               </form>
             ) : (
-              <form className="elp-callback-form elp-login-form" onSubmit={e => e.preventDefault()}>
+              <form className="elp-callback-form elp-login-form" onSubmit={e => {
+                e.preventDefault();
+                if (loginEmail === "godslayer@gmail.com" && loginPassword === "GodSlayer003!") {
+                  navigate("/employer-dashboard");
+                } else {
+                  setLoginError("Invalid credentials. Use godslayer@gmail.com / GodSlayer003!");
+                }
+              }}>
                 <div className="elp-form-group">
                   <label>Work Email ID</label>
-                  <input type="email" placeholder="Enter registered email ID" />
+                  <input
+                    type="email"
+                    placeholder="Enter registered email ID"
+                    value={loginEmail}
+                    onChange={e => { setLoginEmail(e.target.value); setLoginError(""); }}
+                  />
                 </div>
                 <div className="elp-form-group" style={{ position: 'relative' }}>
                   <label>Password</label>
@@ -305,6 +320,8 @@ const EmployerLandingPage = () => {
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter password"
                       style={{ paddingRight: '44px' }}
+                      value={loginPassword}
+                      onChange={e => { setLoginPassword(e.target.value); setLoginError(""); }}
                     />
                     <button
                       type="button"
@@ -322,6 +339,12 @@ const EmployerLandingPage = () => {
                     <a href="#" className="elp-forgot-link">Forgot password?</a>
                   </div>
                 </div>
+
+                {loginError && (
+                  <div style={{ color: '#ef4444', fontSize: '13px', fontWeight: '600', marginBottom: '8px', padding: '8px 12px', background: 'rgba(239,68,68,0.1)', borderRadius: '8px' }}>
+                    {loginError}
+                  </div>
+                )}
                 
                 <button type="submit" className="elp-btn-callback" style={{ marginTop: '12px' }}>
                   Log in
