@@ -301,3 +301,31 @@
   align-items: center;
   gap: 4px;
 }
+
+.shared-nav-employer-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #002366;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.shared-nav-employer-btn:hover {
+  background: #002366;
+  color: #ffffff;
+  border-color: #002366;
+  box-shadow: 0 4px 12px rgba(0, 35, 102, 0.15);
+  transform: translateY(-1px);
+}
+
+.shared-nav-employer-btn svg {
+  color: inherit;
+}

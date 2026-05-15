@@ -10,10 +10,12 @@ import {
 import { FaBuilding, FaQuoteLeft } from 'react-icons/fa';
 import mavenLogo from '../../../assets/maven-logo-BdiSsfJk.svg';
 import promoImg from '../../../assets/free-job-posting-promo.png';
+import { useAuth } from '../../AuthContext';
 import './EmployerLandingPage.css';
 
 const EmployerLandingPage = () => {
   const navigate = useNavigate();
+  const { user, login } = useAuth();
   const [activeTab, setActiveTab] = useState('sales');
 
   const [hiringFor, setHiringFor] = useState('');
@@ -95,7 +97,7 @@ const EmployerLandingPage = () => {
       {/* ─── Navbar ─── */}
       <nav className={`elp-nav ${scrolled ? 'scrolled' : ''}`}>
         <div className="elp-nav-inner">
-          <Link to="/" className="elp-logo">
+          <Link to="/employer-login" className="elp-logo">
             <img src={mavenLogo} alt="MavenJobs" style={{ height: 36 }} />
           </Link>
           <div className="elp-nav-links">
@@ -240,24 +242,75 @@ const EmployerLandingPage = () => {
             </div>
           </div>
 
-          {/* Callback Card */}
-          <div className="elp-callback-card">
-            <div className="elp-callback-tabs">
-              <button
-                className={`elp-callback-tab ${activeTab === 'sales' ? 'active' : ''}`}
-                onClick={() => setActiveTab('sales')}
-              >
-                Sales enquiry
-              </button>
-              <button
-                className={`elp-callback-tab ${activeTab === 'login' ? 'active' : ''}`}
-                onClick={() => setActiveTab('login')}
-              >
-                Register / Log in
-              </button>
-            </div>
+          {/* Callback Card / Profile Modal */}
+          <div className="elp-callback-card" style={user ? { padding: 0, overflow: 'hidden' } : {}}>
+            {!user && (
+              <div className="elp-callback-tabs">
+                <button
+                  className={`elp-callback-tab ${activeTab === 'sales' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('sales')}
+                >
+                  Sales enquiry
+                </button>
+                <button
+                  className={`elp-callback-tab ${activeTab === 'login' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('login')}
+                >
+                  Register / Log in
+                </button>
+              </div>
+            )}
 
-            {activeTab === 'sales' ? (
+            {user ? (
+              <div className="elp-profile-modal">
+                {/* Cover Image */}
+                <div style={{
+                  height: '140px',
+                  background: `url("https://i.pinimg.com/736x/1d/5b/a0/1d5ba0f8288cd496cdb9714d6456b097.jpg") center/cover no-repeat`,
+                  position: 'relative'
+                }}>
+                  <div style={{
+                    position: 'absolute', inset: 0,
+                    background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.4))'
+                  }} />
+                </div>
+
+                {/* Profile Info */}
+                <div style={{ padding: '0 24px 24px', textAlign: 'center', marginTop: '-45px' }}>
+                  <div style={{
+                    width: '90px', height: '90px', borderRadius: '20px',
+                    background: `url("https://i.pinimg.com/736x/59/d5/de/59d5deb71f0608503a43a356cffa81a7.jpg") center/cover no-repeat`,
+                    border: '4px solid rgba(255,255,255,0.1)',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
+                    margin: '0 auto 16px',
+                    position: 'relative',
+                    backdropFilter: 'blur(10px)'
+                  }} />
+                  
+                  <h3 style={{ color: '#fff', fontSize: '1.5rem', fontWeight: '800', marginBottom: '4px', fontFamily: 'inherit' }}>TechCorp India</h3>
+                  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', marginBottom: '20px' }}>AI-Powered Hiring · Bengaluru</p>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '24px' }}>
+                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                      <div style={{ color: '#10b981', fontWeight: '800', fontSize: '1.1rem' }}>24</div>
+                      <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Active Jobs</div>
+                    </div>
+                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                      <div style={{ color: '#6366f1', fontWeight: '800', fontSize: '1.1rem' }}>1.2K</div>
+                      <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Applicants</div>
+                    </div>
+                  </div>
+
+                  <button 
+                    className="elp-btn-callback" 
+                    onClick={() => navigate('/employer-dashboard')}
+                    style={{ width: '100%', padding: '14px', borderRadius: '12px', background: 'linear-gradient(135deg, #2563eb, #1e40af)', border: 'none', color: '#fff', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', boxShadow: '0 4px 14px rgba(37, 99, 235, 0.4)' }}
+                  >
+                    Go to Dashboard <FiArrowRight size={18} />
+                  </button>
+                </div>
+              </div>
+            ) : activeTab === 'sales' ? (
               <form className="elp-callback-form" onSubmit={e => e.preventDefault()}>
                 <div className="elp-form-group">
                   <label>Full name</label>
@@ -299,6 +352,11 @@ const EmployerLandingPage = () => {
               <form className="elp-callback-form elp-login-form" onSubmit={e => {
                 e.preventDefault();
                 if (loginEmail === "godslayer@gmail.com" && loginPassword === "GodSlayer003!") {
+                  login({
+                    name: "TechCorp India",
+                    email: loginEmail,
+                    role: "employer"
+                  });
                   navigate("/employer-dashboard");
                 } else {
                   setLoginError("Invalid credentials. Use godslayer@gmail.com / GodSlayer003!");

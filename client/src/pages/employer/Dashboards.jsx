@@ -479,7 +479,10 @@ export default function EmployerProfile() {
                     }}>
 
                         {/* Logo */}
-                        <div style={{ display: "flex", alignItems: "center", marginRight: 28, flexShrink: 0 }}>
+                        <div 
+                            style={{ display: "flex", alignItems: "center", marginRight: 28, flexShrink: 0, cursor: "pointer" }}
+                            onClick={() => navigate("/employer-login")}
+                        >
                             <img src={mavenLogo} alt="MavenJobs" style={{ height: 26, width: "auto" }} />
                         </div>
 

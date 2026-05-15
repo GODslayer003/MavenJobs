@@ -23,7 +23,7 @@ export default function Navbar() {
     <nav className={`shared-nav ${isScrolled ? 'scrolled' : ''}`}>
       <div className="shared-nav-container">
         {/* Logo */}
-        <Link to="/" className="shared-nav-logo">
+        <Link to="/employer-login" className="shared-nav-logo">
           <img src={mavenLogo} alt="Naukri" className="shared-nav-logo-image" />
         </Link>
 
@@ -116,7 +116,17 @@ export default function Navbar() {
             </div>
           )}
           
-          {/* For Employers */}
+          {/* For Employers Entry */}
+          <button 
+            className="shared-nav-employer-btn" 
+            onClick={() => navigate('/employer-login')}
+            title="Employer Login"
+          >
+            <FiBriefcase size={20} />
+            <span>Employer Login</span>
+          </button>
+
+          {/* Existing For Employers Dropdown */}
           {!user && (
             <div className="shared-nav-employer">
               <span>For employers <FiChevronDown /></span>
