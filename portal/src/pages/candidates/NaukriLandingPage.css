@@ -107,7 +107,10 @@ button {
 /* ── APP SHELL ── */
 .naukri-app {
   min-height: 100vh;
-  background: url('https://i.pinimg.com/736x/1f/8f/c0/1f8fc05f66f1a4be590868409f97b871.jpg') center top / 90% no-repeat fixed #ffffff;
+  background:
+    radial-gradient(ellipse at 5% 0%, rgba(214, 243, 61, 0.14) 0%, transparent 32%),
+    radial-gradient(ellipse at 95% 0%, rgba(46, 169, 196, 0.1) 0%, transparent 28%),
+    #ffffff;
   padding-top: 78px;
 }
 
@@ -442,16 +445,43 @@ button {
 .hero {
   position: relative;
   overflow: hidden;
-  padding: 60px 5% 48px;
-  background: transparent;
+  padding: 80px 5% 72px;
+  background: var(--bg-hero);
 }
 
 .hero::before {
-  display: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(20, 63, 134, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 63, 134, 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5), transparent 80%);
+  pointer-events: none;
 }
 
 .hero-bg-orb {
-  display: none;
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(64px);
+  pointer-events: none;
+}
+
+.hero-bg-orb-1 {
+  width: 420px;
+  height: 420px;
+  top: -140px;
+  right: -60px;
+  background: rgba(214, 243, 61, 0.28);
+}
+
+.hero-bg-orb-2 {
+  width: 320px;
+  height: 320px;
+  left: -60px;
+  bottom: -100px;
+  background: rgba(46, 169, 196, 0.16);
 }
 
 .hero-shell {
@@ -504,14 +534,14 @@ button {
 }
 
 .hero h1 {
-  margin: 0 0 16px;
+  margin: 0 0 20px;
   color: var(--brand-blue-deep);
   font-family: "DM Sans", sans-serif;
-  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  font-size: clamp(2.4rem, 5vw, 4.4rem);
   font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  max-width: 850px;
+  line-height: 1.05;
+  letter-spacing: -0.038em;
+  max-width: 900px;
   margin-left: auto;
   margin-right: auto;
 }
